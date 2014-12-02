@@ -14,7 +14,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Tesi Studente</title>
 
         <script type="text/javascript">
             jQuery(document).ready(function ($)
@@ -67,8 +67,8 @@
         <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
             <div class="panel-heading">
                 <h3 class="panel-title">Richiesta Tesi</h3>
-
             </div>
+
             
             <div class="panel-body">
                 
