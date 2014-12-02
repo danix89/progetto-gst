@@ -7,8 +7,13 @@
 <title>Bacheca <% out.println(" Nome"); %></title>
 </head>
 <body>
+    
+    
+<%@ include file="studente/informazioniStudente.jsp" %>
 
-<% out.println("Corpo bacheca"); %>
+<hr>
+
+<%@ include file="studente/tesiStudente.jsp" %>
 <a href="./Test">Test Servlet!</a>
 
 </body>
