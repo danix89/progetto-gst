@@ -25,7 +25,28 @@
             }
             if (statoStudente == 1) {
         %>  
-        <!-- includere la pagina corrispondente alla richiesta inviata -->
+        <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
+            <div class="panel-heading">
+                <h3 class="panel-title">Informazioni Tesi</h3>
+
+                <div class="panel-options">
+                    <a href="#" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>                  
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <p>La tua richiesta è stata inviata<br>resta in attesa della risposta del professore</p>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
         <%
             }
             if (statoStudente == 2) {
@@ -50,13 +71,6 @@
         <%
             }
         %>
-
-
-
-
-
-
-
 
         <a href="./Test">Test Servlet!</a>
 
