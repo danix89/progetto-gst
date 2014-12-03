@@ -42,6 +42,24 @@
             });
         </script>
 
+        <style>
+
+            #main_list li > a:hover {
+                text-decoration: underline;
+            }
+
+            #main_list li > a{
+                background-color: white;
+
+            }
+
+            #main_list li.active > a {
+                background-color: #3F61A3;
+
+            }
+
+        </style>
+
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
                         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -131,13 +149,14 @@
         <div class="page-container">
             <div class="main-content">
                 <div class="row">
-
-                    <ul class="nav nav-pills nav-stacked col-lg-2">
-                        <li class="active"><a href="#bacheca" data-toggle="pill">Bacheca</a></li>
-                        <li><a href="#cronologia" data-toggle="pill">Cronologia</a></li>
-                        <li><a href="#storico" data-toggle="pill">Storico Tesi</a></li>
-                        <li><a href="#test" data-toggle="pill">TEST DB</a></li>
-                    </ul>
+                    <div class="col-lg-2">
+                        <ul id="main_list" class="nav nav-pills nav-stacked">
+                            <li class="active"><a href="#bacheca" data-toggle="pill"><i class="fa-user"></i> Bacheca</a></li>
+                            <li><a href="#cronologia" data-toggle="pill"><i class="fa-history"></i> Cronologia</a></li>
+                            <li><a href="#storico" data-toggle="pill"><i class="fa-search"></i> Storico Tesi</a></li>
+                            
+                        </ul>
+                    </div>
 
                     <div class="tab-content col-lg-10">
                         <div class="tab-pane active" id="bacheca">
@@ -158,12 +177,7 @@
                                 <div class="panel-body"><%@ include file="gestioneTesi/storico.jsp" %></div>
                             </div>
                         </div>
-                         <div class="tab-pane" id="test">
-                            <div class="panel panel-default">
-                                <div class="panel-heading text-center"><h3>TEST DB</h3></div>
-                                <div class="panel-body"><%@ include file="gestioneTesi/test.jsp" %></div>
-                            </div>
-                        </div>
+                       
                     </div>
 
 
