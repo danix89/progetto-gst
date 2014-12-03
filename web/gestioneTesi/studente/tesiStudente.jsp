@@ -72,7 +72,7 @@
             
             <div class="panel-body">
                 
-            <form role="form" action="richiestaTesi.java" method="POST" class="form-horizontal">
+                <form role="form" action="${pageContext.request.contextPath}/richiestaTesi" method="POST" class="form-horizontal">
                     
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author CosimoAlessandro
  */
 public class richiestaTesi extends HttpServlet {
-    
+
     ManagerTesi manager_tesi;
 
     /**
@@ -38,37 +38,37 @@ public class richiestaTesi extends HttpServlet {
      * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             String professore = request.getParameter("professore");
             String messaggio = request.getParameter("messaggio");
-            
-            Tesi T = inserisciTesi(messaggio);
+
+            //Tesi T = inserisciTesi(messaggio);
             manager_tesi = new ManagerTesi();
-            manager_tesi.inserisciTesiQuery(T);
-            int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-            inserisciRelatoreTesi(professore, ultimaTesiInserita);
+            //manager_tesi.inserisciTesiQuery(T);
+            //int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
+
+            //inserisciRelatoreTesi(professore, ultimaTesiInserita);
             
+            //out.println("OK PROVA");
+
         } finally {
             out.close();
         }
     }
-    
+
     public Tesi inserisciTesi(String messaggio) {
-        Tesi T = new Tesi(messaggio); 
+        Tesi T = new Tesi(messaggio);
         return T;
     }
-    
-    public RelatoreTesi inserisciRelatoreTesi(String professore, int tesi){
+
+    public RelatoreTesi inserisciRelatoreTesi(String professore, int tesi) {
         RelatoreTesi RT = new RelatoreTesi(professore, tesi);
-        
+
         return RT;
     }
-    
-    
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -87,6 +87,10 @@ public class richiestaTesi extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -107,6 +111,10 @@ public class richiestaTesi extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
             Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
