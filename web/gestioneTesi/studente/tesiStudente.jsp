@@ -75,7 +75,7 @@
             <form role="form" class="form-horizontal">
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="dipartimenti">Dipartimenti</label>
+                    <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
 
                     <div class="col-sm-10">
                         <select class="form-control" name="dipartimenti" id="dipartimenti">
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="corso_laurea">Corsi di laurea</label>
+                    <label class="col-sm-2 control-label text-primary" for="corso_laurea">Corsi di laurea</label>
 
                     <div class="col-sm-10">
                         <select class="form-control" name="corso_laurea" id="corso_laurea">
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="professore">Professori</label>
+                    <label class="col-sm-2 control-label text-primary" for="professore">Professori</label>
 
                     <div class="col-sm-10 ">
                         <select class="form-control" name="professore" id="professore">
@@ -111,7 +111,7 @@
                 <div class="form-group-separator"></div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="field-5">Messaggio richiesta</label>
+                    <label class="col-sm-2 control-label text-primary" for="field-5">Messaggio richiesta</label>
 
                     <div class="col-sm-10">
                         <textarea class="form-control" cols="5" id="messaggio" name="messaggio"></textarea>
@@ -123,7 +123,7 @@
                 <div class="form-group">
                     <div class="col-sm-12 text-right">
                         <button class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
-                            <i class="fa-envelope"></i>
+                            <i class="fa-graduation-cap"></i>
                             <span>Invia Richiesta</span>
                         </button>
                     </div>
