@@ -34,6 +34,15 @@ public class ManagerTesi {
         aStatement.executeQuery(query);
         aConnection.close();
     }
+      
+    public int ultimaTesiInserita() throws SQLException, ClassNotFoundException, IOException {
+        aConnection = DBConnection.connect();
+        Statement aStatement = aConnection.createStatement();
+        ResultSet rs = aStatement.executeQuery("select last_insert_id() as last_id from tesi");
+        int ultimaTesiInserita = rs.getInt("last_id");
+
+        return ultimaTesiInserita;
+    }
     
     
     

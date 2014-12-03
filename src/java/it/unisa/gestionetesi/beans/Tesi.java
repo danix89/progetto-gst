@@ -32,6 +32,10 @@ public class Tesi {
         this.id_studente = id_studente;
         this.stato_tesi = stato_tesi;
     }
+    
+    public Tesi(String descrizione){
+        this.descrizione = descrizione;
+    }
 
     public int getId_tesi() {
         return id_tesi;

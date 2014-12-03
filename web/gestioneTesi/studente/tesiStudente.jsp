@@ -72,8 +72,8 @@
             
             <div class="panel-body">
                 
-            <form role="form" class="form-horizontal">
-
+            <form role="form" action="richiestaTesi.java" method="POST" class="form-horizontal">
+                    
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
 
@@ -102,8 +102,8 @@
                     <div class="col-sm-10 ">
                         <select class="form-control" name="professore" id="professore">
                             <option > </option>
-                            <option value="delucia">De Lucia</option>
-                            <option value="ferrucci">Ferrucci</option>
+                            <option value="1">De Lucia</option>
+                            <option value="2">Ferrucci</option>
                         </select>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-12 text-right">
-                        <button class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
+                        <button type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
                             <i class="fa-graduation-cap"></i>
                             <span>Invia Richiesta</span>
                         </button>
