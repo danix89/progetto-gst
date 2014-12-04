@@ -20,6 +20,10 @@
         <servlet-name>richiestaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.richiestaTesi</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>accettaTesi</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.accettaTesi</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>richiestaTesi</servlet-name>
         <url-pattern>/richiestaTesi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>accettaTesi</servlet-name>
+        <url-pattern>/accettaTesi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

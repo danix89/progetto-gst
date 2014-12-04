@@ -96,7 +96,7 @@ public class ManagerTesi {
     public void inserisciTagQuery(Tag t) throws ClassNotFoundException, SQLException, IOException {
         
         Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `Tag`(`" + t.getNomeTag() + ") VALUES ([`Nome`])";
+        String query = "INSERT INTO `Tag` ([`Nome`]) VALUES (`" + t.getNomeTag() + ")";
         aStatement.executeQuery(query);
         
     }
@@ -104,17 +104,29 @@ public class ManagerTesi {
     public void inserisciAllegatiQuery(Allegati al) throws ClassNotFoundException, SQLException, IOException {
         
         Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `Allegato`(`" + al.getLinkOggetto() + "`, `" + al.getIdTesi() + "`, `" + al.getStato() + "`) VALUES ([`Oggetto`],[`ID_Tesi`],[`Stato`])";
+        String query = "INSERT INTO `Allegato` ([`Oggetto`],[`ID_Tesi`],[`Stato`]) VALUES (`" + al.getLinkOggetto() + "`, `" + al.getIdTesi() + "`, `" + al.getStato() + "`)";
         aStatement.executeQuery(query);
        
     }
 
-    public void inserisciTagTesiQuery(Allegati al) throws ClassNotFoundException, SQLException, IOException {
+    public void inserisciTagTesiQuery(Tesi tesi, Tag tag) throws ClassNotFoundException, SQLException, IOException {
         
         Statement aStatement = db.createStatement();
-    //      va fatto in modo atomico con l'inserimento dei tag
-        //    aStatement.executeQuery(query);
+        String query = "INSERT INTO `tag_tesi`([`ID_tesi`],[`ID_tag`]) VALUES ([`"+tesi.getId_tesi()+"`],[`"+tag.getId()+")";
+        aStatement.executeQuery(query);           
       
+    }
+    
+    public void accettaTesi(){
+        
+        
+        
+    }
+    
+    public void rifiutaTesi(){
+        
+        
+        
     }
 
 }
