@@ -21,6 +21,7 @@ public class Tesi {
     private String id_studente;
     private String stato_tesi;
 
+    
     public Tesi(int id_tesi, String data_inizio, String data_fine, String data_fine_prevista, String titolo, String abstract_tesi, String descrizione, String id_studente, String stato_tesi) {
         this.id_tesi = id_tesi;
         this.data_inizio = data_inizio;
