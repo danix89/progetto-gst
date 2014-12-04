@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,11 +49,18 @@ public class richiestaTesi extends HttpServlet {
             Tesi T = inserisciTesi(messaggio);
             manager_tesi = new ManagerTesi();
             manager_tesi.inserisciTesiQuery(T);
-//            int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-//
-//            inserisciRelatoreTesi(professore, ultimaTesiInserita);
+            int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
+            out.println("id ultima tesi: " +ultimaTesiInserita);
+            RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
             
+            manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
+
             out.println("OK PROVA");
+            
+            RequestDispatcher rd = request.getRequestDispatcher("tesiStudente.jsp");
+			
+	    rd.forward(request, response);
+	
 
         } finally {
             out.close();

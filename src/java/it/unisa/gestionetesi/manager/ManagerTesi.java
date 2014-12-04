@@ -7,6 +7,7 @@ package it.unisa.gestionetesi.manager;
 
 import it.unisa.gestionetesi.db.ConnectionDB;
 import it.unisa.gestionetesi.beans.Allegati;
+import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tag;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.db.ConnectionDB;
@@ -29,6 +30,7 @@ public class ManagerTesi {
 
     private ConnectionDB aConnection;
     private Connection db;
+    Statement tesiStatement;
 
     public ManagerTesi() throws ClassNotFoundException, SQLException, IOException, InstantiationException, IllegalAccessException {
         aConnection = new ConnectionDB("root", "");
@@ -40,23 +42,56 @@ public class ManagerTesi {
         try {
             Tesi tesi = T;
             
+            tesiStatement = db.createStatement();
+            db.setAutoCommit(false);
+            String query = "INSERT INTO `tesi`(Descrizione, ID_Studente, Stato_Tesi)"
+                    + "VALUES ('"+tesi.getDescrizione()+"', 0, '0')";
+            tesiStatement.execute(query, Statement.RETURN_GENERATED_KEYS);
+            
+            db.commit();
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void inserisciRelatoreTesiQuery(RelatoreTesi rt)  {
+        
+        try {
+            RelatoreTesi relatoreTesi = rt;
+            
             Statement aStatement = db.createStatement();
-            String query = "INSERT INTO `tesi`(Data_Inizio, Data_Fine, Data_Fine_Prevista, Titolo, Abstract, Descrizione, ID_Studente, Stato_Tesi)"
-                    + "VALUES ('"+tesi.getData_inizio()+"','"+tesi.getData_fine()+"','"+tesi.getData_fine_prevista()+"','"+tesi.getTitolo()+"','"+tesi.getAbstract_tesi()+"','"+tesi.getDescrizione()+"','"+tesi.getId_studente()+"','"+tesi.getStato_tesi()+"')";
-            aStatement.executeQuery(query);
+            String query = "INSERT INTO `relatori_tesi`(ID_Tesi, ID_Docente)"
+                    + "VALUES ('"+relatoreTesi.getId_tesi()+"', '"+relatoreTesi.getId_docente()+"')";
+            aStatement.execute(query);
+          
+            
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public int ultimaTesiInserita() throws SQLException, ClassNotFoundException, IOException {
+    public int ultimaTesiInserita()  {
+        
+        int ultimaTesiInserita=-1;
 
-        Statement aStatement = db.createStatement();
-        ResultSet rs = aStatement.executeQuery("select last_insert_id() as last_id from tesi");
-        int ultimaTesiInserita = rs.getInt("last_id");
+        try {
 
-        return ultimaTesiInserita;
+            ResultSet rs = tesiStatement.getGeneratedKeys();
+            
+            if(rs.next()){
+            ultimaTesiInserita = rs.getInt(1);
+            }
+            
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         return ultimaTesiInserita;
     }
+    
+    
 
     public void inserisciTagQuery(Tag t) throws ClassNotFoundException, SQLException, IOException {
         
