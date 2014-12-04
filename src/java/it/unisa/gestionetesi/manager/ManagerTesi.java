@@ -18,6 +18,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,13 +35,18 @@ public class ManagerTesi {
         db = aConnection.getConnection();
     }
 
-    public void inserisciTesiQuery(Tesi T) throws ClassNotFoundException, SQLException, IOException {
-
-        Tesi tesi = T;
-        Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `tesi`(Data_Inizio, Data_Fine, Data_Fine_Prevista, Titolo, Abstract, Descrizione, ID_Studente, Stato_Tesi)" 
-                + "VALUES ('"+tesi.getData_inizio()+"','"+tesi.getData_fine()+"','"+tesi.getData_fine_prevista()+"','"+tesi.getTitolo()+"','"+tesi.getAbstract_tesi()+"','"+tesi.getDescrizione()+"','"+tesi.getId_studente()+"','"+tesi.getStato_tesi()+"')";
-        aStatement.executeQuery(query);
+    public void inserisciTesiQuery(Tesi T)  {
+        
+        try {
+            Tesi tesi = T;
+            
+            Statement aStatement = db.createStatement();
+            String query = "INSERT INTO `tesi`(Data_Inizio, Data_Fine, Data_Fine_Prevista, Titolo, Abstract, Descrizione, ID_Studente, Stato_Tesi)"
+                    + "VALUES ('"+tesi.getData_inizio()+"','"+tesi.getData_fine()+"','"+tesi.getData_fine_prevista()+"','"+tesi.getTitolo()+"','"+tesi.getAbstract_tesi()+"','"+tesi.getDescrizione()+"','"+tesi.getId_studente()+"','"+tesi.getStato_tesi()+"')";
+            aStatement.executeQuery(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public int ultimaTesiInserita() throws SQLException, ClassNotFoundException, IOException {

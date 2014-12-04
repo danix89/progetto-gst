@@ -45,14 +45,14 @@ public class richiestaTesi extends HttpServlet {
             String professore = request.getParameter("professore");
             String messaggio = request.getParameter("messaggio");
 
-            //Tesi T = inserisciTesi(messaggio);
+            Tesi T = inserisciTesi(messaggio);
             manager_tesi = new ManagerTesi();
-            //manager_tesi.inserisciTesiQuery(T);
-            //int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-
-            //inserisciRelatoreTesi(professore, ultimaTesiInserita);
+            manager_tesi.inserisciTesiQuery(T);
+//            int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
+//
+//            inserisciRelatoreTesi(professore, ultimaTesiInserita);
             
-            //out.println("OK PROVA");
+            out.println("OK PROVA");
 
         } finally {
             out.close();
