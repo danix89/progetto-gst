@@ -5,7 +5,6 @@
  */
 package it.unisa.gestionetesi.servlet;
 
-import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.manager.ManagerTesi;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author CosimoAlessandro
+ * @author Damiano
  */
-public class richiestaTesi extends HttpServlet {
+public class RecuperaDatiTesi extends HttpServlet {
 
     ManagerTesi manager_tesi;
 
@@ -35,48 +33,26 @@ public class richiestaTesi extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String professore = request.getParameter("professore");
-            String messaggio = request.getParameter("messaggio");
+            String id_studente = request.getParameter("id_studente");
+            
 
-            Tesi T = inserisciTesi(messaggio);
+            // Devo ricevere ID_Studente
             manager_tesi = new ManagerTesi();
-            manager_tesi.inserisciTesiQuery(T);
-            int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-            out.println("id ultima tesi: " +ultimaTesiInserita);
-            RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
-            
-            manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
+            Tesi T = manager_tesi.selezionaTesi(Integer.parseInt(id_studente));
 
-            out.println("OK PROVA");
             
-            RequestDispatcher rd = request.getRequestDispatcher("bacheca.jsp");
-			
-	    rd.forward(request, response);
-	
+            response.getWriter().write(T.getDescrizione());
+            
 
         } finally {
             out.close();
         }
-    }
-
-    public Tesi inserisciTesi(String messaggio) {
-        Tesi T = new Tesi(messaggio);
-        return T;
-    }
-
-    public RelatoreTesi inserisciRelatoreTesi(String professore, int tesi) {
-        RelatoreTesi RT = new RelatoreTesi(professore, tesi);
-
-        return RT;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -94,13 +70,13 @@ public class richiestaTesi extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -118,13 +94,13 @@ public class richiestaTesi extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(richiestaTesi.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

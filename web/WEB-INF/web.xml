@@ -20,6 +20,10 @@
         <servlet-name>richiestaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.richiestaTesi</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>RecuperaDatiTesi</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaDatiTesi</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>accettaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.accettaTesi</servlet-class>
@@ -43,6 +47,10 @@
     <servlet-mapping>
         <servlet-name>richiestaTesi</servlet-name>
         <url-pattern>/richiestaTesi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaDatiTesi</servlet-name>
+        <url-pattern>/RecuperaDatiTesi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>accettaTesi</servlet-name>

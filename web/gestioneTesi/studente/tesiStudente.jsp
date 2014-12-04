@@ -16,6 +16,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tesi Studente</title>
 
+        <script>
+            $(document).ready(function () {
+
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/RecuperaDatiTesi',
+                    type: 'POST',
+                    data: {id_studente: 2},
+                    success: function (msg) {
+                        alert(msg);
+                    }
+                });
+            });
+        </script>
+
         <script type="text/javascript">
             jQuery(document).ready(function ($)
             {
@@ -69,73 +83,73 @@
                 <h3 class="panel-title">Richiesta Tesi</h3>
             </div>
 
-            
+
             <div class="panel-body">
-                
+
                 <form role="form" action="${pageContext.request.contextPath}/richiestaTesi" method="POST" class="form-horizontal">
-                    
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control" name="dipartimenti" id="dipartimenti">
-                            <option></option>
-                            <option value="distra">DISTRA</option>
-                        </select>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" name="dipartimenti" id="dipartimenti">
+                                <option></option>
+                                <option value="distra">DISTRA</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-primary" for="corso_laurea">Corsi di laurea</label>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-primary" for="corso_laurea">Corsi di laurea</label>
 
-                    <div class="col-sm-10">
-                        <select class="form-control" name="corso_laurea" id="corso_laurea">
-                            <option></option>
-                            <option value="mit">Tecnologie Informatiche e Management</option>
-                        </select>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="corso_laurea" id="corso_laurea">
+                                <option></option>
+                                <option value="mit">Tecnologie Informatiche e Management</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-primary" for="professore">Professori</label>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-primary" for="professore">Professori</label>
 
-                    <div class="col-sm-10 ">
-                        <select class="form-control" name="professore" id="professore">
-                            <option > </option>
-                            <option value="1">De Lucia</option>
-                            <option value="2">Ferrucci</option>
-                        </select>
+                        <div class="col-sm-10 ">
+                            <select class="form-control" name="professore" id="professore">
+                                <option > </option>
+                                <option value="1">De Lucia</option>
+                                <option value="2">Ferrucci</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group-separator"></div>
+                    <div class="form-group-separator"></div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-primary" for="field-5">Messaggio richiesta</label>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-primary" for="field-5">Messaggio richiesta</label>
 
-                    <div class="col-sm-10">
-                        <textarea class="form-control" cols="5" id="messaggio" name="messaggio"></textarea>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" cols="5" id="messaggio" name="messaggio"></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group-separator"></div>
+                    <div class="form-group-separator"></div>
 
-                <div class="form-group">
-                    <div class="col-sm-12 text-right">
-                        <button type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
-                            <i class="fa-graduation-cap"></i>
-                            <span>Invia Richiesta</span>
-                        </button>
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
+                                <i class="fa-graduation-cap"></i>
+                                <span>Invia Richiesta</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-            </form>
+                </form>
             </div>
         </div>
 
 
-            <!--Bottom Scripts-->
-            <script src="assets/js/select2/select2.min.js"></script>
+        <!--Bottom Scripts-->
+        <script src="assets/js/select2/select2.min.js"></script>
 
 
     </body>
