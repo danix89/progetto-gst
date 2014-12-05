@@ -103,7 +103,7 @@
                 <!-- main menu -->
 
                 <ul class="navbar-nav">
-                    <li><a href="index.html"> <i class="fa fa-home"></i> <span
+                    <li><a href="index.jsp"> <i class="fa fa-home"></i> <span
                                 class="title">Home</span>
                         </a></li>
                     <li><a href="offertaFormativa.html"> <i
@@ -135,7 +135,7 @@
                 </ul>
                 <!-- notifications and other links -->
                 <ul class="nav nav-userinfo navbar-right">
-                    <li><a href="login.html"> <i class="fa-user"></i> <span
+                    <li><a href="login.jsp"> <i class="fa-user"></i> <span
                                 class="title">Login</span>
                         </a></li>
                 </ul>
