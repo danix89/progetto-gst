@@ -18,13 +18,13 @@
 
         <script>
             $(document).ready(function () {
-
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/RecuperaDatiTesi',
+                    url: 'RecuperaDatiTesi',
                     type: 'POST',
-                    data: {id_studente: 2},
+                    data: {id_studente: 'SNSDMN89A20A717I'},
                     success: function (msg) {
                         alert(msg);
+                        
                     }
                 });
             });

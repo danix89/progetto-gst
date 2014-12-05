@@ -111,13 +111,21 @@ public class ManagerTesi {
 
     }
 
-    public Tesi selezionaTesi(int id_student) {
+    public Tesi selezionaTesi(String id_student) {
         Tesi T = null;
+        Logger logger = Logger.getLogger("db");
+        
+        ResultSet rs = null;
+        
         try {
             Statement aStatement = db.createStatement();
-            String query = "SELECT * FROM 'Tesi' WHERE ID_Studente=" + id_student + "";
+            String query = "SELECT * FROM tesi WHERE ID_Studente= '" + id_student + "' ";
 
-            ResultSet rs = aStatement.executeQuery(query);
+            rs = aStatement.executeQuery(query);
+           
+            
+            logger.info("Cazooooooooooooooooooo"+rs.getRow()+"Figaaaaaaaaaa");
+            
             int id_tesi = 0;
             String data_inizio = null;
             String data_fine = null;
@@ -146,6 +154,7 @@ public class ManagerTesi {
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("sono nel carch"+ex.getErrorCode());
         }
         return T;
     }

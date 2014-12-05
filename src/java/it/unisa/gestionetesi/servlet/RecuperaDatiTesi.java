@@ -44,10 +44,10 @@ public class RecuperaDatiTesi extends HttpServlet {
 
             // Devo ricevere ID_Studente
             manager_tesi = new ManagerTesi();
-            Tesi T = manager_tesi.selezionaTesi(Integer.parseInt(id_studente));
-
+            Tesi T = manager_tesi.selezionaTesi(id_studente);
             
-            response.getWriter().write(T.getDescrizione());
+           
+            out.println(T);
             
 
         } finally {
