@@ -20,13 +20,21 @@
         <servlet-name>richiestaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.richiestaTesi</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>RecuperaDatiTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaDatiTesi</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>accettaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.accettaTesi</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>it.unisa.integrazione.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>it.unisa.integrazione.servlet.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>accettaTesi</servlet-name>
         <url-pattern>/accettaTesi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

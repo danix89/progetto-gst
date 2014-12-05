@@ -3,27 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.tirocinio.servlet;
+package it.unisa.integrazione.servlet;
 
-import it.unisa.integrazione.manager.concrete.ConcreteProfessor;
-import it.unisa.tirocinio.database.ProfessorDBOperation;
+import it.unisa.integrazione.database.AccountManager;
+import it.unisa.integrazione.database.exception.AccountNotActiveException;
+import it.unisa.integrazione.database.exception.ConnectionException;
+import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Valentino
+ * @author gemmacatolino
  */
-public class InsertTrainingByProfessor extends HttpServlet {
-    private final JSONObject message = new JSONObject();
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +38,32 @@ public class InsertTrainingByProfessor extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            /*out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InsertTrainingByProfessor</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet InsertTrainingByProfessor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");*/
-            //String description = request.getParameter("descriptionTraining");
-            //int primaryKey = Integer.parseInt(request.getParameter("primaryKey"));
-            String description = "peppino";
-            int primaryKey = 1;
-            ProfessorDBOperation professor = new ProfessorDBOperation();
-            if(professor.setClaimTrainingByProfessorByFK_Account(description, primaryKey)){
-                out.println("bella pe voi");
-            }else{
-                out.println("vaff");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+
+            AccountManager accountManager = AccountManager.getInstance();
+            Person person = accountManager.login(username, password);
+
+            if (person != null) {
+                session.removeAttribute("loginError");
+                session.setAttribute("person", person);
+                response.sendRedirect("index.jsp");
+            } else {
+                session.setAttribute("loginError", "error");
+                response.sendRedirect("login.jsp");
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(InsertTrainingByProfessor.class.getName()).log(Level.SEVERE, null, ex);
+            
         } catch (SQLException ex) {
-            Logger.getLogger(InsertTrainingByProfessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AccountNotActiveException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
@@ -81,7 +81,7 @@ public class InsertTrainingByProfessor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     /**
