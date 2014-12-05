@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * @author Damiano
  */
 public class ManagerTesi {
-
+    Logger logger = Logger.getLogger("db");
     private ConnectionDB aConnection;
     private Connection db;
     Statement tesiStatement;
@@ -113,7 +113,7 @@ public class ManagerTesi {
 
     public Tesi selezionaTesi(String id_student) {
         Tesi T = null;
-        Logger logger = Logger.getLogger("db");
+       
         
         ResultSet rs = null;
         
@@ -159,12 +159,75 @@ public class ManagerTesi {
         return T;
     }
 
-    public void accettaTesi() {
+    public void accettaTesi(int idTesi) throws SQLException {
+        
+        Statement aStatement = db.createStatement();
+        
+        String accetta ="UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` = "+idTesi;
+        ResultSet res=aStatement.executeQuery(accetta);
+                
+        
+    }
+    
+    public Tesi[] elencaTesiDocente(String idRelatore) throws SQLException {
+        
+        Statement aStatement = db.createStatement();
+       
+        String queryCercaTesi ="SELECT * FROM relatori_tesi WHERE ID_Docente='"+idRelatore+"'";
+         
+        ResultSet res=aStatement.executeQuery(queryCercaTesi);
+        Tesi[] T=new Tesi[res.getRow()];
+        int id_tesi = 0, i=0;
+            String data_inizio = null;
+            String data_fine = null;
+            String data_fine_prevista = null;
+            String titolo = null;
+            String abstractTesi = null;
+            String descrizione = null;
+            String id_studente = null;
+            String stato_tesi = null;
 
+            do {
+                logger.info("iterazione "+i);
+                id_tesi = res.getInt("ID");
+                data_inizio = res.getString("Data_Inizio");
+                data_fine = res.getString("Data_Fine");
+                data_fine_prevista = res.getString("Data_Fine_Prevista");
+                titolo = res.getString("Titolo");
+                abstractTesi = res.getString("Abstract");
+                descrizione = res.getString("Descrizione");
+                id_studente = res.getString("ID_Studente");
+                stato_tesi = res.getString("Stato_Tesi");
+                
+                if (stato_tesi != null) {
+                T[i] = new Tesi(id_tesi, data_inizio, data_fine, data_fine_prevista, titolo, abstractTesi, descrizione, id_studente, stato_tesi);
+            }
+                i++;
+            }while (res.next()) ;
+
+           return T;
+         
     }
 
-    public void rifiutaTesi() {
-
+    public boolean inAttesaConferma(int idTesi) throws SQLException{
+        
+        Statement aStatement = db.createStatement();
+        
+        String queryStatoTesi ="SELECT stato_tesi FROM tesi WHERE ID='"+idTesi+"'";
+        ResultSet res=aStatement.executeQuery(queryStatoTesi);
+        
+        return res.getInt("stato_tesi")==0;
+        
+    }
+    
+    public void rifiutaTesi(int idTesi) throws SQLException {
+        
+        Statement aStatement = db.createStatement();
+        
+        String rifiuta ="DELETE FROM tesi WHERE ID="+idTesi;
+        ResultSet res=aStatement.executeQuery(rifiuta);
+                
+        
     }
 
 }
