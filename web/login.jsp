@@ -177,7 +177,7 @@
                         </div>
 
                         <div class="panel-body">
-                            <form id="loginForm" method="POST" action="login">
+                            <form id="loginForm" method="POST" action="${pageContext.request.contextPath}/LoginServlet">
 
                                 <div id="form-group-username" class="form-group">
                                     <label>Username:</label>

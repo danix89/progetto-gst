@@ -38,7 +38,6 @@ public class richiestaTesi extends HttpServlet {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,17 +50,11 @@ public class richiestaTesi extends HttpServlet {
             manager_tesi = new ManagerTesi();
             manager_tesi.inserisciTesiQuery(T);
             int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-            out.println("id ultima tesi: " +ultimaTesiInserita);
-            RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
-            
-            manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
+            out.println("id ultima tesi: " + ultimaTesiInserita);
 
+            RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
+            manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
             out.println("OK PROVA");
-            
-            RequestDispatcher rd = request.getRequestDispatcher("bacheca.jsp");
-			
-	    rd.forward(request, response);
-	
 
         } finally {
             out.close();

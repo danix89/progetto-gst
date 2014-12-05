@@ -19,7 +19,7 @@ public class ConnectionDB {
         Class.forName("com.mysql.jdbc.Driver").newInstance();
         // mi connetto al database con i dati inseriti nel main
         // la password può non essere necessaria
-        db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + "DB_Gestione_Tesi" + "?user=" + user + "&password=" + password);
+        db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + "db_distra" + "?user=" + user + "&password=" + password);
 
         // connesso.. se niente è andato storto!
        

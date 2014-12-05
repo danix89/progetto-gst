@@ -18,11 +18,11 @@ public class Tesi {
     private String titolo;
     private String abstract_tesi;
     private String descrizione;
-    private int id_studente;
+    private String id_studente;
     private String stato_tesi;
 
     
-    public Tesi(int id_tesi, String data_inizio, String data_fine, String data_fine_prevista, String titolo, String abstract_tesi, String descrizione, int id_studente, String stato_tesi) {
+    public Tesi(int id_tesi, String data_inizio, String data_fine, String data_fine_prevista, String titolo, String abstract_tesi, String descrizione, String id_studente, String stato_tesi) {
         this.id_tesi = id_tesi;
         this.data_inizio = data_inizio;
         this.data_fine = data_fine;
@@ -94,11 +94,11 @@ public class Tesi {
         this.descrizione = descrizione;
     }
 
-    public int getId_studente() {
+    public String getId_studente() {
         return id_studente;
     }
 
-    public void setId_studente(int id_studente) {
+    public void setId_studente(String id_studente) {
         this.id_studente = id_studente;
     }
 

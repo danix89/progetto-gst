@@ -5,17 +5,14 @@
  */
 package it.unisa.gestionetesi.manager;
 
-import it.unisa.gestionetesi.db.ConnectionDB;
+
 import it.unisa.gestionetesi.beans.Allegati;
 import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tag;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.db.ConnectionDB;
-import it.unisa.integrazione.database.DBConnection;
-import it.unisa.integrazione.manager.concrete.ConcreteFisicPerson;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,6 +28,7 @@ public class ManagerTesi {
     private ConnectionDB aConnection;
     private Connection db;
     Statement tesiStatement;
+    
 
     public ManagerTesi() throws ClassNotFoundException, SQLException, IOException, InstantiationException, IllegalAccessException {
         aConnection = new ConnectionDB("root", "");
@@ -41,14 +39,14 @@ public class ManagerTesi {
 
         try {
             Tesi tesi = T;
-
+           
             tesiStatement = db.createStatement();
-            db.setAutoCommit(false);
+           // db.setAutoCommit(false);
             String query = "INSERT INTO `tesi`(Descrizione, ID_Studente, Stato_Tesi)"
-                    + "VALUES ('" + tesi.getDescrizione() + "', 0, '0')";
+                    + "VALUES ('" + tesi.getDescrizione() + "', 'SNSDMN89A20A717I' , '0')";
             tesiStatement.execute(query, Statement.RETURN_GENERATED_KEYS);
 
-            db.commit();
+            //db.commit();
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,7 +90,7 @@ public class ManagerTesi {
     public void inserisciTagQuery(Tag t) throws ClassNotFoundException, SQLException, IOException {
 
         Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `Tag` ([`Nome`]) VALUES (`" + t.getNomeTag() + ")";
+        String query = "INSERT INTO `Tag` (Nome) VALUES (`" + t.getNomeTag() + ")";
         aStatement.executeQuery(query);
 
     }
@@ -100,7 +98,7 @@ public class ManagerTesi {
     public void inserisciAllegatiQuery(Allegati al) throws ClassNotFoundException, SQLException, IOException {
 
         Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `Allegato` ([`Oggetto`],[`ID_Tesi`],[`Stato`]) VALUES (`" + al.getLinkOggetto() + "`, `" + al.getIdTesi() + "`, `" + al.getStato() + "`)";
+        String query = "INSERT INTO `Allegato` (Oggetto,ID_Tesi,Stato) VALUES (`" + al.getLinkOggetto() + "`, `" + al.getIdTesi() + "`, `" + al.getStato() + "`)";
         aStatement.executeQuery(query);
 
     }
@@ -108,7 +106,7 @@ public class ManagerTesi {
     public void inserisciTagTesiQuery(Tesi tesi, Tag tag) throws ClassNotFoundException, SQLException, IOException {
 
         Statement aStatement = db.createStatement();
-        String query = "INSERT INTO `tag_tesi`([`ID_tesi`],[`ID_tag`]) VALUES ([`" + tesi.getId_tesi() + "`],[`" + tag.getId() + ")";
+        String query = "INSERT INTO `tag_tesi`(ID_tesi,ID_tag) VALUES ([`" + tesi.getId_tesi() + "`],[`" + tag.getId() + ")";
         aStatement.executeQuery(query);
 
     }
@@ -127,7 +125,7 @@ public class ManagerTesi {
             String titolo = null;
             String abstractTesi = null;
             String descrizione = null;
-            int id_studente = 0;
+            String id_studente = null;
             String stato_tesi = null;
 
             while (rs.next()) {
@@ -138,7 +136,7 @@ public class ManagerTesi {
                 titolo = rs.getString("Titolo");
                 abstractTesi = rs.getString("Abstract");
                 descrizione = rs.getString("Descrizione");
-                id_studente = rs.getInt("ID_Studente");
+                id_studente = rs.getString("ID_Studente");
                 stato_tesi = rs.getString("Stato_Tesi");
             }
 
