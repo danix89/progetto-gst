@@ -124,7 +124,7 @@ public class ManagerTesi {
             rs = aStatement.executeQuery(query);
            
             
-            logger.info("Cazooooooooooooooooooo"+rs.getRow()+"Figaaaaaaaaaa");
+            logger.info("Numero di righe: "+rs.getRow());
             
             int id_tesi = 0;
             String data_inizio = null;

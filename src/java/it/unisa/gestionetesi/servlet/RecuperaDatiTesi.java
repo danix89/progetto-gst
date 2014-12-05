@@ -47,7 +47,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             Tesi T = manager_tesi.selezionaTesi(id_studente);
             
            
-            out.println(T);
+            out.println(T.getDescrizione());
             
 
         } finally {
