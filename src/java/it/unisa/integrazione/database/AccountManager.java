@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import it.unisa.model.Person;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,6 +22,7 @@ import it.unisa.model.Person;
 public class AccountManager {
 
     private static AccountManager instance;
+    private Account account;
 
     public static AccountManager getInstance() {
 
@@ -29,6 +31,11 @@ public class AccountManager {
         }
         return instance;
 
+    }
+    
+    public String getTypeOfAccount(){
+        
+        return account.getTyperOfAccount();
     }
 
     public Person login(String pUsername, String pPassword) throws AccountNotActiveException,  SQLException, ConnectionException {
@@ -50,10 +57,10 @@ public class AccountManager {
             rs = stmt.executeQuery(query);
 
             if (rs.next()) {
-                Account account = new Account();
+                account = new Account();
                 account.setEmail(rs.getString("email"));
                 account.setPassword(rs.getString("password"));
-                account.setTyperOfAccount("typeOfAccount");
+                account.setTyperOfAccount(rs.getString("typeOfAccount"));
                 account.setActive(rs.getBoolean("active"));
                 
                 if(!account.isActive()) {

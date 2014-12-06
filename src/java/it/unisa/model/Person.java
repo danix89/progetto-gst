@@ -25,6 +25,7 @@ public class Person {
     private String role;
     private String matricula;
     private String position;
+    private String department_abbreviation;
     private int cycle;
 
     public int getCycle() {
@@ -33,6 +34,14 @@ public class Person {
 
     public void setCycle(int cycle) {
         this.cycle = cycle;
+    }
+    
+    public String getDepartmentAbbreviation() {
+        return department_abbreviation;
+    }
+
+    public void setDepartmentAbbreviation(String department_abbreviation) {
+        this.department_abbreviation = department_abbreviation;
     }
 
     public String getSsn() {

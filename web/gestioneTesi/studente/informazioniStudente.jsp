@@ -4,11 +4,44 @@
     Author     : CosimoAlessandro
 --%>
 
+<%
+    String account_tipo = (String) session.getAttribute("typeOfAccount");
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Informazioni Studente</title>
+
+        <script>
+            var codice_fiscale= '${person.ssn}';
+            var tipo_account='<%= account_tipo %>';
+            
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'RecuperaDatiUtente',
+                    type: 'POST',
+                    data: {ssn: codice_fiscale, tipo: tipo_account},
+                    success: function (msg) {
+                        var data_user = $.parseJSON(msg);
+                        var nome = data_user.nome;
+                        var cognome = data_user.cognome;
+                        var matricola = data_user.matricola;
+                        var ciclo = data_user.ciclo;
+                        var università = data_user.università;
+                        var dipartimento=data_user.dipartimento
+                        
+                        $("#università").html(università);
+                        $("#fullname").html(nome + " " + cognome);
+                        $("#matricola").html(matricola);
+                        $("#ciclo").html(ciclo);
+                        $("#dipartimento").html(dipartimento);
+
+                    }
+                });
+            });
+        </script>
+
     </head>
     <body>
 
@@ -27,27 +60,33 @@
 
             <div class="panel-body">
                 <div class="row">
+                    <div class="col-sm-12">
+                        <b>Università </b><p id="università"></p>
+                    </div>
+             </div>
+                 <br>
+                <div class="row">
                     <div class="col-sm-8">
-                        <p>Nome e Cognome</p>
+                        <b>Nome e Cognome </b><p id="fullname"></p>
                     </div>
 
                     <div class="col-sm-4">
-                        <p>Matricola</p>
+                        <b>Matricola </b><p id="matricola"></p>
                     </div>
 
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-sm-2">
-                        <p>Ciclo di studi</p>
+                        <b>Ciclo </b><p id="ciclo"></p>
                     </div>
 
                     <div class="col-sm-5">
-                        <p>Dipartimento</p>
+                        <b>Dipartimento </b><p>Dipartimento</p>
                     </div>
 
                     <div class="col-sm-5">
-                        <p>Corso di laurea</p>
+                        <b>Corso di laurea: </b><p>Corso di laurea</p>
                     </div>
 
                 </div>

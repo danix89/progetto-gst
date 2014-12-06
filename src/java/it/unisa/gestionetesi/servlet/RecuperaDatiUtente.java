@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package it.unisa.integrazione.servlet;
+package it.unisa.gestionetesi.servlet;
 
-import it.unisa.integrazione.database.AccountManager;
-import it.unisa.integrazione.database.exception.AccountNotActiveException;
-import it.unisa.integrazione.database.exception.ConnectionException;
+import it.unisa.gestionetesi.manager.ManagerUtente;
 import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,18 +13,20 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
- * @author gemmacatolino
+ * @author CosimoAlessandro
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+public class RecuperaDatiUtente extends HttpServlet {
+
+    ManagerUtente manager_utente;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,34 +38,41 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
         try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
+            /* TODO output your page here. You may use following sample code. */
 
-            AccountManager accountManager = AccountManager.getInstance();
-            Person person = accountManager.login(username, password);
-            String typeOfAccount=accountManager.getTypeOfAccount();
+            String email = request.getParameter("ssn");
+            String tipo = request.getParameter("tipo");
 
-            if (person != null) {
-                session.removeAttribute("loginError");
-                session.setAttribute("person", person);
-                session.setAttribute("typeOfAccount", typeOfAccount);
-                response.sendRedirect("index.jsp");
-            } else {
-                session.setAttribute("loginError", "error");
-                response.sendRedirect("login.jsp");
-            }
+            Person p = new Person();
+            manager_utente = new ManagerUtente();
+            p = manager_utente.selezionaUtente(email, tipo);
+
             
+            JSONObject user_data = new JSONObject();
+
+            user_data.put("nome", p.getName());
+            user_data.put("cognome", p.getSurname());
+            user_data.put("matricola", p.getMatricula());
+            user_data.put("ciclo", p.getCycle());
+            user_data.put("università", p.getUniversity());
+            user_data.put("dipartimento", p.getDepartmentAbbreviation());
+            
+            out.print(user_data.toString());
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AccountNotActiveException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
@@ -83,7 +90,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        processRequest(request, response);
     }
 
     /**

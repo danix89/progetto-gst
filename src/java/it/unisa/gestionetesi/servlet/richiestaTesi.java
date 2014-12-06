@@ -54,7 +54,7 @@ public class richiestaTesi extends HttpServlet {
 
             RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
             manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
-            out.println("OK PROVA");
+            response.sendRedirect("gestioneTesi.jsp");
 
         } finally {
             out.close();

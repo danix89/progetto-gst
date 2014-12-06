@@ -1,4 +1,11 @@
+<%
+    if (session.getAttribute("person") == null || session.getAttribute("person").equals("")) {
+        response.sendRedirect("index.jsp");
+    }else{
+%>
+
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -23,24 +30,7 @@
         <link rel="stylesheet" href="assets/css/fonts/fontawesome/css/font-awesome.min.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script>
-            jQuery(document).ready(function ($) {
-                if (localStorage.getItem("username") != null) {
-                    if (localStorage.getItem("typology") == "Professor") {
-                        alert("Professor");
-                    }
-                    if (localStorage.getItem("typology") == "student") {
-                        window.location.replace("offertaFormativaStudente.html");
-                    }
-                    if (localStorage.getItem("typology") == "Organization") {
-                        alert("Organization");
-                    }
-                    if (localStorage.getItem("typology") == "Administrator") {
-                        alert("Administrator");
-                    }
-                }
-            });
-        </script>
+
 
         <style>
 
@@ -59,6 +49,21 @@
             }
 
         </style>
+
+        <script>
+            function reload_bacheca() {
+                $('#bacheca').load("gestioneTesi/bacheca.jsp");
+            };
+            
+            function reload_cronologia() {
+                $('#cronologia').load("gestioneTesi/cronologia.jsp");
+            };
+            
+            function reload_storico() {
+                $('#storico').load("gestioneTesi/storico.jsp");
+            };
+
+        </script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -149,35 +154,32 @@
         <div class="page-container">
             <div class="main-content">
                 <div class="row">
-                    <div class="col-lg-2">
+                    <div  class="col-lg-2">
                         <ul id="main_list" class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="#bacheca" data-toggle="pill"><i class="fa-user"></i> Bacheca</a></li>
-                            <li><a href="#cronologia" data-toggle="pill"><i class="fa-history"></i> Cronologia</a></li>
-                            <li><a href="#storico" data-toggle="pill"><i class="fa-search"></i> Storico Tesi</a></li>
-                            
+                            <li class="active"><a href="#bacheca" data-toggle="pill" onclick="reload_bacheca()"><i class="fa-user"></i> Bacheca</a></li>
+                            <li><a href="#cronologia" data-toggle="pill" onclick="reload_cronologia()"><i class="fa-history"></i> Cronologia</a></li>
+                            <li><a href="#storico" data-toggle="pill" onclick="reload_storico()"><i class="fa-search"></i> Storico Tesi</a></li>
+
                         </ul>
                     </div>
 
-                    <div class="tab-content col-lg-10">
+                    <div id="tab-content"  class="tab-content col-lg-10">
                         <div class="tab-pane active" id="bacheca">
-                            <div class="panel panel-default">
-                                <div class="panel-heading text-center"><h3>Bacheca</h3></div>
-                                <div class="panel-body"><%@ include file="gestioneTesi/bacheca.jsp" %></div>
-                            </div>
+
+                                <%@ include file="gestioneTesi/bacheca.jsp" %>
+                            
                         </div>
                         <div class="tab-pane" id="cronologia">
-                            <div class="panel panel-flat">
-                                <div class="panel-heading text-center"><h3>Cronologia</h3></div>
-                                <div class="panel-body"><%@ include file="gestioneTesi/cronologia.jsp" %></div>
-                            </div>
+                            
+                        <%@ include file="gestioneTesi/cronologia.jsp" %>
+
                         </div>
                         <div class="tab-pane" id="storico">
-                            <div class="panel panel-default">
-                                <div class="panel-heading text-center"><h3>Storico</h3></div>
-                                <div class="panel-body"><%@ include file="gestioneTesi/storico.jsp" %></div>
-                            </div>
+
+                        <%@ include file="gestioneTesi/storico.jsp" %>
+
                         </div>
-                       
+
                     </div>
 
 
@@ -201,3 +203,4 @@
         <script src="assets/js/xenon-custom.js"></script>
     </body>
 </html>
+<% } %>

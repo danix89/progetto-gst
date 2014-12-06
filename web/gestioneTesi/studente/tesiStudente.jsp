@@ -23,7 +23,7 @@
                     type: 'POST',
                     data: {id_studente: 'SNSDMN89A20A717I'},
                     success: function (msg) {
-                        alert(msg);
+                        
                         
                     }
                 });
