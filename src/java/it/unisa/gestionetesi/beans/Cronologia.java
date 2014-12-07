@@ -11,8 +11,48 @@ package it.unisa.gestionetesi.beans;
  */
 public class Cronologia {
     
-    private int id_cronologia, id_studente, id_docente;
-    private String teso, data_notifica;
+    private int id_cronologia;
+    private String testo, data_notifica, id_studente, id_docente;
+
+    public int getId_cronologia() {
+        return id_cronologia;
+    }
+
+    public void setId_cronologia(int id_cronologia) {
+        this.id_cronologia = id_cronologia;
+    }
+
+    public String getTesto() {
+        return testo;
+    }
+
+    public void setTesto(String testo) {
+        this.testo = testo;
+    }
+
+    public String getData_notifica() {
+        return data_notifica;
+    }
+
+    public void setData_notifica(String data_notifica) {
+        this.data_notifica = data_notifica;
+    }
+
+    public String getId_studente() {
+        return id_studente;
+    }
+
+    public void setId_studente(String id_studente) {
+        this.id_studente = id_studente;
+    }
+
+    public String getId_docente() {
+        return id_docente;
+    }
+
+    public void setId_docente(String id_docente) {
+        this.id_docente = id_docente;
+    }
     
     
     
