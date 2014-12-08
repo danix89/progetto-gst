@@ -14,6 +14,16 @@ public class Cronologia {
     private int id_cronologia;
     private String testo, data_notifica, id_studente, id_docente;
 
+   
+
+    public Cronologia(int id_cronologia, String testo, String data_notifica, String id_studente,String id_docente) {
+        this.id_cronologia = id_cronologia;
+        this.testo = testo;
+        this.data_notifica = data_notifica;
+        this.id_studente = id_studente;
+        this.id_docente = id_docente;
+    }
+    
     public int getId_cronologia() {
         return id_cronologia;
     }
