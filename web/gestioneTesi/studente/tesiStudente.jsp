@@ -4,6 +4,8 @@
     Author     : CosimoAlessandro
 --%>
 
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,14 +19,25 @@
         <title>Tesi Studente</title>
 
         <script>
+            var codice_fiscale = '${person.ssn}';
+
             $(document).ready(function () {
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
-                    data: {id_studente: 'SNSDMN89A20A717I'},
+                    data: {id_studente: codice_fiscale},
                     success: function (msg) {
-                        
-                        
+
+                        var dati_tesi = $.parseJSON(msg);
+                        var titolo = dati_tesi.titolo;
+                        var abstract = dati_tesi.abstract_tesi;
+                        var data_inizio = dati_tesi.data_inizio;
+                        var data_fine = dati_tesi.data_fine;
+                        var data_fine_prevista = dati_tesi.data_fine_prevista;
+                        var messaggio_richiesta = dati_tesi.messaggio_richiesta;
+
+                        $("#professore_richiesta").html("Professore");
+                        $("#messaggio_richiesta").html(messaggio_richiesta);
                     }
                 });
             });
@@ -78,6 +91,11 @@
 
         <!-- Form richiesta tesi -->
 
+        <%
+            if (session.getAttribute("stato_tesi").equals("0")) {
+
+        %>
+
         <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
             <div class="panel-heading">
                 <h3 class="panel-title">Richiesta Tesi</h3>
@@ -86,13 +104,13 @@
 
             <div class="panel-body">
 
-                <form role="form" action="${pageContext.request.contextPath}/richiestaTesi" method="POST" class="form-horizontal">
+                <form  role="form" action="${pageContext.request.contextPath}/richiestaTesi" method="POST" class="form-horizontal validate">
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
 
                         <div class="col-sm-10">
-                            <select class="form-control" name="dipartimenti" id="dipartimenti">
+                            <select data-validate="required" data-message-required="Fai una scelta" class="form-control" name="dipartimenti" id="dipartimenti">
                                 <option></option>
                                 <option value="distra">DISTRA</option>
                             </select>
@@ -103,7 +121,7 @@
                         <label class="col-sm-2 control-label text-primary" for="corso_laurea">Corsi di laurea</label>
 
                         <div class="col-sm-10">
-                            <select class="form-control" name="corso_laurea" id="corso_laurea">
+                            <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="corso_laurea" id="corso_laurea">
                                 <option></option>
                                 <option value="mit">Tecnologie Informatiche e Management</option>
                             </select>
@@ -114,7 +132,7 @@
                         <label class="col-sm-2 control-label text-primary" for="professore">Professori</label>
 
                         <div class="col-sm-10 ">
-                            <select class="form-control" name="professore" id="professore">
+                            <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="professore" id="professore">
                                 <option > </option>
                                 <option value="1">De Lucia</option>
                                 <option value="2">Ferrucci</option>
@@ -128,7 +146,7 @@
                         <label class="col-sm-2 control-label text-primary" for="field-5">Messaggio richiesta</label>
 
                         <div class="col-sm-10">
-                            <textarea class="form-control" cols="5" id="messaggio" name="messaggio"></textarea>
+                            <textarea class="form-control"  data-validate="required,minlength[50]" data-message-required="Questo campo è obbligatorio" cols="5" id="messaggio" name="messaggio"></textarea>
                         </div>
                     </div>
 
@@ -146,10 +164,43 @@
                 </form>
             </div>
         </div>
+        <!-- Riepilogo richiesta tesi in attesa-->
 
+        <% } else if (session.getAttribute("stato_tesi").equals("0")) {
+
+        %>
+
+
+        <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
+            <div class="panel-heading">
+                <h3 class="panel-title">Richiesta Tesi in attesa di conferma</h3>
+            </div>
+
+
+            <div class="panel-body">
+                <h3>Riepilogo</h3>
+
+                <b>Professore</b><p id="professore_richiesta">Professore</p>
+                <br>
+                <b>Messaggio</b><p id="messaggio_richiesta"></p>
+
+            </div>
+        </div>
+
+        <!-- Tesi in corso-->
+
+        <%             } else if (session.getAttribute("stato_tesi").equals("1")) {
+
+        %>
+
+        <p>Tesi in corso</p>
+
+        <%                }
+        %>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>
+        <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
 
 
     </body>

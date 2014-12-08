@@ -29,7 +29,7 @@
                         var matricola = data_user.matricola;
                         var ciclo = data_user.ciclo;
                         var università = data_user.università;
-                        var dipartimento=data_user.dipartimento
+                        var dipartimento=data_user.dipartimento;
                         
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);

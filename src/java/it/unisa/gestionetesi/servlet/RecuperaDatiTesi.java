@@ -16,6 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -38,6 +41,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
         try {
             String id_studente = request.getParameter("id_studente");
             
@@ -46,10 +50,23 @@ public class RecuperaDatiTesi extends HttpServlet {
             manager_tesi = new ManagerTesi();
             Tesi T = manager_tesi.selezionaTesi(id_studente);
             
-           
-            out.println(T.getDescrizione());
+            JSONObject dati_tesi = new JSONObject();
+            
+            dati_tesi.put("data_inizio", T.getData_inizio());
+            dati_tesi.put("data_fine", T.getData_fine());
+            dati_tesi.put("data_fine_prevista", T.getData_fine_prevista());
+            dati_tesi.put("messaggio_richiesta", T.getDescrizione());
+            dati_tesi.put("titolo", T.getTitolo());
+            dati_tesi.put("stato_tesi", T.getStato_tesi());
+            dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
+            
+            session.setAttribute("stato_tesi", T.getStato_tesi());
+
+            out.print(dati_tesi.toString());
             
 
+        } catch (JSONException ex) {
+            Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
