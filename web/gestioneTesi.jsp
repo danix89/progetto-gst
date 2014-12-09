@@ -1,8 +1,12 @@
 <%
+    boolean log = false;
+
     if (session.getAttribute("person") == null || session.getAttribute("person").equals("")) {
         response.sendRedirect("index.jsp");
-    }else{
+        
+    } else {log = true;
 %>
+
 
 <!DOCTYPE html>
 
@@ -53,15 +57,18 @@
         <script>
             function reload_bacheca() {
                 $('#bacheca').load("gestioneTesi/bacheca.jsp");
-            };
-            
+            }
+            ;
+
             function reload_cronologia() {
                 $('#cronologia').load("gestioneTesi/cronologia.jsp");
-            };
-            
+            }
+            ;
+
             function reload_storico() {
                 $('#storico').load("gestioneTesi/storico.jsp");
-            };
+            }
+            ;
 
         </script>
 
@@ -82,7 +89,7 @@
 
                 <!-- Navbar Brand -->
                 <div class="navbar-brand">
-                    <a href="index.html" class="logo"> <img
+                    <a href="index.jsp" class="logo"> <img
                             src="assets/images/mitforsite.png" width="80" alt=""
                             class="hidden-xs" /> <img src="assets/images/mitforsitemini.png"
                             width="80" alt="" class="visible-xs" />
@@ -140,9 +147,50 @@
                 </ul>
                 <!-- notifications and other links -->
                 <ul class="nav nav-userinfo navbar-right">
-                    <li><a href="login.jsp"> <i class="fa-user"></i> <span
-                                class="title">Login</span>
-                        </a></li>
+
+                    <%                        if (log) {
+                    %>
+                    <li>
+
+                        <i class="fa-user"></i>
+                        <span class="title">
+
+                            Hello, 
+                            <%
+                                Person p = (Person) session.getAttribute("person");
+
+                                out.println(p.getName());
+
+
+                            %>
+
+                        </span>
+
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/LogoutServlet">
+                            <i class="fa-times-circle"></i>
+                            <span class="title">Logout</span>
+                        </a>
+                    </li>
+                    <%                    } else {
+
+                    %>
+                    <li>
+                        <a href="register.html">
+                            <i class="fa-pencil"></i>
+                            <span class="title">Registrazione</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="login.jsp">
+                            <i class="fa-user"></i>
+                            <span class="title">Login</span>
+                        </a>
+                    </li>
+                    <%                        }
+                    %>
+
                 </ul>
 
             </div>
@@ -166,17 +214,17 @@
                     <div id="tab-content"  class="tab-content col-lg-10">
                         <div class="tab-pane active" id="bacheca">
 
-                                <%@ include file="gestioneTesi/bacheca.jsp" %>
-                            
+                            <%@ include file="gestioneTesi/bacheca.jsp" %>
+
                         </div>
                         <div class="tab-pane" id="cronologia">
-                            
-                        <%@ include file="gestioneTesi/cronologia.jsp" %>
+
+                            <%@ include file="gestioneTesi/cronologia.jsp" %>
 
                         </div>
                         <div class="tab-pane" id="storico">
 
-                        <%@ include file="gestioneTesi/storico.jsp" %>
+                            <%@ include file="gestioneTesi/storico.jsp" %>
 
                         </div>
 
@@ -203,4 +251,4 @@
         <script src="assets/js/xenon-custom.js"></script>
     </body>
 </html>
-<% } %>
+<% }%>
