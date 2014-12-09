@@ -25,7 +25,6 @@
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
-                    async: true,
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
 
@@ -36,6 +35,8 @@
                         var data_fine = dati_tesi.data_fine;
                         var data_fine_prevista = dati_tesi.data_fine_prevista;
                         var messaggio_richiesta = dati_tesi.messaggio_richiesta;
+                        var stato_tesi = dati_tesi.stato_tesi;
+                        alert(stato_tesi);
 
                         $("#professore_richiesta").html("Professore");
                         $("#messaggio_richiesta").html(messaggio_richiesta);

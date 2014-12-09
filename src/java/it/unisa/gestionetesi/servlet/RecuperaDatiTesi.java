@@ -61,6 +61,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             dati_tesi.put("titolo", T.getTitolo());
             dati_tesi.put("stato_tesi", T.getStato_tesi());
             dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
+            dati_tesi.put("stato_tesi", T.getStato_tesi());
             
             session.setAttribute("stato_tesi", T.getStato_tesi());
 
