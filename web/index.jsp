@@ -149,8 +149,8 @@
                     <%                        if (log) {
                     %>
                     <li>
-                        <a href="register.html">
-                            <i class="fa-pencil"></i>
+                        
+                            <i class="fa-user"></i>
                             <span class="title">
                             
                             Hello, 
@@ -165,11 +165,11 @@
                                 %>
                             
                             </span>
-                        </a>
+                    
                     </li>
                     <li>
                         <a href="${pageContext.request.contextPath}/LogoutServlet">
-                            <i class="fa-user"></i>
+                            <i class="fa-times-circle"></i>
                             <span class="title">Logout</span>
                         </a>
                     </li>
