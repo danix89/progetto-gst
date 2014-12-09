@@ -10,6 +10,26 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cronologia Studente</title>
 
+        <script>
+            var codice_fiscale = '${person.ssn}';
+
+            $(document).ready(function () {
+                $.ajax({
+                    url: 'RecuperaCronologiaStudente',
+                    type: 'POST',
+                    data: {id_studente: codice_fiscale},
+                    success: function (cronologiaS) {
+
+                        var dati_cronologia = $.parseJSON(cronologiaS);
+                        var testo = dati_cronologia[0].testo;
+                        var ID_Studente = dati_cronologia[0].ID_Studente;
+                        var ID_Docente = dati_cronologia[0].ID_Docente;
+                        var Data_Notifica = dati_cronologia[0].Data_Notifica;
+                        alert(testo);
+                    }
+                });
+            });
+        </script>
 
     </head>
     <body>

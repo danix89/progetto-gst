@@ -44,6 +44,14 @@
         <servlet-name>RecuperaAccountUtente</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaAccountUtente</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecuperaTesisti</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaTesisti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecuperaCronologiaStudente</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaStudente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -88,6 +96,14 @@
         <servlet-name>RecuperaAccountUtente</servlet-name>
         <url-pattern>/RecuperaAccountUtente</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaTesisti</servlet-name>
+        <url-pattern>/RecuperaTesisti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaCronologiaStudente</servlet-name>
+        <url-pattern>/RecuperaCronologiaStudente</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             100
@@ -97,7 +113,7 @@
         <description>Location to store uploaded file</description>
         <param-name>file-upload</param-name>
         <param-value>
-         c:\apache-tomcat-5.5.29\webapps\data\
-     </param-value>
+            c:\apache-tomcat-5.5.29\webapps\data\
+        </param-value>
     </context-param>
 </web-app>
