@@ -43,7 +43,7 @@ public class ManagerTesi {
             tesiStatement = db.createStatement();
            // db.setAutoCommit(false);
             String query = "INSERT INTO `tesi`(Descrizione, ID_Studente, Stato_Tesi)"
-                    + "VALUES ('" + tesi.getDescrizione() + "', 'SNSDMN89A20A717I' , '0')";
+                    + "VALUES ('" + tesi.getDescrizione() + "', '"+tesi.getId_studente()+"' , '0')";
             tesiStatement.execute(query, Statement.RETURN_GENERATED_KEYS);
 
             //db.commit();

@@ -34,8 +34,9 @@ public class Tesi {
         this.stato_tesi = stato_tesi;
     }
     
-    public Tesi(String descrizione){
+    public Tesi(String descrizione, String id_studente){
         this.descrizione = descrizione;
+        this.id_studente=id_studente;
     }
 
     public int getId_tesi() {

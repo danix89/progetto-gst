@@ -8,6 +8,7 @@ package it.unisa.gestionetesi.servlet;
 import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.manager.ManagerTesi;
+import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,11 +44,14 @@ public class richiestaTesi extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
         try {
             String professore = request.getParameter("professore");
             String messaggio = request.getParameter("messaggio");
+            Person p=(Person)session.getAttribute("person");
+            String ssn_utente=p.getSsn();
 
-            Tesi T = inserisciTesi(messaggio);
+            Tesi T = inserisciTesi(messaggio, ssn_utente);
             manager_tesi = new ManagerTesi();
             manager_tesi.inserisciTesiQuery(T);
             int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
@@ -61,8 +66,8 @@ public class richiestaTesi extends HttpServlet {
         }
     }
 
-    public Tesi inserisciTesi(String messaggio) {
-        Tesi T = new Tesi(messaggio);
+    public Tesi inserisciTesi(String messaggio, String ssn_studente) {
+        Tesi T = new Tesi(messaggio, ssn_studente);
         return T;
     }
 

@@ -134,7 +134,7 @@
                         <div class="col-sm-10 ">
                             <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="professore" id="professore">
                                 <option > </option>
-                                <option value="1">De Lucia</option>
+                                <option value="1234567890123456">De Lucia</option>
                                 <option value="2">Ferrucci</option>
                             </select>
                         </div>
