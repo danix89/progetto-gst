@@ -92,7 +92,7 @@
         <!-- Form richiesta tesi -->
 
         <%
-            if (session.getAttribute("stato_tesi").equals("0")) {
+            if (session.getAttribute("stato_tesi")==null) {
 
         %>
 

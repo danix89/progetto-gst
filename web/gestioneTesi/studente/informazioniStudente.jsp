@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="col-sm-5">
-                        <b>Dipartimento </b><p>Dipartimento</p>
+                        <b>Dipartimento </b><p id="dipartimento">Dipartimento</p>
                     </div>
 
                     <div class="col-sm-5">
