@@ -25,6 +25,7 @@
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
+                    async: true,
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
 
