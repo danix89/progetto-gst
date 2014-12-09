@@ -44,6 +44,10 @@
         <servlet-name>RecuperaAccountUtente</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaAccountUtente</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecuperaCronologiaStudente</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaStudente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>RecuperaAccountUtente</servlet-name>
         <url-pattern>/RecuperaAccountUtente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaCronologiaStudente</servlet-name>
+        <url-pattern>/RecuperaCronologiaStudente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

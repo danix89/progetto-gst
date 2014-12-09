@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,8 +76,6 @@ public class ManagerCronologia {
 
             res = aStatement.executeQuery(query);
 
-            logger.info("Numero di righe: " + res.getRow());
-
             int id_cronologia = 0;
             String testo = null, data_notifica = null, id_studente = null, id_docente = null;
 
@@ -95,9 +94,9 @@ public class ManagerCronologia {
         return crono;
     }
 
-    public Cronologia[] elencaEventiStudente(String idStudente) {
-        Cronologia[] cronos = null;
-
+    public ArrayList<Cronologia> elencaEventiStudente(String idStudente) {
+        ArrayList<Cronologia> cronos = new ArrayList<Cronologia>();
+        Cronologia c;
         ResultSet res = null;
 
         try {
@@ -105,26 +104,24 @@ public class ManagerCronologia {
             String query = "SELECT * FROM cronologia WHERE ID_Studente='" + idStudente + "' ";
 
             res = aStatement.executeQuery(query);
-            cronos = new Cronologia[res.getRow()];
-            logger.info("Numero di righe: " + res.getRow());
-
+            
             int id_cronologia = 0;
             String testo = null, data_notifica = null, id_studente = null, id_docente = null;
-            int i = 0;
-
-            do {
+            
+            while (res.next()) {
 
                 id_cronologia = res.getInt("ID");
                 testo = res.getString("Testo");
                 data_notifica = res.getString("Data_Notifica");
                 id_studente = res.getString("ID_Studente");
                 id_docente = res.getString("ID_Docente");
-
-                cronos[i] = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
-                i++;
-            } while (res.next());
+                logger.info("TESTO:" + testo);
+                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+                cronos.add(c);
+            }
 
         } catch (SQLException ex) {
+            logger.info("FALLIMENTO SQL: " + ex.getMessage());
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sono nel catch: " + ex.getErrorCode());
         }
