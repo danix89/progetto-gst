@@ -43,7 +43,7 @@ public class ManagerTesi {
             tesiStatement = db.createStatement();
             // db.setAutoCommit(false);
             String query = "INSERT INTO `tesi`(Descrizione, ID_Studente, Stato_Tesi)"
-                    + "VALUES ('" + tesi.getDescrizione() + "', '"+tesi.getId_studente()+"' , '0')";
+                    + "VALUES ('" + tesi.getDescrizione() + "', '" + tesi.getId_studente() + "' , '0')";
             tesiStatement.execute(query, Statement.RETURN_GENERATED_KEYS);
 
             //db.commit();
@@ -173,7 +173,7 @@ public class ManagerTesi {
         try {
             Statement aStatement = db.createStatement();
             Tesi T;
-
+            
             String queryCercaTesi = "SELECT * FROM relatori_tesi, tesi WHERE relatori_tesi.ID_Tesi=tesi.ID AND relatori_tesi.ID_Docente='" + idRelatore + "'";
 
             ResultSet res;
@@ -209,6 +209,7 @@ public class ManagerTesi {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("la query crasha" + ex.getErrorCode());
         }
 
         return elencoTesi;
