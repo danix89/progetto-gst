@@ -5,6 +5,7 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.manager.ManagerTesi;
 import it.unisa.gestionetesi.manager.ManagerUtente;
@@ -37,12 +38,15 @@ import org.json.JSONObject;
 public class RecuperaTesisti extends HttpServlet {
 
     private ManagerTesi manager_tesi;
+    private ManagerUtente manager_utente;
+    private Person person;
     private ArrayList<Tesi> lista_tesi;
     private int lista_tesi_size = 0;
     private JSONArray jarray;
     private JSONObject tesi_data;
     private String id_stud;
     private String descr;
+    private String[] nome_cognome;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,29 +69,38 @@ public class RecuperaTesisti extends HttpServlet {
         try {
             String id_docente = request.getParameter("id_docente");
             manager_tesi = new ManagerTesi();
+            manager_utente = new ManagerUtente();
+
             lista_tesi = manager_tesi.elencaTesiDocente(id_docente);
 
             jarray = new JSONArray();
 
             lista_tesi_size = lista_tesi.size();
 
+            nome_cognome = new String[lista_tesi_size];
+            
+            System.out.print("lista_tesi_size: "+lista_tesi_size);
+
             for (int i = 0; i < lista_tesi_size; i++) {
+
+                person = new Person();
+                person = manager_utente.selezionaUtente(lista_tesi.get(i).getId_studente(), "studente");
+
+                nome_cognome[i] = person.getName();
+                System.out.print("Nome_cognome di i: "+i+nome_cognome[i]);
 
                 tesi_data = new JSONObject();
 
-                tesi_data.put("id_studente", lista_tesi.get(i).getId_studente());
+                tesi_data.put("size", lista_tesi_size);
+                tesi_data.put("id_studente", nome_cognome[i]);
                 tesi_data.put("descrizione", lista_tesi.get(i).getDescrizione());
 
                 jarray.put(i, tesi_data);
             }
 
             JSONObject mainObj = new JSONObject();
-            mainObj.put("employees", jarray);
+            mainObj.put("mainOb", jarray);
 
-            System.out.println("contenuto jarray: " + mainObj.toString());
-            //tesi_data.put("id_studente", lista_tesi.get(0).getId_studente());
-            //tesi_data.put("descrizione", lista_tesi.get(0).getDescrizione());
-            //jarray.put(tesi_data);
             out.print(mainObj.toString());
 
         } finally {

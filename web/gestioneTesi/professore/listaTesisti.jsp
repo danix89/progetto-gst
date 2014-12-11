@@ -20,31 +20,34 @@
                     data: {id_docente: codice_fiscale},
                     success: function (msg) {
 
-
                         var jarray = $.parseJSON(msg);
-                        var out = jarray.employees[0].id_studente;
-                        var out2 = jarray.employees[0].descrizione;
-                        
-                        var out3 = jarray.employees[1].id_studente;
-                        var out4 = jarray.employees[1].descrizione;
-                        /*
-                         var i;
-                         
-                         var out = "<table border='"+1+"'>";
-                         for (i = 0; i < arr.length; i++) {
-                         out += "<tr><td>" +
-                         arr[i]+
-                         "</td><td>";
-                         }
-                         out += "</table>"
-                         */
+
+                        var jarray_size = jarray.mainOb[0].size;
+
+                        var i = 0;
+                        var temp;
+
+                        for (i = 0; i < jarray_size; i++) {
+                            var row = document.createElement("div");
+                            row.setAttribute("class", "row");
+
+                            var stringa = "<div class=\"col-sm-3\"><b>Nome Studente</b><p id=\"nome_studente\"></p><p id=\"a" + i + "\"></p></div><div class=\"col-sm-7\"><b>Messaggio</b><p id=\"titolo_tesi\"></p><p id=\"b" + i + "\"></p></div><div class=\"col-sm-1 text-right\"><b>Rifiuta</b><button class=\"btn btn-icon btn-red\"><i class=\"fa-remove\"></i></button></div><div class=\"col-sm-1 text-right\"><b>Accetta</b><button class=\"btn btn-icon btn-success\"><i class=\"fa-thumbs-o-up\"></i></button>";
+
+                            row.innerHTML = stringa;
+                            $("#richieste").append(row);
+
+                        }
 
 
-                        $("#a").html(out);
-                        $("#b").html(out2);
-                        $("#c").html(out3);
-                        $("#d").html(out4);
-                        
+                        for (i = 0; i <= jarray_size; i++) {
+                            var out = jarray.mainOb[i].id_studente;
+                            var out2 = jarray.mainOb[i].descrizione;
+
+                            $("#a" + i).html(out);
+                            $("#b" + i).html(out2);
+
+
+                        }
                     }
                 });
             });
@@ -67,56 +70,8 @@
                 </div>
             </div>
 
-            <div class="panel-body">               
-                <div class="row">
-                    <div class="col-sm-3">
-                        <b>Nome Studente</b><p id="nome_studente"></p>
-                        <p id="a"></p>
-                    </div>
+            <div class="panel-body" id="richieste">               
 
-                    <div class="col-sm-7">
-                        <b>Messaggio</b><p id="titolo_tesi"></p>
-                        <p id="b"></p>
-                    </div>
-
-                    <div class="col-sm-1 text-right">
-                        <b>Rifiuta</b>
-                        <button class="btn btn-icon btn-red">
-                            <i class="fa-remove"></i>
-                        </button>
-                    </div>
-                    <div class="col-sm-1 text-right">
-                        <b>Accetta</b>
-                        <button class="btn btn-icon btn-success">
-                            <i class="fa-thumbs-o-up"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                  <div class="row">
-                    <div class="col-sm-3">
-                        <b>Nome Studente</b><p id="nome_studente"></p>
-                        <p id="c"></p>
-                    </div>
-
-                    <div class="col-sm-7">
-                        <b>Messaggio</b><p id="titolo_tesi"></p>
-                        <p id="d"></p>
-                    </div>
-
-                    <div class="col-sm-1 text-right">
-                        <b>Rifiuta</b>
-                        <button class="btn btn-icon btn-red">
-                            <i class="fa-remove"></i>
-                        </button>
-                    </div>
-                    <div class="col-sm-1 text-right">
-                        <b>Accetta</b>
-                        <button class="btn btn-icon btn-success">
-                            <i class="fa-thumbs-o-up"></i>
-                        </button>
-                    </div>
-                </div>
             </div>
 
         </div>
