@@ -50,6 +50,8 @@ public class RecuperaDatiTesi extends HttpServlet {
             manager_tesi = new ManagerTesi();
             Tesi T = manager_tesi.selezionaTesi(id_studente);
             
+            if(T!=null){
+            
             JSONObject dati_tesi = new JSONObject();
             
             dati_tesi.put("data_inizio", T.getData_inizio());
@@ -59,10 +61,11 @@ public class RecuperaDatiTesi extends HttpServlet {
             dati_tesi.put("titolo", T.getTitolo());
             dati_tesi.put("stato_tesi", T.getStato_tesi());
             dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
+            dati_tesi.put("stato_tesi", T.getStato_tesi());
             
             session.setAttribute("stato_tesi", T.getStato_tesi());
 
-            out.print(dati_tesi.toString());
+            out.print(dati_tesi.toString());}
             
 
         } catch (JSONException ex) {

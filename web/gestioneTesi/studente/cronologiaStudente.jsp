@@ -4,13 +4,15 @@
     Author     : Damiano
 --%>
 
+<%@page import="java.util.logging.Logger"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cronologia Studente</title>
-
         <script>
+            alert("apro cronologia");
+            
             var codice_fiscale = '${person.ssn}';
 
             $(document).ready(function () {
@@ -19,13 +21,22 @@
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (cronologiaS) {
-
                         var dati_cronologia = $.parseJSON(cronologiaS);
-                        var testo = dati_cronologia[0].testo;
-                        var ID_Studente = dati_cronologia[0].ID_Studente;
-                        var ID_Docente = dati_cronologia[0].ID_Docente;
-                        var Data_Notifica = dati_cronologia[0].Data_Notifica;
-                        alert(testo);
+                        alert(dati_cronologia.size());
+                        
+                        for (int i = 0; i < dati_cronologia.size(); i++) {
+
+                            var testo = dati_cronologia[i].testo;
+                            var ID_Studente = dati_cronologia[i].ID_Studente;
+                            var ID_Docente = dati_cronologia[i].ID_Docente;
+                            var Data_Notifica = dati_cronologia[i].Data_Notifica;
+                            
+                           
+
+                            $("#testo"+i).html(testo);
+                  //          $("#messaggio_richiesta").html(messaggio_richiesta);
+                         <% System.out.println("cicla"); %>
+}
                     }
                 });
             });
@@ -42,11 +53,11 @@
                 </div>
 
                 <div class="cbp_tmlabel empty">
-                    <span>Iscrizione</span>
+                    <span id="testo0"></span>
                 </div>
             </li>
 
-            <li>
+        <!--    <li>
                 <time class="cbp_tmtime" datetime="2014-10-03T03:45"><span>03:45 AM</span> <span>Today</span></time>
 
                 <div class="cbp_tmicon timeline-bg-info">
@@ -95,7 +106,7 @@
                 <div class="cbp_tmlabel">
                     <h2><a href="#">Il Prof. A De Lucia </a><span>ha confermato la tua tesi</span></h2>
                 </div>
-            </li>
+            </li>   -->
 
         </ul>
 

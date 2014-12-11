@@ -54,19 +54,23 @@ public class RecuperaCronologiaStudente extends HttpServlet {
             ArrayList<Cronologia> listaNotifiche = managerCronologia.elencaEventiStudente(id_studente);
 
             JSONObject dati_cronologia = new JSONObject();
-            JSONArray dst = new JSONArray();
-
-            dati_cronologia.put("ID", listaNotifiche.get(0).getId_cronologia());
-            dati_cronologia.put("testo", listaNotifiche.get(0).getTesto());
-            dati_cronologia.put("ID_Studente", listaNotifiche.get(0).getId_studente());
-            dati_cronologia.put("ID_Docente", listaNotifiche.get(0).getId_docente());
-            dati_cronologia.put("Data_Notifica", listaNotifiche.get(0).getData_notifica());
-            dst.put(0, dati_cronologia);
+            JSONArray array_dati = new JSONArray();
             
-            logger.info("SERVLET PASSA I DATI, testo:" + listaNotifiche.get(0).getTesto());
+            for(int i=0;i<listaNotifiche.size();i++){
+            
+            dati_cronologia.put("ID", listaNotifiche.get(i).getId_cronologia());
+            dati_cronologia.put("testo", listaNotifiche.get(i).getTesto());
+            dati_cronologia.put("ID_Studente", listaNotifiche.get(i).getId_studente());
+            dati_cronologia.put("ID_Docente", listaNotifiche.get(i).getId_docente());
+            dati_cronologia.put("Data_Notifica", listaNotifiche.get(i).getData_notifica());
+            array_dati.put(i, dati_cronologia);
+            
+            }
+            
+            logger.info("SERVLET PASSA I DATI");
 
             //     session.setAttribute("ID_Studente", listaNotifiche[0].getId_studente());
-            out.print(dst.toString());
+            out.print(array_dati.toString());
 
         } catch (JSONException ex) {
             logger.info("FALLIMENTO JSON: " + ex.getMessage());
