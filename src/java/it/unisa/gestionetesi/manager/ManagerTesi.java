@@ -159,16 +159,38 @@ public class ManagerTesi {
     public void accettaTesi(int idTesi) throws SQLException {
 
         Statement aStatement = db.createStatement();
-
-        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` = " + idTesi;
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Descrizione` = '', `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
         ResultSet res = aStatement.executeQuery(accetta);
+
 
     }
 
+       public void accettaCompletamentoTesi(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '3' WHERE `tesi`.`ID` =" + idTesi;
+        ResultSet res = aStatement.executeQuery(accetta);
+
+
+    }
+       
+        public void rifiutaCompletamentoTesi(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
+        ResultSet res = aStatement.executeQuery(accetta);
+
+
+    }
+        
+        
+    
     public ArrayList<Tesi> elencaTesiDocente(String idRelatore) {
+      
         /*
          *   return: elenco tesi associati al prof
-         */
+        */
+        
         ArrayList<Tesi> elencoTesi = new ArrayList<Tesi>();
         try {
             Statement aStatement = db.createStatement();
@@ -224,6 +246,17 @@ public class ManagerTesi {
         ResultSet res = aStatement.executeQuery(queryStatoTesi);
 
         return res.getInt("stato_tesi") == 0;
+
+    }
+    
+    public boolean inAttesaCompletamento(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+
+        String queryStatoTesi = "SELECT stato_tesi FROM tesi WHERE ID='" + idTesi + "'";
+        ResultSet res = aStatement.executeQuery(queryStatoTesi);
+
+        return res.getInt("stato_tesi") == 2;
 
     }
 
