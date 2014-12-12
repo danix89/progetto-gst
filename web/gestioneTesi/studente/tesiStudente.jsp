@@ -20,23 +20,38 @@
 
         <script>
             var codice_fiscale = '${person.ssn}';
-
+            var stato_tesi = null;
             $(document).ready(function () {
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
-
+                       
                         var dati_tesi = $.parseJSON(msg);
+                        if(dati_tesi!==null){
                         var titolo = dati_tesi.titolo;
                         var abstract = dati_tesi.abstract_tesi;
                         var data_inizio = dati_tesi.data_inizio;
                         var data_fine = dati_tesi.data_fine;
                         var data_fine_prevista = dati_tesi.data_fine_prevista;
                         var messaggio_richiesta = dati_tesi.messaggio_richiesta;
-                        var stato_tesi = dati_tesi.stato_tesi;
-                        alert(stato_tesi);
+                        stato_tesi = dati_tesi.stato_tesi;}
+
+                        if (stato_tesi == null) {
+                            $("#richiesta").show();
+                            $("#attesa").hide();
+                            $("#inCorso").hide();
+                        } else if (stato_tesi == 0) {
+                            $("#attesa").show();
+                            $("#richiesta").hide();
+                            $("#inCorso").hide();
+                        } else if (stato_tesi == 1) {
+                            $("#attesa").hide();
+                            $("#richiesta").hide();
+                            $("#inCorso").show();
+                        }
+
 
                         $("#professore_richiesta").html("Professore");
                         $("#messaggio_richiesta").html(messaggio_richiesta);
@@ -94,11 +109,11 @@
         <!-- Form richiesta tesi -->
 
         <%
-            if (session.getAttribute("stato_tesi")==null) {
+           // if (session.getAttribute("stato_tesi")==null) {
 
         %>
 
-        <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
+        <div id="richiesta" class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
             <div class="panel-heading">
                 <h3 class="panel-title">Richiesta Tesi</h3>
             </div>
@@ -168,12 +183,12 @@
         </div>
         <!-- Riepilogo richiesta tesi in attesa-->
 
-        <% } else if (session.getAttribute("stato_tesi").equals("0")) {
+        <%// } else if (session.getAttribute("stato_tesi").equals("0")) {
 
         %>
 
 
-        <div class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
+        <div id="attesa" class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
             <div class="panel-heading">
                 <h3 class="panel-title">Richiesta Tesi in attesa di conferma</h3>
             </div>
@@ -191,14 +206,19 @@
 
         <!-- Tesi in corso-->
 
-        <%             } else if (session.getAttribute("stato_tesi").equals("1")) {
+        <%        //     } else if (session.getAttribute("stato_tesi").equals("1")) {
 
         %>
 
-        <p>Tesi in corso</p>
+        <div id="inCorso">
+            
+             <%@ include file="tesiInCorso.jsp" %>  
+            
+            
+        </div>
 
-        <%                }
-        %>
+        <%              //  }
+%>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>

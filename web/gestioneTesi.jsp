@@ -36,41 +36,7 @@
         <script src="assets/js/jquery-1.11.1.min.js"></script>
 
 
-        <style>
 
-            #main_list li > a:hover {
-                text-decoration: underline;
-            }
-
-            #main_list li > a{
-                background-color: white;
-
-            }
-
-            #main_list li.active > a {
-                background-color: #3F61A3;
-
-            }
-
-        </style>
-
-        <script>
-            function reload_bacheca() {
-                $('#bacheca').load("gestioneTesi/bacheca.jsp");
-            }
-            ;
-
-            function reload_cronologia() {
-                $('#cronologia').load("gestioneTesi/cronologia.jsp");
-            }
-            ;
-
-            function reload_storico() {
-                $('#storico').load("gestioneTesi/storico.jsp");
-            }
-            ;
-
-        </script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -198,44 +164,9 @@
         </nav>
 
         <!--BODY-->
+        
+        <%@ include file="gestioneTesi/menu.jsp" %>
 
-        <div class="page-container">
-            <div class="main-content">
-                <div class="row">
-                    <div  class="col-lg-2">
-                        <ul id="main_list" class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="#bacheca" data-toggle="pill" onclick="reload_bacheca()"><i class="fa-user"></i> Bacheca</a></li>
-                            <li><a href="#cronologia" data-toggle="pill" onclick="reload_cronologia()"><i class="fa-history"></i> Cronologia</a></li>
-                            <li><a href="#storico" data-toggle="pill" onclick="reload_storico()"><i class="fa-search"></i> Storico Tesi</a></li>
-
-                        </ul>
-                    </div>
-
-                    <div id="tab-content"  class="tab-content col-lg-10">
-                        <div class="tab-pane active" id="bacheca">
-
-                            <%@ include file="gestioneTesi/bacheca.jsp" %>
-
-                        </div>
-                        <div class="tab-pane" id="cronologia">
-
-                            <%@ include file="gestioneTesi/cronologia.jsp" %>
-
-                        </div>
-                        <div class="tab-pane" id="storico">
-
-                            <%@ include file="gestioneTesi/storico.jsp" %>
-
-                        </div>
-
-                    </div>
-
-
-
-
-                </div>
-            </div>
-        </div>
 
 
         <!-- Bottom Scripts -->
