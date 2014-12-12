@@ -70,7 +70,6 @@ public class RecuperaTesisti extends HttpServlet {
             String id_docente = request.getParameter("id_docente");
             manager_tesi = new ManagerTesi();
             manager_utente = new ManagerUtente();
-
             lista_tesi = manager_tesi.elencaTesiDocente(id_docente);
 
             jarray = new JSONArray();
@@ -86,14 +85,20 @@ public class RecuperaTesisti extends HttpServlet {
                 person = new Person();
                 person = manager_utente.selezionaUtente(lista_tesi.get(i).getId_studente(), "studente");
 
-                nome_cognome[i] = person.getName();
+                nome_cognome[i] = person.getName()+" "+person.getSurname();
                 System.out.print("Nome_cognome di i: "+i+nome_cognome[i]);
 
                 tesi_data = new JSONObject();
 
                 tesi_data.put("size", lista_tesi_size);
-                tesi_data.put("id_studente", nome_cognome[i]);
+                tesi_data.put("data_inizio", lista_tesi.get(i).getData_inizio());
+                tesi_data.put("data_fine", lista_tesi.get(i).getData_fine());
+                tesi_data.put("data_fine_previstsa", lista_tesi.get(i).getData_fine_prevista());
+                tesi_data.put("titolo", lista_tesi.get(i).getTitolo());
+                tesi_data.put("abstract", lista_tesi.get(i).getAbstract_tesi());
                 tesi_data.put("descrizione", lista_tesi.get(i).getDescrizione());
+                tesi_data.put("id_studente", nome_cognome[i]);
+                tesi_data.put("stato_tesi", lista_tesi.get(i).getStato_tesi());
 
                 jarray.put(i, tesi_data);
             }
