@@ -43,7 +43,7 @@ public class ManagerTesi {
             tesiStatement = db.createStatement();
             // db.setAutoCommit(false);
             String query = "INSERT INTO `tesi`(Descrizione, ID_Studente, Stato_Tesi)"
-                    + "VALUES ('" + tesi.getDescrizione() + "', '"+tesi.getId_studente()+"' , '0')";
+                    + "VALUES ('" + tesi.getDescrizione() + "', '" + tesi.getId_studente() + "' , '0')";
             tesiStatement.execute(query, Statement.RETURN_GENERATED_KEYS);
 
             //db.commit();
@@ -159,21 +159,43 @@ public class ManagerTesi {
     public void accettaTesi(int idTesi) throws SQLException {
 
         Statement aStatement = db.createStatement();
-
-        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` = " + idTesi;
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Descrizione` = '', `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
         ResultSet res = aStatement.executeQuery(accetta);
+
 
     }
 
+       public void accettaCompletamentoTesi(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '3' WHERE `tesi`.`ID` =" + idTesi;
+        ResultSet res = aStatement.executeQuery(accetta);
+
+
+    }
+       
+        public void rifiutaCompletamentoTesi(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
+        ResultSet res = aStatement.executeQuery(accetta);
+
+
+    }
+        
+        
+    
     public ArrayList<Tesi> elencaTesiDocente(String idRelatore) {
+      
         /*
          *   return: elenco tesi associati al prof
-         */
+        */
+        
         ArrayList<Tesi> elencoTesi = new ArrayList<Tesi>();
         try {
             Statement aStatement = db.createStatement();
             Tesi T;
-
+            
             String queryCercaTesi = "SELECT * FROM relatori_tesi, tesi WHERE relatori_tesi.ID_Tesi=tesi.ID AND relatori_tesi.ID_Docente='" + idRelatore + "'";
 
             ResultSet res;
@@ -209,6 +231,7 @@ public class ManagerTesi {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("la query crasha" + ex.getErrorCode());
         }
 
         return elencoTesi;
@@ -223,6 +246,17 @@ public class ManagerTesi {
         ResultSet res = aStatement.executeQuery(queryStatoTesi);
 
         return res.getInt("stato_tesi") == 0;
+
+    }
+    
+    public boolean inAttesaCompletamento(int idTesi) throws SQLException {
+
+        Statement aStatement = db.createStatement();
+
+        String queryStatoTesi = "SELECT stato_tesi FROM tesi WHERE ID='" + idTesi + "'";
+        ResultSet res = aStatement.executeQuery(queryStatoTesi);
+
+        return res.getInt("stato_tesi") == 2;
 
     }
 
