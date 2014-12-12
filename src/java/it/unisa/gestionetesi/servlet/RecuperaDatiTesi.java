@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,29 +45,28 @@ public class RecuperaDatiTesi extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             String id_studente = request.getParameter("id_studente");
-            
 
             // Devo ricevere ID_Studente
             manager_tesi = new ManagerTesi();
             Tesi T = manager_tesi.selezionaTesi(id_studente);
-            
-            if(T!=null){
-            
-            JSONObject dati_tesi = new JSONObject();
-            
-            dati_tesi.put("data_inizio", T.getData_inizio());
-            dati_tesi.put("data_fine", T.getData_fine());
-            dati_tesi.put("data_fine_prevista", T.getData_fine_prevista());
-            dati_tesi.put("messaggio_richiesta", T.getDescrizione());
-            dati_tesi.put("titolo", T.getTitolo());
-            dati_tesi.put("stato_tesi", T.getStato_tesi());
-            dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
-            dati_tesi.put("stato_tesi", T.getStato_tesi());
-            
-            session.setAttribute("stato_tesi", T.getStato_tesi());
+            JSONObject dati_tesi = null;
 
-            out.print(dati_tesi.toString());}
-            
+            if (T != null) {
+
+                dati_tesi = new JSONObject();
+
+                dati_tesi.put("data_inizio", T.getData_inizio());
+                dati_tesi.put("data_fine", T.getData_fine());
+                dati_tesi.put("data_fine_prevista", T.getData_fine_prevista());
+                dati_tesi.put("messaggio_richiesta", T.getDescrizione());
+                dati_tesi.put("titolo", T.getTitolo());
+                dati_tesi.put("stato_tesi", T.getStato_tesi());
+                dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
+                dati_tesi.put("stato_tesi", T.getStato_tesi());
+
+                out.print(dati_tesi.toString());
+
+            }
 
         } catch (JSONException ex) {
             Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
