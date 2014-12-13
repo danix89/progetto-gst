@@ -27,22 +27,24 @@
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
-                       
-                        var dati_tesi = $.parseJSON(msg);
-                        if(dati_tesi!==null){
-                        var titolo = dati_tesi.titolo;
-                        var abstract = dati_tesi.abstract_tesi;
-                        var data_inizio = dati_tesi.data_inizio;
-                        var data_fine = dati_tesi.data_fine;
-                        var data_fine_prevista = dati_tesi.data_fine_prevista;
-                        var messaggio_richiesta = dati_tesi.messaggio_richiesta;
-                        stato_tesi = dati_tesi.stato_tesi;}
 
-                        if (stato_tesi == null) {
+                        var dati_tesi = $.parseJSON(msg);
+                        if (dati_tesi !== null) {
+                            var titolo = dati_tesi.titolo;
+                            var abstract = dati_tesi.abstract_tesi;
+                            var data_inizio = dati_tesi.data_inizio;
+                            var data_fine = dati_tesi.data_fine;
+                            var data_fine_prevista = dati_tesi.data_fine_prevista;
+                            var messaggio_richiesta = dati_tesi.messaggio_richiesta;
+                            stato_tesi = dati_tesi.stato_tesi;
+                        }
+
+                        if (stato_tesi == 0) {
+                            popolaSelectProfessori();
                             $("#richiesta").show();
                             $("#attesa").hide();
                             $("#inCorso").hide();
-                        } else if (stato_tesi == 0) {
+                        } else if (stato_tesi == null) {
                             $("#attesa").show();
                             $("#richiesta").hide();
                             $("#inCorso").hide();
@@ -58,6 +60,26 @@
                     }
                 });
             });
+
+            function popolaSelectProfessori()
+            {
+                //$('#professore').empty();
+                $.ajax({
+                    type: "POST",
+                    url: "PopolaSelectProfessori",
+                    data: {posizione: "professore"},
+                    success: function (data) {
+                        // Parse the returned json data
+                        var professori = $.parseJSON(data);
+
+                        // Use jQuery's each to iterate over the opts value
+                         for (i = 0; i < professori.mainOb.length; i++) {
+                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                            $('#professore').append('<option value="' + professori.mainOb[i].codice_fiscale + '">' + professori.mainOb[i].nome + " " + professori.mainOb[i].cognome +'</option>');
+                         }
+                    }
+                });
+            }
         </script>
 
         <script type="text/javascript">
@@ -150,9 +172,7 @@
 
                         <div class="col-sm-10 ">
                             <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="professore" id="professore">
-                                <option > </option>
-                                <option value="1234567890123456">De Lucia</option>
-                                <option value="2">Ferrucci</option>
+                                <option > </option>   
                             </select>
                         </div>
                     </div>
@@ -211,14 +231,14 @@
         %>
 
         <div id="inCorso">
-            
-             <%@ include file="tesiInCorso.jsp" %>  
-            
-            
+
+            <%@ include file="tesiInCorso.jsp" %>  
+
+
         </div>
 
         <%              //  }
-%>
+        %>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>
