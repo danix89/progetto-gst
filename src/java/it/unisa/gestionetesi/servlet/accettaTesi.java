@@ -5,8 +5,13 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.Tesi;
+import it.unisa.gestionetesi.manager.ManagerTesi;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +23,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class accettaTesi extends HttpServlet {
 
+    private ManagerTesi manager_tesi;
+    private Tesi T = null;
+    private int id_tesi;
+    private int stato_tesi;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -28,20 +38,45 @@ public class accettaTesi extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet accettaTesi</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet accettaTesi at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            String accetta_tesi = request.getParameter("accetta");
+            String rifiuta_tesi = request.getParameter("rifiuta");
+
+            manager_tesi = new ManagerTesi();
+
+            if (accetta_tesi != null) {
+
+                id_tesi = Integer.parseInt(accetta_tesi);
+                T = manager_tesi.recuperaTesi(id_tesi);
+                stato_tesi = Integer.parseInt(T.getStato_tesi());
+
+                if (stato_tesi == 0) {
+                    manager_tesi.accettaTesi(id_tesi);
+                }
+
+                if (stato_tesi == 2) {
+                    manager_tesi.accettaCompletamentoTesi(id_tesi);
+                }
+            }
+
+            if (rifiuta_tesi != null) {
+                manager_tesi = new ManagerTesi();
+                id_tesi = Integer.parseInt(rifiuta_tesi);
+                T = manager_tesi.recuperaTesi(id_tesi);
+
+                if (T.getStato_tesi() == "0") {
+                    manager_tesi.accettaTesi(id_tesi);
+                }
+                if (T.getStato_tesi() == "2") {
+                    manager_tesi.accettaCompletamentoTesi(id_tesi);
+                }
+            }
+            
+            response.sendRedirect("gestioneTesi.jsp");
+
         } finally {
             out.close();
         }
@@ -59,7 +94,17 @@ public class accettaTesi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -73,7 +118,17 @@ public class accettaTesi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(accettaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

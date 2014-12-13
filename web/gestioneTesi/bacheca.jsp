@@ -40,9 +40,7 @@
             }
    
         %>
-       
 
-        <a href="./Test">Test Servlet!</a>
 
     </body>
 </html>
