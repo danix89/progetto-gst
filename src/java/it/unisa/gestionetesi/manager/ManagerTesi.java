@@ -177,7 +177,7 @@ public class ManagerTesi {
             Statement aStatement = db.createStatement();
             String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '3' WHERE `tesi`.`ID` =" + idTesi;
             aStatement.executeUpdate(accetta);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sei nel catch" + ex.getErrorCode());
@@ -187,9 +187,16 @@ public class ManagerTesi {
 
     public void rifiutaCompletamentoTesi(int idTesi) throws SQLException {
 
-        Statement aStatement = db.createStatement();
-        String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
-        ResultSet res = aStatement.executeQuery(accetta);
+        try {
+            Statement aStatement = db.createStatement();
+            String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
+            aStatement.executeUpdate(accetta);
+            logger.info("sei nel try di rifiuta completamento tesi");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("sei nel catch di rifiuta completamento tesi" + ex.getErrorCode());
+        }
 
     }
 
@@ -320,10 +327,16 @@ public class ManagerTesi {
 
     public void rifiutaTesi(int idTesi) throws SQLException {
 
-        Statement aStatement = db.createStatement();
+        try {
+            Statement aStatement = db.createStatement();
 
-        String rifiuta = "DELETE FROM tesi WHERE ID=" + idTesi;
-        ResultSet res = aStatement.executeQuery(rifiuta);
+            String rifiuta = "DELETE FROM tesi WHERE ID=" + idTesi;
+            aStatement.executeUpdate(rifiuta);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("sei nel catch" + ex.getErrorCode());
+        }
 
     }
 
