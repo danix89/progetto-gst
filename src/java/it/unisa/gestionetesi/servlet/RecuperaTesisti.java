@@ -5,24 +5,16 @@
  */
 package it.unisa.gestionetesi.servlet;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.manager.ManagerTesi;
 import it.unisa.gestionetesi.manager.ManagerUtente;
 import it.unisa.model.Person;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.json.JsonArray;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -72,25 +64,27 @@ public class RecuperaTesisti extends HttpServlet {
             manager_utente = new ManagerUtente();
             lista_tesi = manager_tesi.elencaTesiDocente(id_docente);
 
-            jarray = new JSONArray();
+            jarray = new JSONArray();   //JSON ARRAY
 
             lista_tesi_size = lista_tesi.size();
 
-            nome_cognome = new String[lista_tesi_size];
-            
-            System.out.print("lista_tesi_size: "+lista_tesi_size);
+            nome_cognome = new String[lista_tesi_size]; //Array di Stringhe contenenti i nomi degli studenti
+
+            System.out.print("lista_tesi_size: " + lista_tesi_size);
 
             for (int i = 0; i < lista_tesi_size; i++) {
 
                 person = new Person();
                 person = manager_utente.selezionaUtente(lista_tesi.get(i).getId_studente(), "studente");
 
-                nome_cognome[i] = person.getName()+" "+person.getSurname();
-                System.out.print("Nome_cognome di i: "+i+nome_cognome[i]);
+                
+                nome_cognome[i] = person.getName() + " " + person.getSurname();
+               // System.out.print("Nome_cognome di i: " + i + nome_cognome[i]);
 
                 tesi_data = new JSONObject();
 
                 tesi_data.put("size", lista_tesi_size);
+                tesi_data.put("id_tesi", lista_tesi.get(i).getId_tesi());
                 tesi_data.put("data_inizio", lista_tesi.get(i).getData_inizio());
                 tesi_data.put("data_fine", lista_tesi.get(i).getData_fine());
                 tesi_data.put("data_fine_previstsa", lista_tesi.get(i).getData_fine_prevista());
@@ -103,6 +97,7 @@ public class RecuperaTesisti extends HttpServlet {
                 jarray.put(i, tesi_data);
             }
 
+            //L'oggetto mainObj passa un JSON ARRAY di JSONObject alla JSP
             JSONObject mainObj = new JSONObject();
             mainObj.put("mainOb", jarray);
 
