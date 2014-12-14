@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,27 +79,70 @@ public class ManagerUtente {
 
         try {
             Statement aStatement = db.createStatement();
-            String query = "SELECT * FROM account WHERE email='"+email+"'";
-            
+            String query = "SELECT * FROM account WHERE email='" + email + "'";
+
             rs = aStatement.executeQuery(query);
 
             logger.info("Numero di righe ACCOUNT: " + rs.getRow());
-            
+
             while (rs.next()) {
                 account.setTyperOfAccount(rs.getString("typeOfAccount"));
                 account.setEmail(rs.getString("email"));
                 account.setActive(rs.getBoolean("active"));
-             
+
             }
-        
-            
-             } catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sono nel carch" + ex.getErrorCode());
         }
-        
+
         return account;
 
-        }
-
     }
+
+    public ArrayList<Person> listaUtenti(String posizione) {
+        
+        Person persona= new Person();
+        ResultSet rs = null;
+        ArrayList<Person> listaUtenti=null;
+        try {
+            
+            listaUtenti = new ArrayList<Person>();
+            
+            Statement aStatement = db.createStatement();
+            String query = "SELECT * FROM person,account WHERE account.email=person.Account_email AND account.typeOfAccount='" + posizione + "'";
+            
+            rs = aStatement.executeQuery(query);
+            
+            while(rs.next()){
+                persona.setSsn(rs.getString("SSN"));
+                persona.setAddress(rs.getString("address"));
+                persona.setCitizenship(rs.getString("citizenship"));
+                persona.setCity(rs.getString("city"));
+                persona.setCycle(rs.getInt("cycle"));
+                persona.setGender(rs.getString("gender"));
+                persona.setMatricula(rs.getString("matricula"));
+                persona.setName(rs.getString("name"));
+                persona.setPhone(rs.getString("phone"));
+                persona.setPosition(rs.getString("position"));
+                persona.setSurname(rs.getString("surname"));
+                persona.setUniversity(rs.getString("university"));
+                persona.setWebPage(rs.getString("web_page"));
+                persona.setZipCode(rs.getString("zip_code"));
+                persona.setDepartmentAbbreviation(rs.getString("Department_abbreviation"));
+                
+                listaUtenti.add(persona);
+   
+            }
+
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerUtente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                    
+            return listaUtenti;
+    }
+
+}
