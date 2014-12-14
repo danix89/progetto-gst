@@ -56,6 +56,10 @@
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectProfessori</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecuperaCronologiaDocente</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaDocente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <url-pattern>/PopolaSelectProfessori</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaCronologiaDocente</servlet-name>
+        <url-pattern>/RecuperaCronologiaDocente</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
