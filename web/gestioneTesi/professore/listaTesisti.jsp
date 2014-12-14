@@ -31,6 +31,7 @@
                         var count = 0;
                         var elenco_richieste = 1;
 
+                        //costruzione delle richieste e della lista
                         for (i = 0; i < jarray_size; i++) {
 
                             var id_tesi = jarray.mainOb[i].id_tesi;
@@ -147,6 +148,22 @@
             });
         </script>
 
+        <script language="Javascript" type="text/javascript">
+
+            function apri_accetta_tesi()
+            {
+        
+                var w = 750;
+                var h = 550;
+                var l = Math.floor((screen.width - w) / 2);
+                var t = Math.floor((screen.height - h) / 2);
+
+                weblink = window.open("gestioneTesi/professore/accettaTesi.jsp", "Accetta Tesi", "width=" + w + ",height=" + h + ",left=" + l + ",top=" + t + "");
+            }
+
+        </script>
+
+
 
     </head>
     <body>
@@ -234,11 +251,7 @@
             </div>
         </div>
 
-
-
-
-
-
+        <button onclick="apri_accetta_tesi()">PROVA</button>
 
         <!-- Bottom Scripts -->
         <script src="assets/js/bootstrap.min.js"></script>
