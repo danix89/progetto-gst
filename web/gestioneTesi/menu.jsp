@@ -31,17 +31,17 @@
 
         <script>
             function reload_bacheca() {
-                $('#bacheca').load("bacheca.jsp");
+                $('#bacheca').load("gestioneTesi/bacheca.jsp");
             }
             ;
 
             function reload_cronologia() {
-                $('#cronologia').load("cronologia.jsp");
+                $('#cronologia').load("gestioneTesi/cronologia.jsp");
             }
             ;
 
             function reload_storico() {
-                $('#storico').load("storico.jsp");
+                $('#storico').load("gestioneTesi/storico.jsp");
             }
             ;
 

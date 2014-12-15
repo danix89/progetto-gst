@@ -56,6 +56,14 @@
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectProfessori</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PopolaSelectDipartimenti</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectDipartimenti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PopolaSelectCorsoLaurea</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectCorsoLaurea</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -111,6 +119,14 @@
     <servlet-mapping>
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <url-pattern>/PopolaSelectProfessori</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PopolaSelectDipartimenti</servlet-name>
+        <url-pattern>/PopolaSelectDipartimenti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PopolaSelectCorsoLaurea</servlet-name>
+        <url-pattern>/PopolaSelectCorsoLaurea</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

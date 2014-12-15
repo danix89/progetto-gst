@@ -5,6 +5,8 @@
  */
 package it.unisa.gestionetesi.manager;
 
+import it.unisa.gestionetesi.beans.CorsoLaurea;
+import it.unisa.gestionetesi.beans.Dipartimento;
 import it.unisa.gestionetesi.db.ConnectionDB;
 import it.unisa.model.Account;
 import it.unisa.model.Person;
@@ -101,9 +103,9 @@ public class ManagerUtente {
 
     }
 
-    public ArrayList<Person> listaUtenti(String posizione) {
+    public ArrayList<Person> listaUtentiPerDipartimento(String posizione, String abbr_dipartimento) {
         
-        Person persona= new Person();
+        Person persona;
         ResultSet rs = null;
         ArrayList<Person> listaUtenti=null;
         try {
@@ -111,11 +113,12 @@ public class ManagerUtente {
             listaUtenti = new ArrayList<Person>();
             
             Statement aStatement = db.createStatement();
-            String query = "SELECT * FROM person,account WHERE account.email=person.Account_email AND account.typeOfAccount='" + posizione + "'";
+            String query = "SELECT * FROM person,account WHERE account.email=person.Account_email AND account.typeOfAccount='" + posizione + "' AND person.Department_abbreviation='"+abbr_dipartimento+"'";
             
             rs = aStatement.executeQuery(query);
             
             while(rs.next()){
+                persona= new Person();
                 persona.setSsn(rs.getString("SSN"));
                 persona.setAddress(rs.getString("address"));
                 persona.setCitizenship(rs.getString("citizenship"));
@@ -143,6 +146,77 @@ public class ManagerUtente {
         
                     
             return listaUtenti;
+    }
+    
+    
+     public ArrayList<Dipartimento> listaDipartimenti() {
+        
+        Dipartimento dipartimento;
+        ResultSet rs = null;
+        ArrayList<Dipartimento> listaDipartimenti=null;
+        try {
+            
+            listaDipartimenti = new ArrayList<Dipartimento>();
+            
+            Statement aStatement = db.createStatement();
+            String query = "SELECT * FROM department";
+            
+            rs = aStatement.executeQuery(query);
+            
+            while(rs.next()){
+                dipartimento= new Dipartimento();
+                dipartimento.setAbbreviazione(rs.getString("abbreviation"));
+                dipartimento.setTitolo(rs.getString("title"));
+                dipartimento.setMoodle(rs.getString("url_moodle"));
+                dipartimento.setToken(rs.getString("token"));
+ 
+                listaDipartimenti.add(dipartimento);
+   
+            }
+
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerUtente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                    
+            return listaDipartimenti;
+    }
+     
+     public ArrayList<CorsoLaurea> listaCorsiLaureaPerDipartimento(String abbr_dipartimento) {
+        
+        CorsoLaurea corso;
+        ResultSet rs = null;
+        ArrayList<CorsoLaurea> listaCorsiLaurea=null;
+        try {
+            
+            listaCorsiLaurea = new ArrayList<CorsoLaurea>();
+            
+            Statement aStatement = db.createStatement();
+            String query = "SELECT * FROM degree WHERE department_abbreviation='"+abbr_dipartimento+"'";
+            
+            rs = aStatement.executeQuery(query);
+            
+            while(rs.next()){
+                corso= new CorsoLaurea();
+                corso.setMatricola(rs.getString("matricula"));
+                corso.setAbbr_dipartimento(rs.getString("department_abbreviation"));
+                corso.setLink(rs.getString("link"));
+                corso.setTitolo(rs.getString("title"));
+                corso.setCiclo(rs.getInt("cycle_number"));
+                corso.setAttivo(rs.getInt("active"));
+ 
+                listaCorsiLaurea.add(corso);
+   
+            }
+
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerUtente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+                    
+            return listaCorsiLaurea;
     }
 
 }

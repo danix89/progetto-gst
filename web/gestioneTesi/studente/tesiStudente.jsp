@@ -39,12 +39,12 @@
                             stato_tesi = dati_tesi.stato_tesi;
                         }
 
-                        if (stato_tesi == 0) {
-                            popolaSelectProfessori();
+                        if (stato_tesi == null) {
+                            popolaSelectDipartimenti();
                             $("#richiesta").show();
                             $("#attesa").hide();
                             $("#inCorso").hide();
-                        } else if (stato_tesi == null) {
+                        } else if (stato_tesi == 0) {
                             $("#attesa").show();
                             $("#richiesta").hide();
                             $("#inCorso").hide();
@@ -60,14 +60,60 @@
                     }
                 });
             });
-
-            function popolaSelectProfessori()
+            
+            function popolaSelectDipartimenti()
             {
-                //$('#professore').empty();
+                
+                $.ajax({
+                    type: "POST",
+                    url: "PopolaSelectDipartimenti",
+                    success: function (data) {
+                        // Parse the returned json data
+                        var dipartimenti = $.parseJSON(data);
+
+                        // Use jQuery's each to iterate over the opts value
+                         for (i = 0; i < dipartimenti.mainOb.length; i++) {
+                             
+                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                            $('#dipartimenti').append('<option value="' + dipartimenti.mainOb[i].abbreviazione + '">' + dipartimenti.mainOb[i].titolo +'</option>');
+                         }
+                         
+                         
+                    }
+                });
+            }
+            
+            
+            function popolaSelectCorsoLaurea(dipartimento)
+            {
+                $('#corso_laurea').empty();
+                $.ajax({
+                    type: "POST",
+                    url: "PopolaSelectCorsoLaurea",
+                    data: {abbr_dipartimento: dipartimento.value},
+                    success: function (data) {
+                        // Parse the returned json data
+                        var corso_laurea = $.parseJSON(data);
+
+                        // Use jQuery's each to iterate over the opts value
+                         for (i = 0; i < corso_laurea.mainOb.length; i++) {
+                             
+                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                            $('#corso_laurea').append('<option value="' + corso_laurea.mainOb[i].matricola + '">' + corso_laurea.mainOb[i].titolo +'</option>');
+                         }
+                         
+                         
+                    }
+                });
+            }
+
+            function popolaSelectProfessori(dipartimento)
+            {
+                $('#professore').empty();
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectProfessori",
-                    data: {posizione: "professore"},
+                    data: {posizione: "professore", abbr_dipartimento: dipartimento.value},
                     success: function (data) {
                         // Parse the returned json data
                         var professori = $.parseJSON(data);
@@ -115,7 +161,7 @@
             {
                 $("#professore").select2({
                     placeholder: 'Seleziona il professore...',
-                    allowClear: true
+                    allowClear: true,
                 }).on('select2-open', function ()
                 {
                     // Adding Custom Scrollbar
@@ -149,9 +195,8 @@
                         <label class="col-sm-2 control-label text-primary" for="dipartimenti">Dipartimenti</label>
 
                         <div class="col-sm-10">
-                            <select data-validate="required" data-message-required="Fai una scelta" class="form-control" name="dipartimenti" id="dipartimenti">
-                                <option></option>
-                                <option value="distra">DISTRA</option>
+                            <select onchange="popolaSelectCorsoLaurea(this);"  data-validate="required" data-message-required="Fai una scelta" class="form-control" name="dipartimenti" id="dipartimenti">
+                                <option > </option> 
                             </select>
                         </div>
                     </div>
@@ -160,9 +205,8 @@
                         <label class="col-sm-2 control-label text-primary" for="corso_laurea">Corsi di laurea</label>
 
                         <div class="col-sm-10">
-                            <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="corso_laurea" id="corso_laurea">
-                                <option></option>
-                                <option value="mit">Tecnologie Informatiche e Management</option>
+                            <select onchange="popolaSelectProfessori(this);" data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="corso_laurea" id="corso_laurea">
+                           <option > </option> 
                             </select>
                         </div>
                     </div>

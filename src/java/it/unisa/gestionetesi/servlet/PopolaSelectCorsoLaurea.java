@@ -5,8 +5,8 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.CorsoLaurea;
 import it.unisa.gestionetesi.manager.ManagerUtente;
-import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,9 +25,10 @@ import org.json.JSONObject;
  *
  * @author CosimoAlessandro
  */
-public class PopolaSelectProfessori extends HttpServlet {
+public class PopolaSelectCorsoLaurea extends HttpServlet {
     private ManagerUtente managerUtente;
-    private ArrayList<Person> listaUtenti= null;
+    private ArrayList<CorsoLaurea> listaCorsiLaurea= null;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,41 +43,40 @@ public class PopolaSelectProfessori extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            managerUtente = new ManagerUtente();
-            JSONArray jarrayProfessori = new JSONArray();
+            /* TODO output your page here. You may use following sample code. */
             
-            String posizione = request.getParameter("posizione");
+            managerUtente = new ManagerUtente();
+            JSONArray jarrayCorsiLaurea= new JSONArray();
+
             String abbr_dipartimento = request.getParameter("abbr_dipartimento");
             
-            listaUtenti= managerUtente.listaUtentiPerDipartimento(posizione, abbr_dipartimento);
+            listaCorsiLaurea= managerUtente.listaCorsiLaureaPerDipartimento(abbr_dipartimento);
             
-            for (int i = 0; i < listaUtenti.size(); i++) {
-                JSONObject utente= new JSONObject();
+            for (int i = 0; i < listaCorsiLaurea.size(); i++) {
+            JSONObject corso= new JSONObject();
             
-            utente.put("codice_fiscale", listaUtenti.get(i).getSsn());
-            utente.put("nome", listaUtenti.get(i).getName());
-            utente.put("cognome", listaUtenti.get(i).getSurname());
+            corso.put("matricola", listaCorsiLaurea.get(i).getMatricola());
+            corso.put("titolo", listaCorsiLaurea.get(i).getTitolo());
             
-            jarrayProfessori.put(i,utente);
+            jarrayCorsiLaurea.put(i,corso);
   
             }
             
             JSONObject mainObj = new JSONObject();
-            mainObj.put("mainOb", jarrayProfessori);
+            mainObj.put("mainOb", jarrayCorsiLaurea);
 
             out.print(mainObj.toString());
-
             
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PopolaSelectProfessori.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PopolaSelectProfessori.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(PopolaSelectProfessori.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(PopolaSelectProfessori.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            Logger.getLogger(PopolaSelectProfessori.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
         }
