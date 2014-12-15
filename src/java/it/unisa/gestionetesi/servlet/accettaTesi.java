@@ -63,18 +63,18 @@ public class accettaTesi extends HttpServlet {
             }
 
             if (rifiuta_tesi != null) {
-                manager_tesi = new ManagerTesi();
                 id_tesi = Integer.parseInt(rifiuta_tesi);
                 T = manager_tesi.recuperaTesi(id_tesi);
+                stato_tesi = Integer.parseInt(T.getStato_tesi());
 
-                if (T.getStato_tesi() == "0") {
-                    manager_tesi.accettaTesi(id_tesi);
+                if (stato_tesi == 0) {
+                    manager_tesi.rifiutaTesi(id_tesi);
                 }
-                if (T.getStato_tesi() == "2") {
-                    manager_tesi.accettaCompletamentoTesi(id_tesi);
+                if (stato_tesi == 2) {
+                    manager_tesi.rifiutaCompletamentoTesi(id_tesi);
                 }
             }
-            
+
             response.sendRedirect("gestioneTesi.jsp");
 
         } finally {

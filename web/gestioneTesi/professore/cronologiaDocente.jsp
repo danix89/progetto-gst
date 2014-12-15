@@ -9,17 +9,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Cronologia Studente</title>
+        <title>Cronologia Docente</title>
         <script>
             var codice_fiscale = '${person.ssn}';
             var n;
+            alert(codice_fiscale);
             $(document).ready(function () {
                 $.ajax({
-                    url: 'RecuperaCronologiaStudente',
+                    url: 'RecuperaCronologiaDocente',
                     type: 'POST',
-                    data: {id_studente: codice_fiscale},
-                    success: function (cronologiaS) {
-                        var array_cronologia = $.parseJSON(cronologiaS);
+                    data: {id_docente: codice_fiscale},
+                    success: function (cronologiaD) {
+                        var array_cronologia = $.parseJSON(cronologiaD);
                         n = array_cronologia.employees[0].size;
 
                         for (var i = n - 1; i >= 0; i--) {
@@ -28,17 +29,16 @@
                             temp.innerHTML = str;
                             $("#principale").append(temp);
 
-
                         }
 
                         for (var i = n - 1; i >= 0; i--) {
-                            var nomeDocente = array_cronologia.employees[i].nomeDocente;
+                            var nomeStudente = array_cronologia.employees[i].nomeStudente;
                             var testo = array_cronologia.employees[i].testo;
                             var ID_Studente = array_cronologia.employees[i].ID_Studente;
                             var ID_Docente = array_cronologia.employees[i].ID_Docente;
                             var Data_Notifica = array_cronologia.employees[i].Data_Notifica;
 
-                            $("#testo" + i).html("Con il prof. " + nomeDocente + " :" + testo);
+                            $("#testo" + i).html("Con lo studente " + nomeStudente + ": " + testo);
                             $("#data" + i).html(Data_Notifica);
 
                         }
@@ -52,9 +52,9 @@
         <ul class="cbp_tmtimeline" id="principale">
 
 
-           
 
         </ul>
 
     </body>
 </html>
+

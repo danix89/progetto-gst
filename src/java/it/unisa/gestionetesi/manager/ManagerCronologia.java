@@ -129,4 +129,39 @@ public class ManagerCronologia {
         return cronos;
     }
 
+    
+     public ArrayList<Cronologia> elencaEventiDocente (String idDocente) throws SQLException {
+        ArrayList<Cronologia> cronos = new ArrayList<Cronologia>();
+        Cronologia c;
+        ResultSet res = null;
+      
+        try {
+            Statement aStatement = db.createStatement();
+            String query = "SELECT * FROM cronologia WHERE ID_Docente='" + idDocente + "' ";
+
+            res = aStatement.executeQuery(query);
+            logger.info("indirizzo risposta:"+ res);
+            int id_cronologia = 0;
+            String testo = null, data_notifica = null, id_studente = null, id_docente = null;
+            
+            while (res.next()) {
+
+                id_cronologia = res.getInt("ID");
+                testo = res.getString("Testo");
+                data_notifica = res.getString("Data_Notifica");
+                id_studente = res.getString("ID_Studente");
+                id_docente = res.getString("ID_Docente");
+                logger.info("TESTO:" + testo);
+                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+                cronos.add(c);
+            }
+
+        } catch (SQLException ex) {
+            logger.info("FALLIMENTO SQL: " + ex.getMessage());
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("sono nel catch: " + ex.getErrorCode());
+        }
+
+        return cronos;
+    }
 }

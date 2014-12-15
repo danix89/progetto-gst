@@ -29,7 +29,9 @@
                         var jarray_size = jarray.mainOb[0].size;
                         var i = 0;
                         var count = 0;
+                        var elenco_richieste = 1;
 
+                        //costruzione delle richieste e della lista
                         for (i = 0; i < jarray_size; i++) {
 
                             var id_tesi = jarray.mainOb[i].id_tesi;
@@ -48,7 +50,7 @@
 
                                 var row_richieste = document.createElement("tr");
                                 //row.setAttribute("class", "row");
-                                var corpo_richieste = "<td>" + (i + 1) + "</td>" +
+                                var corpo_richieste = "<td>" + elenco_richieste + "</td>" +
                                         "<td id=\"richiesta_tipo" + i + "\"></td>" +
                                         "<td id=\"richiesta_nome" + i + "\"></td>" +
                                         "<td id=\"richiesta_messaggio" + i + "\"></td>" +
@@ -70,6 +72,8 @@
 
                                 $("#richiesta_nome" + i).html(b);
                                 $("#richiesta_messaggio" + i).html(c);
+
+                                elenco_richieste++;
                             }
 
                             //mostra l'elenco dei tesisti con tesi allo stato '1' '2' 
@@ -92,8 +96,10 @@
                                 $("#lista_argomento" + i).html("");
                                 $("#lista_data_inizio" + i).html(d);
                                 $("#lista_data_fine" + i).html(e);
+
+
                             }
-                            
+
                             //mostra l'elenco dei tesisti con tesi allo stato '3'
                             if (a == 3) {
                                 var row_lista_tesi = document.createElement("tr");
@@ -115,6 +121,8 @@
                                 $("#lista_data_inizio" + i).html(d);
                                 $("#lista_data_fine" + i).html(e);
                             }
+
+
                         }
 
                         //questo if deve far scomparire il panel richieste se non ci sono tesi allo stato '0' e '2'
@@ -139,6 +147,22 @@
                 });
             });
         </script>
+
+        <script language="Javascript" type="text/javascript">
+
+            function apri_accetta_tesi()
+            {
+        
+                var w = 750;
+                var h = 550;
+                var l = Math.floor((screen.width - w) / 2);
+                var t = Math.floor((screen.height - h) / 2);
+
+                weblink = window.open("gestioneTesi/professore/accettaTesi.jsp", "Accetta Tesi", "width=" + w + ",height=" + h + ",left=" + l + ",top=" + t + "");
+            }
+
+        </script>
+
 
 
     </head>
@@ -227,11 +251,7 @@
             </div>
         </div>
 
-
-
-
-
-
+        <button onclick="apri_accetta_tesi()">PROVA</button>
 
         <!-- Bottom Scripts -->
         <script src="assets/js/bootstrap.min.js"></script>
