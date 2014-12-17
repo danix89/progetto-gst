@@ -112,7 +112,7 @@ public class DegreeManager {
                 ex.printStackTrace();
                 throw new RuntimeException("Read Query failed!");
             } finally {
-                DBConnection.releaseConnection(conn);
+//                DBConnection.releaseConnection(conn);
             }
         }
         return null;

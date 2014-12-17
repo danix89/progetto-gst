@@ -24,14 +24,13 @@
                         var data_user = $.parseJSON(msg);
                         var nome = data_user.nome;
                         var cognome = data_user.cognome;
-                        var matricola = data_user.matricola;
-                        var ciclo = data_user.ciclo;
+                        var dipartimento = data_user.dipartimento;
                         var università = data_user.università;
 
 
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);
-                       // $("#dipartimento").html(dipartimento);
+                        $("#dipartimento").html(dipartimento);
 
                     }
                 });
@@ -62,10 +61,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <b>Dipartimento</b><p id="dipartimento"></p>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <b>Cordi di Laurea</b><p id="corso_laurea"></p>
                     </div>
 
                 </div>

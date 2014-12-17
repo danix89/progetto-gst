@@ -6,6 +6,10 @@
 package it.unisa.gestionetesi.servlet;
 
 import it.unisa.gestionetesi.manager.ManagerUtente;
+import it.unisa.integrazione.database.DegreeManager;
+import it.unisa.integrazione.database.DepartmentManager;
+import it.unisa.integrazione.database.exception.ConnectionException;
+import it.unisa.model.Degree;
 import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +29,8 @@ import org.json.JSONObject;
  * @author CosimoAlessandro
  */
 public class RecuperaDatiUtente extends HttpServlet {
-
+    private final DegreeManager managerDegree= DegreeManager.getInstance();
+    private final DepartmentManager managerDepartment= DepartmentManager.getInstance();
     ManagerUtente manager_utente;
 
     /**
@@ -44,13 +49,14 @@ public class RecuperaDatiUtente extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
 
-            String email = request.getParameter("ssn");
+            String ssn = request.getParameter("ssn");
             String tipo = request.getParameter("tipo");
 
             Person p = new Person();
             manager_utente = new ManagerUtente();
-            p = manager_utente.selezionaUtente(email, tipo);
-
+            p = manager_utente.selezionaUtente(ssn, tipo);
+            String titolo_corso_laurea= managerDegree.readDegree(p.getDegree().getMatricula()).getTitle();
+            String titolo_dipartimento= managerDepartment.getDepartmentByAbbreviation(p.getDepartment().getAbbrevation()).getTitle();
             
             JSONObject user_data = new JSONObject();
 
@@ -58,6 +64,8 @@ public class RecuperaDatiUtente extends HttpServlet {
             user_data.put("cognome", p.getSurname());
             user_data.put("matricola", p.getMatricula());
             user_data.put("università", p.getUniversity());
+            user_data.put("corso_laurea", titolo_corso_laurea);
+            user_data.put("dipartimento", titolo_dipartimento);
             
             out.print(user_data.toString());
 
@@ -70,6 +78,8 @@ public class RecuperaDatiUtente extends HttpServlet {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
+            Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException ex) {
             Logger.getLogger(RecuperaDatiUtente.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();

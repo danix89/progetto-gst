@@ -39,7 +39,7 @@ public class Degree {
     
     private boolean active;
 
-
+    public Degree(){}
 
     /**
      * Constructor

@@ -26,12 +26,14 @@
                         var cognome = data_user.cognome;
                         var matricola = data_user.matricola;
                         var università = data_user.università;
+                        var corso_laurea = data_user.corso_laurea;
+                        var dipartimento = data_user.dipartimento;
 
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);
                         $("#matricola").html(matricola);
-                        //  $("#ciclo").html(ciclo);
-                        // $("#dipartimento").html(dipartimento);
+                        $("#corso_laurea").html(corso_laurea);
+                        $("#dipartimento").html(dipartimento);
 
                     }
                 });
@@ -73,16 +75,13 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-sm-2">
-                        <b>Ciclo </b><p id="ciclo"></p>
-                    </div>
 
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <b>Dipartimento </b><p id="dipartimento">Dipartimento</p>
                     </div>
 
-                    <div class="col-sm-5">
-                        <b>Corso di laurea: </b><p>Corso di laurea</p>
+                    <div class="col-sm-6">
+                        <b>Corso di laurea: </b><p id="corso_laurea">Corso di laurea</p>
                     </div>
 
                 </div>

@@ -8,6 +8,8 @@ package it.unisa.gestionetesi.manager;
 
 import it.unisa.gestionetesi.db.ConnectionDB;
 import it.unisa.model.Account;
+import it.unisa.model.Degree;
+import it.unisa.model.Department;
 import it.unisa.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
@@ -36,6 +38,8 @@ public class ManagerUtente {
 
     public Person selezionaUtente(String ssn, String tipo) {
         Person persona = new Person();
+        Department dipartimento = new Department();
+        Degree corso_laurea= new Degree();
 
         ResultSet rs = null;
 
@@ -48,6 +52,8 @@ public class ManagerUtente {
             logger.info("Numero di righe PERSONA: " + rs.getRow());
 
             while (rs.next()) {
+                dipartimento.setAbbrevation(rs.getString("Department_abbreviation"));
+                corso_laurea.setMatricula(rs.getString("Degree_matricula"));
                 persona.setSsn(rs.getString("SSN"));
                 persona.setAddress(rs.getString("address"));
                 persona.setCitizenship(rs.getString("citizenship"));
@@ -61,6 +67,8 @@ public class ManagerUtente {
                 persona.setUniversity(rs.getString("university"));
                 persona.setWebPage(rs.getString("web_page"));
                 persona.setZipCode(rs.getString("zip_code"));
+                persona.setDepartment(dipartimento);
+                persona.setDegree(corso_laurea);
                 
 
             }
