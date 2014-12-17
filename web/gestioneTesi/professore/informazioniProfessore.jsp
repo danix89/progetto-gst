@@ -30,7 +30,7 @@
 
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);
-                        $("#dipartimento").html(dipartimento);
+                        $("#dip").html(dipartimento);
 
                     }
                 });
@@ -60,7 +60,7 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <b>Dipartimento</b><p id="dipartimento"></p>
+                        <b>Dipartimento</b><p id="dip"></p>
                     </div>
 
                 </div>

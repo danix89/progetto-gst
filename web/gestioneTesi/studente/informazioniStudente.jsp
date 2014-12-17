@@ -32,8 +32,8 @@
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);
                         $("#matricola").html(matricola);
-                        $("#corso_laurea").html(corso_laurea);
-                        $("#dipartimento").html(dipartimento);
+                        $("#corsolaurea").html(corso_laurea);
+                        $("#dip").html(dipartimento);
 
                     }
                 });
@@ -77,11 +77,11 @@
                 <div class="row">
 
                     <div class="col-sm-6">
-                        <b>Dipartimento </b><p id="dipartimento">Dipartimento</p>
+                        <b>Dipartimento </b><p id="dip">Dipartimento</p>
                     </div>
 
                     <div class="col-sm-6">
-                        <b>Corso di laurea: </b><p id="corso_laurea">Corso di laurea</p>
+                        <b>Corso di laurea: </b><p id="corsolaurea">Corso di laurea</p>
                     </div>
 
                 </div>
