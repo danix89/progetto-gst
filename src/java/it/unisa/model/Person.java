@@ -22,26 +22,43 @@ public class Person {
     private String citizenship;
     private String webPage;
     private String university;
-    private String role;
     private String matricula;
     private String position;
-    private String department_abbreviation;
-    private int cycle;
+    private Cycle cycle;
+    private Department department;
+    private Account account;
+    private Degree degree;
 
-    public int getCycle() {
+    public Degree getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Degree degree) {
+        this.degree = degree;
+    }
+    
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Cycle getCycle() {
         return cycle;
     }
 
-    public void setCycle(int cycle) {
+    public void setCycle(Cycle cycle) {
         this.cycle = cycle;
-    }
-    
-    public String getDepartmentAbbreviation() {
-        return department_abbreviation;
-    }
-
-    public void setDepartmentAbbreviation(String department_abbreviation) {
-        this.department_abbreviation = department_abbreviation;
     }
 
     public String getSsn() {
@@ -132,14 +149,6 @@ public class Person {
         this.university = university;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getMatricula() {
         return matricula;
     }
@@ -155,9 +164,5 @@ public class Person {
     public void setPosition(String position) {
         this.position = position;
     }
-    
-    
-    
-    
-} 
+}
 

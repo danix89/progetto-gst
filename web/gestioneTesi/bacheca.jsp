@@ -12,16 +12,22 @@
     <body>
 
         <%
-            
+            String tipo_utente= null;
             Person p = (Person) session.getAttribute("person");
             String ssn=p.getSsn();
-            String typeOfAccount = (String) session.getAttribute("typeOfAccount");
+            String typeOfAccount = p.getAccount().getTypeOfAccount();
             
+            if(typeOfAccount.equals("Bstudent")||typeOfAccount.equals("Mstudent")||typeOfAccount.equals("phd")){
+                tipo_utente="studente";
+            }else if(typeOfAccount.equals("professor")){
+                tipo_utente="professore";}
+            
+            session.setAttribute("tipo_account", tipo_utente);
             //int statoStudente = -1;          // '-1' stato iniziale, '0' richiesta inviata, '1' tesi in corso, '2' tesi completata, '3' tesi archiviata 
            // boolean isStudente = true;
            // boolean isProfessore = !isStudente;
 
-            if (typeOfAccount.equals("studente")) {
+            if (tipo_utente.equals("studente")) {
         %>
         <%@ include file="studente/informazioniStudente.jsp" %>
         <hr>
@@ -29,7 +35,7 @@
         <%
             }else
 
-            if (typeOfAccount.equals("professore")) {
+            if (tipo_utente.equals("professore")) {
         %>
 
         <%@ include file="professore/informazioniProfessore.jsp" %>

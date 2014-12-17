@@ -4,9 +4,6 @@
     Author     : Damiano
 --%>
 
-<%
-    String account_tipo = (String) session.getAttribute("typeOfAccount");
-%>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +13,7 @@
 
         <script>
             var codice_fiscale = '${person.ssn}';
-            var tipo_account = '<%= account_tipo%>';
+            var tipo_account = '${person.account.typeOfAccount}';
 
             $(document).ready(function () {
                 $.ajax({
@@ -30,11 +27,11 @@
                         var matricola = data_user.matricola;
                         var ciclo = data_user.ciclo;
                         var università = data_user.università;
-                        var dipartimento = data_user.dipartimento;
+
 
                         $("#università").html(università);
                         $("#fullname").html(nome + " " + cognome);
-                        $("#dipartimento").html(dipartimento);
+                       // $("#dipartimento").html(dipartimento);
 
                     }
                 });

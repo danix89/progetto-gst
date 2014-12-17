@@ -5,8 +5,9 @@
  */
 package it.unisa.gestionetesi.servlet;
 
-import it.unisa.gestionetesi.beans.Dipartimento;
-import it.unisa.gestionetesi.manager.ManagerUtente;
+import it.unisa.integrazione.database.DepartmentManager;
+import it.unisa.integrazione.database.exception.ConnectionException;
+import it.unisa.model.Department;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -28,8 +29,8 @@ import org.json.JSONObject;
 public class PopolaSelectDipartimenti extends HttpServlet {
     private Logger logger = Logger.getLogger("db");
     private JSONObject dipartimento;
-    private ManagerUtente managerUtente;
-    private ArrayList<Dipartimento> listaDipartimenti= null;
+    private final DepartmentManager managerDepartment= DepartmentManager.getInstance();
+    private ArrayList<Department> listaDipartimenti= null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,18 +47,18 @@ public class PopolaSelectDipartimenti extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            managerUtente = new ManagerUtente();
+
             JSONArray jarrayDipartimenti = new JSONArray();
 
-            listaDipartimenti= managerUtente.listaDipartimenti();
+            listaDipartimenti= (ArrayList<Department>) managerDepartment.getAllDepartments();
             
             for (int i = 0; i < listaDipartimenti.size(); i++) {
             dipartimento= new JSONObject();
             
-            dipartimento.put("abbreviazione", listaDipartimenti.get(i).getAbbreviazione());
-            dipartimento.put("titolo", listaDipartimenti.get(i).getTitolo());
+            dipartimento.put("abbreviazione", listaDipartimenti.get(i).getAbbrevation());
+            dipartimento.put("titolo", listaDipartimenti.get(i).getTitle());
             
-            logger.info("Dipartimento: " + listaDipartimenti.get(i).getAbbreviazione());
+            logger.info("Dipartimento: " + listaDipartimenti.get(i).getAbbrevation());
 
             
             jarrayDipartimenti.put(i,dipartimento);
@@ -70,15 +71,11 @@ public class PopolaSelectDipartimenti extends HttpServlet {
             out.print(mainObj.toString());
             
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
+            Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionException ex) {
             Logger.getLogger(PopolaSelectDipartimenti.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();

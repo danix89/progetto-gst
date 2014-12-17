@@ -46,10 +46,11 @@ public class PopolaSelectProfessori extends HttpServlet {
             JSONArray jarrayProfessori = new JSONArray();
             
             String posizione = request.getParameter("posizione");
-            String abbr_dipartimento = request.getParameter("abbr_dipartimento");
+            String corsoLaurea = request.getParameter("corso_laurea");
             
-            listaUtenti= managerUtente.listaUtentiPerDipartimento(posizione, abbr_dipartimento);
+            listaUtenti= managerUtente.listaUtentiPerCorsoLaurea(posizione, corsoLaurea);
             
+            if(listaUtenti!=null){
             for (int i = 0; i < listaUtenti.size(); i++) {
                 JSONObject utente= new JSONObject();
             
@@ -65,6 +66,7 @@ public class PopolaSelectProfessori extends HttpServlet {
             mainObj.put("mainOb", jarrayProfessori);
 
             out.print(mainObj.toString());
+            } else out.print("");
 
             
         } catch (ClassNotFoundException ex) {

@@ -57,9 +57,7 @@ public class RecuperaDatiUtente extends HttpServlet {
             user_data.put("nome", p.getName());
             user_data.put("cognome", p.getSurname());
             user_data.put("matricola", p.getMatricula());
-            user_data.put("ciclo", p.getCycle());
             user_data.put("università", p.getUniversity());
-            user_data.put("dipartimento", p.getDepartmentAbbreviation());
             
             out.print(user_data.toString());
 

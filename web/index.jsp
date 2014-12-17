@@ -1,16 +1,7 @@
-<%@page import="it.unisa.model.Person"%>
-<%
-    boolean log = true;
-
-    if (session.getAttribute("person") == null || session.getAttribute("person").equals("")) {
-        log = false;
-    }
-
-%>
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,7 +23,8 @@
         <link rel="stylesheet" href="assets/css/custom.css">
 
         <script src="assets/js/jquery-1.11.1.min.js"></script>
-        <script>
+
+        <!--<script>
             jQuery(document).ready(function ($) {
                 if (localStorage.getItem("username") != null) {
                     if (localStorage.getItem("typology") == "Professore") {
@@ -49,7 +41,7 @@
                     }
                 }
             });
-        </script>
+        </script>-->
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -101,25 +93,25 @@
                         </a>
                     </li>
                     <li>
-                        <a href="offertaFormativa.html">
+                        <a href="#">
                             <i class="linecons-desktop"></i>
                             <span class="title">Offerta Formativa</span>
                         </a>
                     </li>
                     <li>
-                        <a href="gestioneTesi.jsp">
+                        <a href="#">
                             <i class="linecons-graduation-cap"></i>
                             <span class="title">Gestione Tesi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="gestioneTirocinio.html">
+                        <a href="#">
                             <i class="linecons-megaphone"></i>
                             <span class="title">Gestione Tirocinio</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dottorato.html">
+                        <a href="#">
                             <i class="linecons-lightbulb"></i>
                             <span class="title">Dottorato</span>
                         </a>
@@ -145,53 +137,34 @@
                 </ul>
                 <!-- notifications and other links -->
                 <ul class="nav nav-userinfo navbar-right">
-
-                    <%                        if (log) {
-                    %>
-                    <li>
-                        
-                            <i class="fa-user"></i>
-                            <span class="title">
-                            
-                            Hello, 
-                                <%
-                                    
-                                    Person p = (Person) session.getAttribute("person");
-                                    
-                                    out.println(p.getName());
-                                    
-                                    
-                                    
-                                %>
-                            
-                            </span>
-                    
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/LogoutServlet">
-                            <i class="fa-times-circle"></i>
-                            <span class="title">Logout</span>
-                        </a>
-                    </li>
-                    <%
-                    } else {
-
-                    %>
-                     <li>
-                        <a href="register.html">
-                            <i class="fa-pencil"></i>
-                            <span class="title">Registrazione</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login.jsp">
-                            <i class="fa-user"></i>
-                            <span class="title">Login</span>
-                        </a>
-                    </li>
-                    <%                        }
-                    %>
-
+                    <c:choose>
+                        <c:when test="${sessionScope.person == null}">
+                            <li>
+                                <a href="register.jsp">
+                                    <i class="fa-pencil"></i>
+                                    <span class="title">Registrazione</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="login.jsp">
+                                    <i class="fa-user"></i>
+                                    <span class="title">Login</span>
+                                </a>
+                            </li>
+                        </c:when>
+                        <c:when test="${sessionScope.person != null}">
+                            <li>
+                                <i class="fa-user"></i>
+                                <span class="title">Ciao ${sessionScope.person.name}!</span>
+                            </li>
+                            <li>
+                                <a href="logout">
+                                    <i class="fa-off"></i>
+                                    <span class="title">Logout</span>
+                                </a>
+                            </li>
+                        </c:when>
+                    </c:choose>
                 </ul>
 
             </div>
@@ -207,14 +180,7 @@
                     <div class="col-sm-10">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Hello, 
-                                <%
-                                    if(log){
-                                    Person p = (Person) session.getAttribute("person");
-                                    
-                                    out.println(p.getName());
-                                    }
-                                %>
+                                Titolo del Pannello (può anche essere eliminato)
                             </div>
                             <div class="panel-body">
                                 <p>Folly words widow one downs few age every seven. If miss part by fact he park just shew. Discovered had get considered projection who favourable. Necessary up knowledge it tolerably.</p>

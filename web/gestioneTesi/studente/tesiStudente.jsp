@@ -4,8 +4,6 @@
     Author     : CosimoAlessandro
 --%>
 
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,16 +17,22 @@
         <title>Tesi Studente</title>
 
         <script>
+
+            $(document).ready(function () {
             var codice_fiscale = '${person.ssn}';
             var stato_tesi = null;
-            $(document).ready(function () {
+            
+            
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
-
+                    var dati_tesi=null;
+                        if(msg!==""){
                         var dati_tesi = $.parseJSON(msg);
+                        }
+                        
                         if (dati_tesi !== null) {
                             var titolo = dati_tesi.titolo;
                             var abstract = dati_tesi.abstract_tesi;
@@ -37,6 +41,10 @@
                             var data_fine_prevista = dati_tesi.data_fine_prevista;
                             var messaggio_richiesta = dati_tesi.messaggio_richiesta;
                             stato_tesi = dati_tesi.stato_tesi;
+                            
+                            
+                        $("#professore_richiesta").html("Professore");
+                        $("#messaggio_richiesta").html(messaggio_richiesta);
                         }
 
                         if (stato_tesi == null) {
@@ -55,8 +63,6 @@
                         }
 
 
-                        $("#professore_richiesta").html("Professore");
-                        $("#messaggio_richiesta").html(messaggio_richiesta);
                     }
                 });
             });
@@ -69,6 +75,7 @@
                     url: "PopolaSelectDipartimenti",
                     success: function (data) {
                         // Parse the returned json data
+                        if(data!=""){
                         var dipartimenti = $.parseJSON(data);
 
                         // Use jQuery's each to iterate over the opts value
@@ -77,7 +84,7 @@
                             // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
                             $('#dipartimenti').append('<option value="' + dipartimenti.mainOb[i].abbreviazione + '">' + dipartimenti.mainOb[i].titolo +'</option>');
                          }
-                         
+                     } 
                          
                     }
                 });
@@ -86,7 +93,7 @@
             
             function popolaSelectCorsoLaurea(dipartimento)
             {
-                $('#corso_laurea').empty();
+               // $('#corso_laurea').empty();
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectCorsoLaurea",
@@ -107,15 +114,17 @@
                 });
             }
 
-            function popolaSelectProfessori(dipartimento)
+            function popolaSelectProfessori(corsoLaurea)
             {
-                $('#professore').empty();
+                //$('#professore').empty();
+            
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectProfessori",
-                    data: {posizione: "professore", abbr_dipartimento: dipartimento.value},
-                    success: function (data) {
+                    data: {posizione: "professor", corso_laurea: corsoLaurea.value},
+                    success: function (data){
                         // Parse the returned json data
+                        
                         var professori = $.parseJSON(data);
 
                         // Use jQuery's each to iterate over the opts value
@@ -129,6 +138,10 @@
         </script>
 
         <script type="text/javascript">
+            
+            
+            
+            
             jQuery(document).ready(function ($)
             {
                 $("#dipartimenti").select2({
@@ -141,10 +154,8 @@
                 });
 
             });
-
-
-
-            jQuery(document).ready(function ($)
+            
+                        jQuery(document).ready(function ($)
             {
                 $("#corso_laurea").select2({
                     placeholder: 'Seleziona il tuo corso di laurea...',
@@ -157,11 +168,14 @@
 
             });
 
+
+
+
             jQuery(document).ready(function ($)
             {
                 $("#professore").select2({
                     placeholder: 'Seleziona il professore...',
-                    allowClear: true,
+                    allowClear: true
                 }).on('select2-open', function ()
                 {
                     // Adding Custom Scrollbar

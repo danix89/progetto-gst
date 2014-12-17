@@ -5,8 +5,9 @@
  */
 package it.unisa.gestionetesi.servlet;
 
-import it.unisa.gestionetesi.beans.CorsoLaurea;
 import it.unisa.gestionetesi.manager.ManagerUtente;
+import it.unisa.integrazione.database.DegreeManager;
+import it.unisa.model.Degree;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -26,8 +27,8 @@ import org.json.JSONObject;
  * @author CosimoAlessandro
  */
 public class PopolaSelectCorsoLaurea extends HttpServlet {
-    private ManagerUtente managerUtente;
-    private ArrayList<CorsoLaurea> listaCorsiLaurea= null;
+    private final DegreeManager managerDegree= DegreeManager.getInstance();
+    private ArrayList<Degree> listaCorsiLaurea= null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,18 +46,17 @@ public class PopolaSelectCorsoLaurea extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             
-            managerUtente = new ManagerUtente();
             JSONArray jarrayCorsiLaurea= new JSONArray();
 
             String abbr_dipartimento = request.getParameter("abbr_dipartimento");
             
-            listaCorsiLaurea= managerUtente.listaCorsiLaureaPerDipartimento(abbr_dipartimento);
+            listaCorsiLaurea= managerDegree.getDegreesByDepartment(abbr_dipartimento);
             
             for (int i = 0; i < listaCorsiLaurea.size(); i++) {
             JSONObject corso= new JSONObject();
             
-            corso.put("matricola", listaCorsiLaurea.get(i).getMatricola());
-            corso.put("titolo", listaCorsiLaurea.get(i).getTitolo());
+            corso.put("matricola", listaCorsiLaurea.get(i).getMatricula());
+            corso.put("titolo", listaCorsiLaurea.get(i).getTitle());
             
             jarrayCorsiLaurea.put(i,corso);
   
@@ -67,14 +67,6 @@ public class PopolaSelectCorsoLaurea extends HttpServlet {
 
             out.print(mainObj.toString());
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
             Logger.getLogger(PopolaSelectCorsoLaurea.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

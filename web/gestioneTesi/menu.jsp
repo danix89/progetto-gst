@@ -70,7 +70,7 @@
                         </div>
                         <div class="tab-pane" id="cronologia">
 
-                            <%@ include file="cronologia.jsp" %>
+                        <%@ include file="cronologia.jsp" %>
 
                         </div>
                         <div class="tab-pane" id="storico">

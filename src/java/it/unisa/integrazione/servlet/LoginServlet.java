@@ -12,8 +12,6 @@ import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +36,7 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
@@ -48,24 +46,37 @@ public class LoginServlet extends HttpServlet {
 
             AccountManager accountManager = AccountManager.getInstance();
             Person person = accountManager.login(username, password);
-            String typeOfAccount=accountManager.getTypeOfAccount();
 
-            if (person != null) {
+            if (person.getAccount().getTypeOfAccount().equals("Bstudent")) {
                 session.removeAttribute("loginError");
                 session.setAttribute("person", person);
-                session.setAttribute("typeOfAccount", typeOfAccount);
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("indexLog.jsp");
+            } else if (person.getAccount().getTypeOfAccount().equals("Mstudent")) {
+                session.removeAttribute("loginError");
+                session.setAttribute("person", person);
+                response.sendRedirect("indexLog.jsp");
+            } else if (person.getAccount().getTypeOfAccount().equals("phd")) {
+                session.removeAttribute("loginError");
+                session.setAttribute("person", person);
+                response.sendRedirect("indexLog.jsp");
+            } else if (person.getAccount().getTypeOfAccount().equals("professor")) {
+                session.removeAttribute("loginError");
+                session.setAttribute("person", person);
+                response.sendRedirect("indexLog.jsp");
+            } else if (person.getAccount().getTypeOfAccount().equals("company")) {
+                session.removeAttribute("loginError");
+                session.setAttribute("person", person);
+                response.sendRedirect("indexLog.jsp");
             } else {
                 session.setAttribute("loginError", "error");
                 response.sendRedirect("login.jsp");
             }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ConnectionException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException sqlException) {
+            out.print("<h1>SQL Exception: </h1>" + sqlException.getMessage());
+        } catch (ConnectionException connectionException) {
+            out.print("<h1>Connection Exception</h1>");
         } catch (AccountNotActiveException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("<h1>Account not Active!</h1>");
         } finally {
             out.close();
         }

@@ -15,7 +15,7 @@
 
         <%
 
-            String toacc = (String) session.getAttribute("typeOfAccount");
+            String toacc = (String) session.getAttribute("tipo_account");
 
             boolean isStudent = toacc.equals("studente");
             boolean isProfessor = toacc.equals("professore");

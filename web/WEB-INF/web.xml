@@ -64,6 +64,10 @@
         <servlet-name>PopolaSelectCorsoLaurea</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectCorsoLaurea</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-class>it.unisa.integrazione.servlet.RegistrationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -127,6 +131,10 @@
     <servlet-mapping>
         <servlet-name>PopolaSelectCorsoLaurea</servlet-name>
         <url-pattern>/PopolaSelectCorsoLaurea</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <url-pattern>/RegistrationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

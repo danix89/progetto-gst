@@ -42,7 +42,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession();
+        
         try {
             String id_studente = request.getParameter("id_studente");
 
@@ -62,11 +62,11 @@ public class RecuperaDatiTesi extends HttpServlet {
                 dati_tesi.put("titolo", T.getTitolo());
                 dati_tesi.put("stato_tesi", T.getStato_tesi());
                 dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
-                dati_tesi.put("stato_tesi", T.getStato_tesi());
 
                 out.print(dati_tesi.toString());
 
-            }
+            }else {out.print("");}
+            
 
         } catch (JSONException ex) {
             Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
