@@ -1,4 +1,5 @@
 <%
+    
     boolean log = false;
 
     if (session.getAttribute("person") == null || session.getAttribute("person").equals("")) {

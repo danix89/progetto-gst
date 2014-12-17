@@ -52,6 +52,10 @@
         <servlet-name>RecuperaCronologiaStudente</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaStudente</servlet-class>
     </servlet>
+        <servlet>
+        <servlet-name>RecuperaCronologiaDocente</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaDocente</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.PopolaSelectProfessori</servlet-class>
