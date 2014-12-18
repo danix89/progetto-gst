@@ -32,7 +32,7 @@ import org.json.JSONObject;
  */
 public class RecuperaCronologiaDocente extends HttpServlet {
 
-    Logger logger = Logger.getLogger("RecuperaCronologiaProf");
+    final static Logger logger = Logger.getLogger("RecuperaCronologiaStud");
     private ManagerCronologia managerCronologia;
     private ManagerUtente managerUtente;
     private ArrayList<Cronologia> cronologia;
@@ -55,46 +55,51 @@ public class RecuperaCronologiaDocente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
+        
         try {
+
             String id_docente = request.getParameter("id_docente");
             managerCronologia = new ManagerCronologia();
             managerUtente = new ManagerUtente();
-            cronologia = managerCronologia.elencaEventiDocente(id_docente);
+            cronologia = managerCronologia.elencaEventiStudente(id_docente);
 
-            jarray = new JSONArray();
+            if (!cronologia.isEmpty()) {
+                jarray = new JSONArray();
+                crono_size = cronologia.size();
+                for (int i = 0; i < crono_size; i++) {
+                    logger.info(cronologia.get(i).getId_studente());
 
-            crono_size = cronologia.size();
-            logger.info(" " + crono_size);
-            for (int i = 0; i < crono_size; i++) {
-             
-                p = managerUtente.selezionaUtente(cronologia.get(i).getId_studente(), "studente");
-                String nomeStudente = p.getSurname() + " " + p.getName();
-                logger.info(nomeStudente);
-                crono_data = new JSONObject();
-                crono_data.put("size", crono_size);
-                crono_data.put("testo", cronologia.get(i).getTesto());
-                crono_data.put("ID_Studente", cronologia.get(i).getId_studente());
-                crono_data.put("ID_Docente", cronologia.get(i).getId_docente());
-                crono_data.put("Data_Notifica", cronologia.get(i).getData_notifica());
-                crono_data.put("nomeStudente", nomeStudente);
+                    p = managerUtente.selezionaUtente(cronologia.get(i).getId_studente(), "ricordiamociditoglierlo");
+                    String nomeStudente = p.getSurname() + " " + p.getName();
+                    crono_data = new JSONObject();
+                    crono_data.put("size", crono_size);
+                    crono_data.put("testo", cronologia.get(i).getTesto());
+                    crono_data.put("ID_Studente", cronologia.get(i).getId_studente());
+                    crono_data.put("ID_Docente", cronologia.get(i).getId_docente());
+                    crono_data.put("Data_Notifica", cronologia.get(i).getData_notifica());
+                    crono_data.put("nomeDocente", nomeStudente);
 
-                jarray.put(i, crono_data);
+                    jarray.put(i, crono_data);
+                }
+
+                JSONObject mainObj = new JSONObject();
+                mainObj.put("employees", jarray);
+
+                System.out.println("contenuto jarray RCD: " + mainObj.toString());
+
+                logger.info("RCD è pieno");
+                out.print(mainObj.toString());
+            } else {
+                logger.info("RCD è vuoto");
+                out.print("null");
             }
-
-            JSONObject mainObj = new JSONObject();
-            mainObj.put("employees", jarray);
-
-            System.out.println("contenuto jarray: " + mainObj.toString());
-           
-            out.print(mainObj.toString());
-
         } finally {
             out.close();
         }
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -108,16 +113,22 @@ public class RecuperaCronologiaDocente extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -135,16 +146,22 @@ public class RecuperaCronologiaDocente extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
+
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            Logger.getLogger(RecuperaCronologiaStudente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuperaCronologiaStudente.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 

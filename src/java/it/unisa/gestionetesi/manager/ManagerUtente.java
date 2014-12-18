@@ -37,7 +37,7 @@ public class ManagerUtente {
     }
 
     public Person selezionaUtente(String ssn, String tipo) {
-        Person persona = new Person();
+        Person persona = null;
         Department dipartimento = new Department();
         Degree corso_laurea= new Degree();
 
@@ -45,14 +45,16 @@ public class ManagerUtente {
 
         try {
             Statement aStatement = db.createStatement();
-            String query = "SELECT * FROM person JOIN account ON person.Account_email=account.email WHERE person.SSN= '" + ssn + "' AND account.typeOfAccount= '" + tipo + "' ";
+            String query = "SELECT * FROM person JOIN account ON person.Account_email=account.email WHERE person.SSN='" + ssn+ "'";
 
             rs = aStatement.executeQuery(query);
 
             logger.info("Numero di righe PERSONA: " + rs.getRow());
 
             while (rs.next()) {
+                persona = new Person();
                 dipartimento.setAbbrevation(rs.getString("Department_abbreviation"));
+                logger.info(rs.getString("Degree_matricula"));
                 corso_laurea.setMatricula(rs.getString("Degree_matricula"));
                 persona.setSsn(rs.getString("SSN"));
                 persona.setAddress(rs.getString("address"));

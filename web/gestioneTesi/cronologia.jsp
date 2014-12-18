@@ -21,11 +21,11 @@
             boolean isProfessor = toacc.equals("professore");
 
             if (isStudent) {
+
         %>
-        <%@ include file="studente/cronologiaStudente.jsp" %>
-        <%
-            }
-            if (isProfessor) {
+        <%@  include file="studente/cronologiaStudente.jsp" %>
+        <%       
+            } else if (isProfessor) {
         %>
         <%@ include file="professore/cronologiaDocente.jsp" %>
         <%

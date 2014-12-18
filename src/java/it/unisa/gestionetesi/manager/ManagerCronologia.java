@@ -104,10 +104,10 @@ public class ManagerCronologia {
             String query = "SELECT * FROM cronologia WHERE ID_Studente='" + idStudente + "' ";
 
             res = aStatement.executeQuery(query);
-            
+
             int id_cronologia = 0;
             String testo = null, data_notifica = null, id_studente = null, id_docente = null;
-            
+
             while (res.next()) {
 
                 id_cronologia = res.getInt("ID");
@@ -125,25 +125,24 @@ public class ManagerCronologia {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sono nel catch: " + ex.getErrorCode());
         }
-
+        System.out.print(cronos.toString());
         return cronos;
     }
 
-    
-     public ArrayList<Cronologia> elencaEventiDocente (String idDocente) throws SQLException {
+    public ArrayList<Cronologia> elencaEventiDocente(String idDocente) throws SQLException {
         ArrayList<Cronologia> cronos = new ArrayList<Cronologia>();
         Cronologia c;
         ResultSet res = null;
-      
+
         try {
             Statement aStatement = db.createStatement();
             String query = "SELECT * FROM cronologia WHERE ID_Docente='" + idDocente + "' ";
 
             res = aStatement.executeQuery(query);
-            logger.info("indirizzo risposta:"+ res);
+            logger.info("indirizzo risposta:" + res);
             int id_cronologia = 0;
             String testo = null, data_notifica = null, id_studente = null, id_docente = null;
-            
+
             while (res.next()) {
 
                 id_cronologia = res.getInt("ID");
@@ -153,7 +152,6 @@ public class ManagerCronologia {
                 id_docente = res.getString("ID_Docente");
                 logger.info("TESTO:" + testo);
                 c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
-                cronos.add(c);
             }
 
         } catch (SQLException ex) {
