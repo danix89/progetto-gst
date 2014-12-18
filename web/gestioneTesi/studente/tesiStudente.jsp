@@ -93,6 +93,7 @@
             
             function popolaSelectCorsoLaurea(dipartimento)
             {
+                
                // $('#corso_laurea').empty();
                 $.ajax({
                     type: "POST",
