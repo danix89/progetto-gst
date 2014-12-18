@@ -13,9 +13,7 @@
         <script>
             var codice_fiscale = '${person.ssn}';
             var n;
-            
-            alert("jsp Docente");
-            
+
             $(document).ready(function () {
                 $.ajax({
                     url: 'RecuperaCronologiaDocente',
@@ -23,11 +21,12 @@
                     data: {id_docente: codice_fiscale},
                     success: function (cronologiaD) {
                         alert("ajax docente");
+                        if (cronologiaD != "null") {
                             var array_cronologia = $.parseJSON(cronologiaD);
                             n = array_cronologia.employees[0].size;
-                            alert("entra qua e non fa lelse");
+
                             for (var i = n - 1; i >= 0; i--) {
-                                
+
                                 var temp = document.createElement("li");
                                 var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel empty\"> <span id=\"testo" + i + "\" ></span>  </div> ";
                                 temp.innerHTML = str;
@@ -46,7 +45,25 @@
                                 $("#data" + i).html(Data_Notifica);
 
                             }
-                            }
+
+                        } else {
+                            var i = 0;
+                            var testo = "Quando inizierai ad interagire con la piattaforma, qui troverai le tue notifiche.";
+                            var temp = document.createElement("li");
+                            var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel empty\"> <span id=\"testo" + i + "\" ></span>  </div> ";
+                            temp.innerHTML = str;
+                            $("#principale").append(temp);
+                            $("#testo" + i).html("Messaggio di sistema: " + testo);
+                            var dat = new Date();
+                            var gg = dat.getDate();
+                            var mm = (dat.getMonth() + 1);
+                            var aa = dat.getFullYear();
+                            var data_corr = gg + "/" + mm + "/" + aa;
+                            $("#data" + i).html(data_corr);
+
+                        }
+                    }
+                
                 });
             });
         </script>

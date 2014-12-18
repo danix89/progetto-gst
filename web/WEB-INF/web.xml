@@ -125,6 +125,10 @@
         <url-pattern>/RecuperaCronologiaStudente</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>RecuperaCronologiaDocente</servlet-name>
+        <url-pattern>/RecuperaCronologiaDocente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>PopolaSelectProfessori</servlet-name>
         <url-pattern>/PopolaSelectProfessori</url-pattern>
     </servlet-mapping>

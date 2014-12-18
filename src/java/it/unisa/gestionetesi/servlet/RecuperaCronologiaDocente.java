@@ -31,7 +31,7 @@ import org.json.JSONObject;
  * @author ciro
  */
 public class RecuperaCronologiaDocente extends HttpServlet {
-
+    
     final static Logger logger = Logger.getLogger("RecuperaCronologiaStud");
     private ManagerCronologia managerCronologia;
     private ManagerUtente managerUtente;
@@ -57,36 +57,38 @@ public class RecuperaCronologiaDocente extends HttpServlet {
         HttpSession session = request.getSession();
         
         try {
-
+            
             String id_docente = request.getParameter("id_docente");
             managerCronologia = new ManagerCronologia();
             managerUtente = new ManagerUtente();
-            cronologia = managerCronologia.elencaEventiStudente(id_docente);
-
+            logger.info(id_docente);
+            cronologia = managerCronologia.elencaEventiDocente(id_docente);
+            logger.info("RCD size cronologia:" + cronologia.size());
             if (!cronologia.isEmpty()) {
                 jarray = new JSONArray();
                 crono_size = cronologia.size();
                 for (int i = 0; i < crono_size; i++) {
                     logger.info(cronologia.get(i).getId_studente());
-
+                    
                     p = managerUtente.selezionaUtente(cronologia.get(i).getId_studente(), "ricordiamociditoglierlo");
                     String nomeStudente = p.getSurname() + " " + p.getName();
+                    logger.info(nomeStudente);
                     crono_data = new JSONObject();
                     crono_data.put("size", crono_size);
                     crono_data.put("testo", cronologia.get(i).getTesto());
                     crono_data.put("ID_Studente", cronologia.get(i).getId_studente());
                     crono_data.put("ID_Docente", cronologia.get(i).getId_docente());
                     crono_data.put("Data_Notifica", cronologia.get(i).getData_notifica());
-                    crono_data.put("nomeDocente", nomeStudente);
-
+                    crono_data.put("nomeStudente", nomeStudente);
+                    
                     jarray.put(i, crono_data);
                 }
-
+                
                 JSONObject mainObj = new JSONObject();
                 mainObj.put("employees", jarray);
-
+                
                 System.out.println("contenuto jarray RCD: " + mainObj.toString());
-
+                
                 logger.info("RCD è pieno");
                 out.print(mainObj.toString());
             } else {
@@ -96,7 +98,7 @@ public class RecuperaCronologiaDocente extends HttpServlet {
         } finally {
             out.close();
         }
-
+        
     }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -113,7 +115,7 @@ public class RecuperaCronologiaDocente extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecuperaCronologiaStudente.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -130,7 +132,7 @@ public class RecuperaCronologiaDocente extends HttpServlet {
             Logger.getLogger(RecuperaCronologiaStudente.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /**
@@ -146,7 +148,7 @@ public class RecuperaCronologiaDocente extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RecuperaCronologiaStudente.class
                     .getName()).log(Level.SEVERE, null, ex);

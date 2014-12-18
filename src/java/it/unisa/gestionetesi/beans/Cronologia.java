@@ -23,6 +23,10 @@ public class Cronologia {
         this.id_studente = id_studente;
         this.id_docente = id_docente;
     }
+
+    public Cronologia() {
+       
+    }
     
     public int getId_cronologia() {
         return id_cronologia;

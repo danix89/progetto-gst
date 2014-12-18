@@ -20,10 +20,11 @@
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (cronologiaS) {
+                        alert("ajax studente");
+
                         if (cronologiaS != "null") {
                             var array_cronologia = $.parseJSON(cronologiaS);
                             n = array_cronologia.employees[0].size;
-                            alert("entra qua e non fa lelse");
                             for (var i = n - 1; i >= 0; i--) {
                                 var temp = document.createElement("li");
                                 var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel empty\"> <span id=\"testo" + i + "\" ></span>  </div> ";
@@ -56,9 +57,9 @@
                             var gg = dat.getDate();
                             var mm = (dat.getMonth() + 1);
                             var aa = dat.getFullYear();
-                            var data_corr = gg +"/" + mm + "/" + aa;
+                            var data_corr = gg + "/" + mm + "/" + aa;
                             $("#data" + i).html(data_corr);
-                            
+
                         }
 
 

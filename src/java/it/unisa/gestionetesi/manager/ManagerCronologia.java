@@ -37,9 +37,12 @@ public class ManagerCronologia {
         ResultSet res;
         try {
             Statement aStatement = db.createStatement();
-            String queryNuovoEvento = "INSERT INTO `db_distra`.`cronologia` ( `Testo`, `ID_Docente`, `ID_Studente`) "
-                    + "VALUES ('" + crono.getTesto() + "', '" + crono.getId_docente() + "', '" + crono.getId_studente();
-            res = aStatement.executeQuery(queryNuovoEvento);
+           
+             String q2 = "INSERT INTO `cronologia`(testo, ID_Docente, ID_Studente)"
+                    + "VALUES ( '" + crono.getTesto() + " ', '" + crono.getId_docente() + "' , '" + crono.getId_studente() + "')";
+            
+             String q = "INSERT INTO `cronologia` (`Testo`, `ID_Docente`, `ID_Studente`) VALUES ('ciaoissimo', '1234567890123456', '1234567890asdqwe')" ;
+             aStatement.execute(q2);
 
         } catch (SQLException ex) {
             logger.info("query fallita: " + ex.getMessage());
@@ -152,6 +155,7 @@ public class ManagerCronologia {
                 id_docente = res.getString("ID_Docente");
                 logger.info("TESTO:" + testo);
                 c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+                cronos.add(c);
             }
 
         } catch (SQLException ex) {

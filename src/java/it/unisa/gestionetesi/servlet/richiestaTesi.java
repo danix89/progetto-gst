@@ -5,9 +5,12 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.Cronologia;
 import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tesi;
+import it.unisa.gestionetesi.manager.ManagerCronologia;
 import it.unisa.gestionetesi.manager.ManagerTesi;
+import it.unisa.gestionetesi.manager.ManagerUtente;
 import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,7 +30,11 @@ import javax.servlet.http.HttpSession;
  */
 public class richiestaTesi extends HttpServlet {
 
+    final static Logger logger = Logger.getLogger("richiestaTesi");
     ManagerTesi manager_tesi;
+    ManagerCronologia manager_cronologia;
+    ManagerUtente manager_utente;
+    String testoNotificaProf, testoNotifica, nomeStudente, nomeDocente;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,18 +55,29 @@ public class richiestaTesi extends HttpServlet {
         try {
             String professore = request.getParameter("professore");
             String messaggio = request.getParameter("messaggio");
-            Person p=(Person)session.getAttribute("person");
-            String ssn_utente=p.getSsn();
+            Person p = (Person) session.getAttribute("person");
+            String ssn_utente = p.getSsn();
+            logger.info(ssn_utente);
+            manager_utente = new ManagerUtente();
+            manager_cronologia = new ManagerCronologia();
+            nomeStudente = manager_utente.selezionaUtente(ssn_utente, "studente").getSurname() + " " + manager_utente.selezionaUtente(ssn_utente, "studente").getName();
+            nomeDocente = manager_utente.selezionaUtente(professore, "professore").getSurname() + " " + manager_utente.selezionaUtente(professore, "professore").getName();
+            testoNotifica = "lo studente " + nomeStudente + " ha inviato una richiesta di tesi al prof. " + nomeDocente + " con il seguente messaggio: " + messaggio ;
+            Cronologia cronoRichiesta = new Cronologia();
+            cronoRichiesta.setTesto(testoNotifica);
+            cronoRichiesta.setId_studente(ssn_utente);
+            cronoRichiesta.setId_docente(professore);
+            manager_cronologia.inserisciEvento(cronoRichiesta);
 
             Tesi T = inserisciTesi(messaggio, ssn_utente);
             manager_tesi = new ManagerTesi();
             manager_tesi.inserisciTesiQuery(T);
             int ultimaTesiInserita = manager_tesi.ultimaTesiInserita();
-            out.println("id ultima tesi: " + ultimaTesiInserita);
+       //     out.println("id ultima tesi: " + ultimaTesiInserita);
 
-            RelatoreTesi relatoreTesi=inserisciRelatoreTesi(professore, ultimaTesiInserita);
+            RelatoreTesi relatoreTesi = inserisciRelatoreTesi(professore, ultimaTesiInserita);
             manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi);
-            
+
             //request.getRequestDispatcher("gestioneTesi.jsp").forward(request, response); // Forward to same page so that you can display error.
             response.sendRedirect("gestioneTesi.jsp");
 
