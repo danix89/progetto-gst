@@ -94,7 +94,9 @@
             function popolaSelectCorsoLaurea(dipartimento)
             {
                 
-               // $('#corso_laurea').empty();
+                $("#corso_laurea").select2("val", "");
+                $("#professore").select2("val", "");
+
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectCorsoLaurea",
@@ -102,7 +104,9 @@
                     success: function (data) {
                         // Parse the returned json data
                         var corso_laurea = $.parseJSON(data);
-
+                        
+                        $('#corso_laurea option[value!=""]').remove();
+                        $('#professore option[value!=""]').remove();
                         // Use jQuery's each to iterate over the opts value
                          for (i = 0; i < corso_laurea.mainOb.length; i++) {
                              
@@ -117,7 +121,7 @@
 
             function popolaSelectProfessori(corsoLaurea)
             {
-                //$('#professore').empty();
+               $("#professore").select2("val", "");
             
                 $.ajax({
                     type: "POST",
@@ -125,6 +129,8 @@
                     data: {posizione: "professor", corso_laurea: corsoLaurea.value},
                     success: function (data){
                         // Parse the returned json data
+                        
+                        $('#professore option[value!=""]').remove();
                         
                         var professori = $.parseJSON(data);
 
@@ -212,6 +218,7 @@
                         <div class="col-sm-10">
                             <select onchange="popolaSelectCorsoLaurea(this);"  data-validate="required" data-message-required="Fai una scelta" class="form-control" name="dipartimenti" id="dipartimenti">
                                 <option > </option> 
+                                
                             </select>
                         </div>
                     </div>
@@ -221,7 +228,7 @@
 
                         <div class="col-sm-10">
                             <select onchange="popolaSelectProfessori(this);" data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="corso_laurea" id="corso_laurea">
-                           <option > </option> 
+                           <option value=""> </option> 
                             </select>
                         </div>
                     </div>
@@ -231,7 +238,7 @@
 
                         <div class="col-sm-10 ">
                             <select data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="professore" id="professore">
-                                <option > </option>   
+                                <option value=""> </option>   
                             </select>
                         </div>
                     </div>
