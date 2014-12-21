@@ -5,11 +5,13 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.RelatoreTesi;
 import it.unisa.gestionetesi.beans.Tesi;
 import it.unisa.gestionetesi.manager.ManagerTesi;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,8 +29,9 @@ import org.json.JSONObject;
  * @author Damiano
  */
 public class RecuperaDatiTesi extends HttpServlet {
-
+    private Logger logger = Logger.getLogger("db");
     ManagerTesi manager_tesi;
+    private ArrayList<RelatoreTesi> listaRelatoriTesi = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,7 +46,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         try {
             String id_studente = request.getParameter("id_studente");
 
@@ -54,7 +58,7 @@ public class RecuperaDatiTesi extends HttpServlet {
             if (T != null) {
 
                 dati_tesi = new JSONObject();
-
+                dati_tesi.put("id_tesi", T.getId_tesi());
                 dati_tesi.put("data_inizio", T.getData_inizio());
                 dati_tesi.put("data_fine", T.getData_fine());
                 dati_tesi.put("data_fine_prevista", T.getData_fine_prevista());
@@ -63,10 +67,36 @@ public class RecuperaDatiTesi extends HttpServlet {
                 dati_tesi.put("stato_tesi", T.getStato_tesi());
                 dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
 
+                if (T.getStato_tesi().equals("0") || T.getStato_tesi().equals("1")) {
+                    
+                    JSONArray jarrayRelatori = new JSONArray();
+
+                    listaRelatoriTesi = manager_tesi.selezionaRelatoriTesi(T.getId_tesi());
+                    if (listaRelatoriTesi != null) {
+                        for (int i = 0; i < listaRelatoriTesi.size(); i++) {
+                            JSONObject relatoreTesi = new JSONObject();
+
+                            relatoreTesi.put("id_docente", listaRelatoriTesi.get(i).getId_docente());
+                            relatoreTesi.put("nome_docente", listaRelatoriTesi.get(i).getNome());
+                            relatoreTesi.put("cognome_docente", listaRelatoriTesi.get(i).getCognome());
+                            
+                             logger.info("Relatori: " + listaRelatoriTesi.get(i).getNome());
+
+                            jarrayRelatori.put(i, relatoreTesi);
+
+                        }
+
+                        dati_tesi.put("relatori", jarrayRelatori);
+
+                    }
+
+                }
+
                 out.print(dati_tesi.toString());
 
-            }else {out.print("");}
-            
+            } else {
+                out.print("");
+            }
 
         } catch (JSONException ex) {
             Logger.getLogger(RecuperaDatiTesi.class.getName()).log(Level.SEVERE, null, ex);
