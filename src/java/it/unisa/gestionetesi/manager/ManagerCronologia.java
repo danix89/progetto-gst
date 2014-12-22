@@ -34,15 +34,13 @@ public class ManagerCronologia {
 
     public void inserisciEvento(Cronologia crono) {
 
-        ResultSet res;
         try {
             Statement aStatement = db.createStatement();
-           
-             String q2 = "INSERT INTO `cronologia`(testo, ID_Docente, ID_Studente)"
-                    + "VALUES ( '" + crono.getTesto() + " ', '" + crono.getId_docente() + "' , '" + crono.getId_studente() + "')";
-            
-             String q = "INSERT INTO `cronologia` (`Testo`, `ID_Docente`, `ID_Studente`) VALUES ('ciaoissimo', '1234567890123456', '1234567890asdqwe')" ;
-             aStatement.execute(q2);
+
+            String q = "INSERT INTO `cronologia`(testo, ID_Docente, ID_Studente, Tipo)"
+                    + "VALUES ( '" + crono.getTesto() + " ', '" + crono.getId_docente() + "' , '" + crono.getId_studente() + "', '" + crono.getTipo() + "')";
+
+            aStatement.execute(q);
 
         } catch (SQLException ex) {
             logger.info("query fallita: " + ex.getMessage());
@@ -52,7 +50,6 @@ public class ManagerCronologia {
 
     public boolean eliminaEvento(int idCronologia) {
 
-        ResultSet res;
         boolean wellDone = true;
         try {
             Statement aStatement = db.createStatement();
@@ -64,8 +61,8 @@ public class ManagerCronologia {
             wellDone = false;
             Logger.getLogger(ManagerCronologia.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return wellDone;
+
     }
 
     public Cronologia selezionaEvento(int idCronologia) {
@@ -80,15 +77,15 @@ public class ManagerCronologia {
             res = aStatement.executeQuery(query);
 
             int id_cronologia = 0;
-            String testo = null, data_notifica = null, id_studente = null, id_docente = null;
+            String testo = null, data_notifica = null, id_studente = null, id_docente = null, tipo = null;
 
             id_cronologia = res.getInt("ID");
             testo = res.getString("Testo");
             data_notifica = res.getString("Data_Notifica");
             id_studente = res.getString("ID_Studente");
             id_docente = res.getString("ID_Docente");
-
-            crono = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+            tipo = res.getString("Tipo");
+            crono = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente, tipo);
 
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,7 +106,7 @@ public class ManagerCronologia {
             res = aStatement.executeQuery(query);
 
             int id_cronologia = 0;
-            String testo = null, data_notifica = null, id_studente = null, id_docente = null;
+            String testo = null, data_notifica = null, id_studente = null, id_docente = null, tipo=null;
 
             while (res.next()) {
 
@@ -118,8 +115,9 @@ public class ManagerCronologia {
                 data_notifica = res.getString("Data_Notifica");
                 id_studente = res.getString("ID_Studente");
                 id_docente = res.getString("ID_Docente");
+                tipo=res.getString("Tipo");
                 logger.info("TESTO:" + testo);
-                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente, tipo);
                 cronos.add(c);
             }
 
@@ -128,6 +126,7 @@ public class ManagerCronologia {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sono nel catch: " + ex.getErrorCode());
         }
+
         System.out.print(cronos.toString());
         return cronos;
     }
@@ -142,19 +141,18 @@ public class ManagerCronologia {
             String query = "SELECT * FROM cronologia WHERE ID_Docente='" + idDocente + "' ";
 
             res = aStatement.executeQuery(query);
-            logger.info("indirizzo risposta:" + res);
             int id_cronologia = 0;
-            String testo = null, data_notifica = null, id_studente = null, id_docente = null;
+            String testo = null, data_notifica = null, id_studente = null, id_docente = null, tipo = null;
 
             while (res.next()) {
-
+                tipo = res.getString("Tipo");
                 id_cronologia = res.getInt("ID");
                 testo = res.getString("Testo");
                 data_notifica = res.getString("Data_Notifica");
                 id_studente = res.getString("ID_Studente");
                 id_docente = res.getString("ID_Docente");
                 logger.info("TESTO:" + testo);
-                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente);
+                c = new Cronologia(id_cronologia, testo, data_notifica, id_studente, id_docente, tipo);
                 cronos.add(c);
             }
 
@@ -163,7 +161,7 @@ public class ManagerCronologia {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sono nel catch: " + ex.getErrorCode());
         }
-
         return cronos;
     }
+
 }
