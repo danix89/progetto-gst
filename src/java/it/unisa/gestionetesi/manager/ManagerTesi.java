@@ -52,8 +52,8 @@ public class ManagerTesi {
         }
     }
 
-    public void inserisciRelatoreTesiQuery(RelatoreTesi rt) {
-
+    public boolean inserisciRelatoreTesiQuery(RelatoreTesi rt) {
+        boolean success = false;
         try {
             RelatoreTesi relatoreTesi = rt;
 
@@ -61,10 +61,13 @@ public class ManagerTesi {
             String query = "INSERT INTO `relatori_tesi`(ID_Tesi, ID_Docente)"
                     + "VALUES ('" + relatoreTesi.getId_tesi() + "', '" + relatoreTesi.getId_docente() + "')";
             aStatement.execute(query);
-
+            success = true;
         } catch (SQLException ex) {
+            success = false;
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        return success;
     }
 
     public int ultimaTesiInserita() {
@@ -156,46 +159,49 @@ public class ManagerTesi {
         return T;
     }
 
-    public void accettaTesi(int idTesi) throws SQLException {
-
+    public boolean accettaTesi(int idTesi) throws SQLException {
+        boolean success = false;
         try {
             Statement aStatement = db.createStatement();
             String accetta = "UPDATE `db_distra`.`tesi` SET `Descrizione` = '', `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
             aStatement.executeUpdate(accetta);
-            logger.info("damiano sei nel try");
-
+            success = true;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
-            logger.info("damiano sei nel catch" + ex.getErrorCode());
+            logger.info("errore nell'sql: " + ex.getErrorCode());
+            success = false;
         }
-
+        return success;
     }
 
-    public void accettaCompletamentoTesi(int idTesi) throws SQLException {
-
+    public boolean accettaCompletamentoTesi(int idTesi) throws SQLException {
+        boolean success = false;
         try {
             Statement aStatement = db.createStatement();
             String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '3' WHERE `tesi`.`ID` =" + idTesi;
             aStatement.executeUpdate(accetta);
-
+            success = true;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sei nel catch" + ex.getErrorCode());
+            success = false;
         }
+        return success;
 
     }
 
     public void rifiutaCompletamentoTesi(int idTesi) throws SQLException {
-
+        boolean success = false;
         try {
             Statement aStatement = db.createStatement();
             String accetta = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '1' WHERE `tesi`.`ID` =" + idTesi;
             aStatement.executeUpdate(accetta);
             logger.info("sei nel try di rifiuta completamento tesi");
-            
+            success = true;
         } catch (SQLException ex) {
             Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
             logger.info("sei nel catch di rifiuta completamento tesi" + ex.getErrorCode());
+            success = false;
         }
 
     }

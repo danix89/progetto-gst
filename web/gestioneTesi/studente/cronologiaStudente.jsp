@@ -20,7 +20,6 @@
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (cronologiaS) {
-                        alert("ajax studente");
 
                         if (cronologiaS != "null") {
                             var array_cronologia = $.parseJSON(cronologiaS);
@@ -35,6 +34,7 @@
                             }
 
                             for (var i = n - 1; i >= 0; i--) {
+                                var tipoNotifica = array_cronologia.employees[i].tipoNotifica;
                                 var nomeDocente = array_cronologia.employees[i].nomeDocente;
                                 var testo = array_cronologia.employees[i].testo;
                                 var ID_Studente = array_cronologia.employees[i].ID_Studente;

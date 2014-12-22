@@ -78,6 +78,7 @@ public class RecuperaCronologiaStudente extends HttpServlet {
                     crono_data.put("ID_Docente", cronologia.get(i).getId_docente());
                     crono_data.put("Data_Notifica", cronologia.get(i).getData_notifica());
                     crono_data.put("nomeDocente", nomeDocente);
+                    crono_data.put("tipoNotifica", cronologia.get(i).getTipo());
 
                     jarray.put(i, crono_data);
                 }
