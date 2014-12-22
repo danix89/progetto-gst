@@ -19,32 +19,37 @@
         <script>
 
             $(document).ready(function () {
-            var codice_fiscale = '${person.ssn}';
-            var stato_tesi = null;
-            
-            
+                var codice_fiscale = '${person.ssn}';
+                var stato_tesi = null;
+
+
                 $.ajax({
                     url: 'RecuperaDatiTesi',
                     type: 'POST',
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
-                    var dati_tesi=null;
-                        if(msg!==""){
-                        var dati_tesi = $.parseJSON(msg);
+                        var dati_tesi = null;
+                        var id = null;
+                        var titolo = null;
+                        var abstract = null;
+                        var data_inizio = null;
+                        var data_fine = null;
+                        var data_fine_prevista = null;
+                        var messaggio_richiesta= null;
+                        if (msg !== "") {
+                            var dati_tesi = $.parseJSON(msg);
                         }
-                        
+
                         if (dati_tesi !== null) {
-                            var titolo = dati_tesi.titolo;
-                            var abstract = dati_tesi.abstract_tesi;
-                            var data_inizio = dati_tesi.data_inizio;
-                            var data_fine = dati_tesi.data_fine;
-                            var data_fine_prevista = dati_tesi.data_fine_prevista;
-                            var messaggio_richiesta = dati_tesi.messaggio_richiesta;
+                            id = dati_tesi.id_tesi;
+                            titolo = dati_tesi.titolo;
+                            abstract = dati_tesi.abstract_tesi;
+                            data_inizio = dati_tesi.data_inizio;
+                            data_fine = dati_tesi.data_fine;
+                            data_fine_prevista = dati_tesi.data_fine_prevista;
+                            messaggio_richiesta = dati_tesi.messaggio_richiesta;
                             stato_tesi = dati_tesi.stato_tesi;
-                            
-                            
-                        $("#professore_richiesta").html("Professore");
-                        $("#messaggio_richiesta").html(messaggio_richiesta);
+
                         }
 
                         if (stato_tesi == null) {
@@ -53,9 +58,14 @@
                             $("#attesa").hide();
                             $("#inCorso").hide();
                         } else if (stato_tesi == 0) {
+                            var relatore_richiesto=dati_tesi.relatori[0].nome_docente + " " + dati_tesi.relatori[0].cognome_docente
+                            $("#professore_richiesta").html(relatore_richiesto);
+                            $("#messaggio_richiesta").html(messaggio_richiesta);
+
                             $("#attesa").show();
                             $("#richiesta").hide();
                             $("#inCorso").hide();
+
                         } else if (stato_tesi == 1) {
                             $("#attesa").hide();
                             $("#richiesta").hide();
@@ -66,34 +76,34 @@
                     }
                 });
             });
-            
+
             function popolaSelectDipartimenti()
             {
-                
+
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectDipartimenti",
                     success: function (data) {
                         // Parse the returned json data
-                        if(data!=""){
-                        var dipartimenti = $.parseJSON(data);
+                        if (data != "") {
+                            var dipartimenti = $.parseJSON(data);
 
-                        // Use jQuery's each to iterate over the opts value
-                         for (i = 0; i < dipartimenti.mainOb.length; i++) {
-                             
-                            // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                            $('#dipartimenti').append('<option value="' + dipartimenti.mainOb[i].abbreviazione + '">' + dipartimenti.mainOb[i].titolo +'</option>');
-                         }
-                     } 
-                         
+                            // Use jQuery's each to iterate over the opts value
+                            for (i = 0; i < dipartimenti.mainOb.length; i++) {
+
+                                // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                                $('#dipartimenti').append('<option value="' + dipartimenti.mainOb[i].abbreviazione + '">' + dipartimenti.mainOb[i].titolo + '</option>');
+                            }
+                        }
+
                     }
                 });
             }
-            
-            
+
+
             function popolaSelectCorsoLaurea(dipartimento)
             {
-                
+
                 $("#corso_laurea").select2("val", "");
                 $("#professore").select2("val", "");
 
@@ -104,51 +114,51 @@
                     success: function (data) {
                         // Parse the returned json data
                         var corso_laurea = $.parseJSON(data);
-                        
+
                         $('#corso_laurea option[value!=""]').remove();
                         $('#professore option[value!=""]').remove();
                         // Use jQuery's each to iterate over the opts value
-                         for (i = 0; i < corso_laurea.mainOb.length; i++) {
-                             
+                        for (i = 0; i < corso_laurea.mainOb.length; i++) {
+
                             // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                            $('#corso_laurea').append('<option value="' + corso_laurea.mainOb[i].matricola + '">' + corso_laurea.mainOb[i].titolo +'</option>');
-                         }
-                         
-                         
+                            $('#corso_laurea').append('<option value="' + corso_laurea.mainOb[i].matricola + '">' + corso_laurea.mainOb[i].titolo + '</option>');
+                        }
+
+
                     }
                 });
             }
 
             function popolaSelectProfessori(corsoLaurea)
             {
-               $("#professore").select2("val", "");
-            
+                $("#professore").select2("val", "");
+
                 $.ajax({
                     type: "POST",
                     url: "PopolaSelectProfessori",
                     data: {posizione: "professor", corso_laurea: corsoLaurea.value},
-                    success: function (data){
+                    success: function (data) {
                         // Parse the returned json data
-                        
+
                         $('#professore option[value!=""]').remove();
-                        
+
                         var professori = $.parseJSON(data);
 
                         // Use jQuery's each to iterate over the opts value
-                         for (i = 0; i < professori.mainOb.length; i++) {
+                        for (i = 0; i < professori.mainOb.length; i++) {
                             // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-                            $('#professore').append('<option value="' + professori.mainOb[i].codice_fiscale + '">' + professori.mainOb[i].nome + " " + professori.mainOb[i].cognome +'</option>');
-                         }
+                            $('#professore').append('<option value="' + professori.mainOb[i].codice_fiscale + '">' + professori.mainOb[i].nome + " " + professori.mainOb[i].cognome + '</option>');
+                        }
                     }
                 });
             }
         </script>
 
         <script type="text/javascript">
-            
-            
-            
-            
+
+
+
+
             jQuery(document).ready(function ($)
             {
                 $("#dipartimenti").select2({
@@ -161,8 +171,8 @@
                 });
 
             });
-            
-                        jQuery(document).ready(function ($)
+
+            jQuery(document).ready(function ($)
             {
                 $("#corso_laurea").select2({
                     placeholder: 'Seleziona il tuo corso di laurea...',
@@ -218,7 +228,7 @@
                         <div class="col-sm-10">
                             <select onchange="popolaSelectCorsoLaurea(this);"  data-validate="required" data-message-required="Fai una scelta" class="form-control" name="dipartimenti" id="dipartimenti">
                                 <option > </option> 
-                                
+
                             </select>
                         </div>
                     </div>
@@ -228,7 +238,7 @@
 
                         <div class="col-sm-10">
                             <select onchange="popolaSelectProfessori(this);" data-validate="required" data-message-required="Fai una scelta"  class="form-control" name="corso_laurea" id="corso_laurea">
-                           <option value=""> </option> 
+                                <option value=""> </option> 
                             </select>
                         </div>
                     </div>
@@ -304,7 +314,7 @@
         </div>
 
         <%              //  }
-        %>
+%>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>

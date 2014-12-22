@@ -13,11 +13,34 @@ public class RelatoreTesi {
     
     private String id_docente;
     private int id_tesi;
+    private String nome;
+    private String cognome;
     
     public RelatoreTesi(String id_docente, int id_tesi){
         this.id_docente = id_docente;
         this.id_tesi = id_tesi;       
     }
+    
+        public RelatoreTesi(){
+    
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
 
     public String getId_docente() {
         return id_docente;
