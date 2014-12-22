@@ -5,8 +5,12 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.Cronologia;
 import it.unisa.gestionetesi.beans.Tesi;
+import it.unisa.gestionetesi.manager.ManagerCronologia;
 import it.unisa.gestionetesi.manager.ManagerTesi;
+import it.unisa.gestionetesi.manager.ManagerUtente;
+import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -27,6 +32,11 @@ public class accettaTesi extends HttpServlet {
     private Tesi T = null;
     private int id_tesi;
     private int stato_tesi;
+    final static Logger logger = Logger.getLogger("richiestaTesi");
+    ManagerCronologia manager_cronologia;
+    ManagerUtente manager_utente;
+    String testoNotifica, nomeStudente, nomeDocente;
+    Cronologia cronoAccetta;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,7 +51,18 @@ public class accettaTesi extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
         try {
+
+            /* Inizio Generazione notifica nella timeline */
+            Person docente = (Person) session.getAttribute("person");
+            Person studente = null;
+
+            String ssn_utente = docente.getSsn();
+            manager_utente = new ManagerUtente();
+            manager_cronologia = new ManagerCronologia();
+
+            /* Fine Generazione notifica nella timeline */
             String accetta_tesi = request.getParameter("accetta");
             String rifiuta_tesi = request.getParameter("rifiuta");
 
@@ -52,13 +73,26 @@ public class accettaTesi extends HttpServlet {
                 id_tesi = Integer.parseInt(accetta_tesi);
                 T = manager_tesi.recuperaTesi(id_tesi);
                 stato_tesi = Integer.parseInt(T.getStato_tesi());
+                String id_studente = T.getId_studente();
+                studente = manager_utente.selezionaUtente(id_studente, "studente");
 
+                nomeStudente = studente.getSurname() + " " + studente.getName();
+                nomeDocente = docente.getSurname() + " " + docente.getName();
+                
                 if (stato_tesi == 0) {
                     manager_tesi.accettaTesi(id_tesi);
+                    testoNotifica = "il prof."+nomeDocente+" ha accettato la richiesta di "+ nomeStudente+" per avviare un lavoro di tesi";
+                    cronoAccetta = new Cronologia();
+                    cronoAccetta.setTesto(testoNotifica);
+                    cronoAccetta.setId_docente(ssn_utente);
+                    cronoAccetta.setId_studente(id_studente);
+                    manager_cronologia.inserisciEvento(cronoAccetta);
+            
                 }
 
                 if (stato_tesi == 2) {
                     manager_tesi.accettaCompletamentoTesi(id_tesi);
+
                 }
             }
 
