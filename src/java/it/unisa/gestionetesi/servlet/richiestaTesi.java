@@ -52,9 +52,9 @@ public class richiestaTesi extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        
+
         try {
-            
+
             String professore = request.getParameter("professore");
             String messaggio = request.getParameter("messaggio");
             Person p = (Person) session.getAttribute("person");
@@ -68,7 +68,7 @@ public class richiestaTesi extends HttpServlet {
             RelatoreTesi relatoreTesi = inserisciRelatoreTesi(professore, ultimaTesiInserita);
             if (manager_tesi.inserisciRelatoreTesiQuery(relatoreTesi)) {
                 logger.info("true");
-                
+
                 manager_utente = new ManagerUtente();
                 manager_cronologia = new ManagerCronologia();
                 nomeStudente = manager_utente.selezionaUtente(ssn_utente, "studente").getSurname() + " " + manager_utente.selezionaUtente(ssn_utente, "studente").getName();
@@ -78,6 +78,8 @@ public class richiestaTesi extends HttpServlet {
                 cronoRichiesta.setTesto(testoNotifica);
                 cronoRichiesta.setId_studente(ssn_utente);
                 cronoRichiesta.setId_docente(professore);
+                cronoRichiesta.setTipo("richiesta");
+
                 manager_cronologia.inserisciEvento(cronoRichiesta);
             } else {
                 logger.info("false");

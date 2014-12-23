@@ -78,21 +78,38 @@ public class accettaTesi extends HttpServlet {
 
                 nomeStudente = studente.getSurname() + " " + studente.getName();
                 nomeDocente = docente.getSurname() + " " + docente.getName();
-                
+
                 if (stato_tesi == 0) {
-                    manager_tesi.accettaTesi(id_tesi);
-                    testoNotifica = "il prof."+nomeDocente+" ha accettato la richiesta di "+ nomeStudente+" per avviare un lavoro di tesi";
-                    cronoAccetta = new Cronologia();
-                    cronoAccetta.setTesto(testoNotifica);
-                    cronoAccetta.setId_docente(ssn_utente);
-                    cronoAccetta.setId_studente(id_studente);
-                    manager_cronologia.inserisciEvento(cronoAccetta);
-            
+                    if (manager_tesi.accettaTesi(id_tesi)) {
+
+                        testoNotifica = "il prof." + nomeDocente + " ha accettato la richiesta di " + nomeStudente + " per avviare un lavoro di tesi";
+
+                        cronoAccetta = new Cronologia();
+                        cronoAccetta.setTesto(testoNotifica);
+                        cronoAccetta.setId_docente(ssn_utente);
+                        cronoAccetta.setId_studente(id_studente);
+                        cronoAccetta.setTipo("accetta");
+                        manager_cronologia.inserisciEvento(cronoAccetta);
+                    }
                 }
 
                 if (stato_tesi == 2) {
-                    manager_tesi.accettaCompletamentoTesi(id_tesi);
+                    if (manager_tesi.accettaCompletamentoTesi(id_tesi)) {
+                        if ((T.getData_fine() != null)) {
+                            String data_fine = T.getData_fine();
+                            logger.info("data fine:" + data_fine);
+                            testoNotifica = "il prof." + nomeDocente + " ha accettato la richiesta di " + nomeStudente + " per avviare un lavoro di tesi. La seduta di laurea è prevista il giorno " + data_fine;
+                        } else {
+                            testoNotifica = "il prof." + nomeDocente + " ha convalidato la richiesta di " + nomeStudente + " per confermare il completamento del lavoro di tesi. ";
+                        }
+                        cronoAccetta = new Cronologia();
+                        cronoAccetta.setTesto(testoNotifica);
+                        cronoAccetta.setId_docente(ssn_utente);
+                        cronoAccetta.setId_studente(id_studente);
+                        cronoAccetta.setTipo("accetta");
 
+                        manager_cronologia.inserisciEvento(cronoAccetta);
+                    }
                 }
             }
 
@@ -100,12 +117,42 @@ public class accettaTesi extends HttpServlet {
                 id_tesi = Integer.parseInt(rifiuta_tesi);
                 T = manager_tesi.recuperaTesi(id_tesi);
                 stato_tesi = Integer.parseInt(T.getStato_tesi());
+                String id_studente = T.getId_studente();
+                studente = manager_utente.selezionaUtente(id_studente, "studente");
+                nomeStudente = studente.getSurname() + " " + studente.getName();
+                nomeDocente = docente.getSurname() + " " + docente.getName();
 
                 if (stato_tesi == 0) {
-                    manager_tesi.rifiutaTesi(id_tesi);
+                    if (manager_tesi.rifiutaTesi(id_tesi)) {
+                        logger.info("true");
+                        testoNotifica = "il prof." + nomeDocente + " ha rifiutato la richiesta di " + nomeStudente + " per avviare un lavoro di tesi";
+
+                        cronoAccetta = new Cronologia();
+                        cronoAccetta.setTesto(testoNotifica);
+                        cronoAccetta.setId_docente(ssn_utente);
+                        cronoAccetta.setId_studente(id_studente);
+                        cronoAccetta.setTipo("rifiuta");
+
+                        manager_cronologia.inserisciEvento(cronoAccetta);
+                    } else {
+                        logger.info("false");
+                    }
                 }
+
                 if (stato_tesi == 2) {
-                    manager_tesi.rifiutaCompletamentoTesi(id_tesi);
+                    if (manager_tesi.rifiutaCompletamentoTesi(id_tesi)) {
+                        logger.info("true");
+                        testoNotifica = "il prof." + nomeDocente + " ha rifiutato la richiesta di " + nomeStudente + " di completamento del lavoro di tesi. Controlla che tutti i campi siano stati compilati correttamente o prova a contattare il docente.";
+
+                        cronoAccetta = new Cronologia();
+                        cronoAccetta.setTesto(testoNotifica);
+                        cronoAccetta.setId_docente(ssn_utente);
+                        cronoAccetta.setId_studente(id_studente);
+                                                cronoAccetta.setTipo("rifiuta");
+
+                        manager_cronologia.inserisciEvento(cronoAccetta);
+                    }
+                    logger.info("false");
                 }
             }
 
