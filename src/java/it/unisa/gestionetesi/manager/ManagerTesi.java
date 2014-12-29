@@ -203,6 +203,21 @@ public class ManagerTesi {
         }
 
     }
+    
+     public void richiestaCompletamentoTesi(int idTesi) throws SQLException {
+
+        try {
+            Statement aStatement = db.createStatement();
+            String completa = "UPDATE `db_distra`.`tesi` SET `Stato_Tesi` = '2' WHERE `tesi`.`ID` =" + idTesi;
+            aStatement.executeUpdate(completa);
+            logger.info("completa tesi sei nel try");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("comple tesi sei nel catch" + ex.getErrorCode());
+        }
+
+    }
 
     public void accettaCompletamentoTesi(int idTesi) throws SQLException {
 

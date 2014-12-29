@@ -8,28 +8,49 @@
 <html>
     <head>
 
-        <link rel="stylesheet" href="assets/js/multiselect/css/multi-select.css">
-
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+
+        <script>
+
+            $(document).ready(function () {
+                $(document).on("click", "#button_completa", function (e) {
+                    e.preventDefault();
+                    bootbox.confirm("Questa operazione sarà sottoposta a verifica del professore. Continuare?", function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: 'richiestaCompletaTesi',
+                                type: 'POST',
+                                data: {id_tesi: id},
+                                success: function (msg) {
+                                $("#button_completa").prop("disabled", true);    
+                                $("#button_modifica").prop("disabled", true);    
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+        </script>
     </head>
     <body>
 
         <div id="inCorso" class="panel panel-color panel-danger"><!-- Add class "collapsed" to minimize the panel -->
             <div class="panel-heading">
-                <h3 class="panel-title">Tesi In Corso</h3>
+                <h3 id="titolo_panel_tesi_in_corso" class="panel-title">Tesi In Corso</h3>
             </div>
 
 
             <div class="panel-body">
-               
+
 
                 <form  role="form" action="${pageContext.request.contextPath}/modificaTesi" method="POST" class="form-horizontal validate">
-                   
+
                     <br>
-                    
+
                     <div class="form-group">
-                        <label class="col-sm-2 control-label text-primary" for="titolo">Titolo</label>
+                        <label class="col-sm-2 text-primary " for="titolo">Titolo</label>
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="titolo" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci il titolo" />
@@ -37,7 +58,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label text-primary" for="abstract">Abstract</label>
+                        <label class="col-sm-2  text-primary text-left" for="abstract">Abstract</label>
 
                         <div class="col-sm-10">
                             <textarea type="text" class="form-control" name="abstract" cols="5" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci l'abstract" ></textarea>
@@ -45,112 +66,85 @@
                     </div>
 
                     <br>
-                    
-                    <div class="form-group">
-                    <div class="col-sm-4">
-
-                        <div class="input-group">
-                            <input placeholder="Data Inizio" name="data_inizio" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
-
-                            <div class="input-group-addon">
-                                <a href="#"><i class="linecons-calendar"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    
-
-
-                    <div class="col-sm-4">
-
-                        <div class="input-group">
-                            <input placeholder="Data Fine Prevista" name="data_fine_prevista" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
-
-                            <div class="input-group-addon">
-                                <a href="#"><i class="linecons-calendar"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-sm-4">
-
-                        <div class="input-group">
-                            <input placeholder="Data Fine" name="data_fine" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
-
-                            <div class="input-group-addon">
-                                <a href="#"><i class="linecons-calendar"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                             </div>
-
-                    <br>
-                    
-
-                        <div class="form-group-separator"></div>
-                        
-                        <br>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label text-primary" for="tagsinput-1">Seleziona Relatori</label>
-
-                            <div class="col-sm-10">
-
-                                <script type="text/javascript">
-                                    jQuery(document).ready(function ($)
-                                    {
-                                        $("#multi-select").multiSelect({
-                                            afterInit: function ()
-                                            {
-                                                // Add alternative scrollbar to list
-                                                this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar();
-                                            },
-                                            afterSelect: function ()
-                                            {
-                                                // Update scrollbar size
-                                                this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar('update');
-                                            }
-                                        });
-                                    });
-                                </script>
-                                <select class="form-control" multiple="multiple" id="multi-select" name="professors[]">
-                                    <option value="1">Silky Door</option>
-                                    <option value="2">The Absent Twilight</option>
-                                    <option value="3">Tales of Flames</option>
-                                    <option value="4">The Princess's Dream</option>
-                                    <option value="5">The Fairy of the Wind</option>
-                                    <option value="6">Children in the Boy</option>
-                                    <option value="7">Frozen Savior</option>
-                                    <option value="8">The Missing Thorns</option>
-                                    <option value="9">Healing of Serpent</option>
-                                    <option value="10">The Voyagers's Girlfriend</option>
-                                    <option value="11">The Nothing of the Gate</option>
-                                    <option value="12">Healing in the Scent</option>
-                                    <option value="13">Final Twins</option>
-                                    <option value="14">The Willing Rose</option>
-                                    <option value="15">Thorn of Emperor</option>
-                                    <option value="16" selected>The Predator's Pirates</option>
-                                    <option value="17">The Lord of the Girl</option>
-                                    <option value="18" selected>Flowers in the Spirit</option>
-                                    <option value="19" selected>Healing in the Silence</option>
-                                    <option value="20">Planet of Bridges</option>
-                                </select>
-
-                            </div>
-                        </div>
-                        
-                        <br>
 
                     <div class="form-group-separator"></div>
-                    
+
                     <br>
 
                     <div class="form-group">
-                        <label class="col-sm-2 control-label text-primary" for="tagsinput-1">Argomenti</label>
+                        <div class="col-sm-4">
+
+                            <label class="text-primary " >Data Inizio</label>
+                            <div class="input-group">
+                                <input placeholder="Data Inizio" name="data_inizio" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+
+                                <div class="input-group-addon">
+                                    <a href="#"><i class="linecons-calendar"></i></a>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <label class="text-primary" >Data Fine Prevista</label>
+                            <div class="input-group">
+                                <input placeholder="Data Fine Prevista" name="data_fine_prevista" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+
+                                <div class="input-group-addon">
+                                    <a href="#"><i class="linecons-calendar"></i></a>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <label class="text-primary" >Data Fine</label>
+                            <div class="input-group">
+                                <input placeholder="Data Fine" name="data_fine" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+
+                                <div class="input-group-addon">
+                                    <a href="#"><i class="linecons-calendar"></i></a>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <label class="col-sm-2 text-primary text-right" for="tagsinput-1">Seleziona Relatori</label>
+
+                        <div class="col-sm-6 pull-right">
+
+                            <script type="text/javascript">
+                                jQuery(document).ready(function ($)
+                                {
+                                    $("#multi-select").multiSelect({
+                                        afterInit: function ()
+                                        {
+                                            // Add alternative scrollbar to list
+                                            this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar();
+                                        },
+                                        afterSelect: function ()
+                                        {
+                                            // Update scrollbar size
+                                            this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar('update');
+                                        }
+                                    });
+                                });
+                            </script>
+                            <select class="form-control" multiple="multiple" id="multi-select"  name="professors[]">
+                                <option>Ciao</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="form-group-separator"></div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label class="col-sm-2  text-primary " for="tagsinput-1">Argomenti (Tag)</label>
 
                         <div class="col-sm-10">
-
-
 
                             <div class="input-group">
                                 <input type="text" class="form-control" id="typeahead-1" />						
@@ -161,7 +155,7 @@
 
                         </div>
                     </div>
-                    
+
                     <br>
 
                     <div class="form-group-separator"></div>
@@ -220,6 +214,9 @@
                     </script>
 
                     <br />
+
+                    <label class=" text-primary " for="tagsinput-1">Allegati</label>
+
                     <div class="row">
                         <div class="col-sm-3 text-center">
 
@@ -250,24 +247,35 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-12 text-right">
-                            <button type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
-                                <i class="fa-graduation-cap"></i>
-                                <span>Salva Modifiche</span>
-                            </button>
-                        </div>
+                    <br>
+
+                    <div class="form-group-separator"></div>
+
+                    <br>
+
+
+                    <div class="col-sm-3">
+                        <button id="button_modifica" type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
+                            <i class="fa-save"></i>
+                            <span>Salva Modifiche</span>
+                        </button>
                     </div>
 
                 </form>
 
+                <div class="col-sm-3">
+                    <button id="button_completa" class="btn btn-secondary btn-icon btn-icon-standalone btn-lg">
+                        <i class="fa-graduation-cap"></i>
+                        <span>Tesi Completata</span>
+                    </button>
+                </div>
+
             </div>
         </div>
 
-
         <script src="assets/js/datepicker/bootstrap-datepicker.js"></script>
-        <script src="assets/js/multiselect/js/jquery.multi-select.js"></script>
         <script src="assets/js/tagsinput/bootstrap-tagsinput.min.js"></script>
+        <script src="assets/js/bootbox/bootbox.js"></script>
         <script src="assets/js/dropzone/dropzone.min.js"></script>
 
     </body>

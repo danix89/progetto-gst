@@ -52,7 +52,7 @@
         <servlet-name>RecuperaCronologiaStudente</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaStudente</servlet-class>
     </servlet>
-        <servlet>
+    <servlet>
         <servlet-name>RecuperaCronologiaDocente</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.RecuperaCronologiaDocente</servlet-class>
     </servlet>
@@ -71,6 +71,10 @@
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
         <servlet-class>it.unisa.integrazione.servlet.RegistrationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>richiestaCompletaTesi</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.richiestaCompletaTesi</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/RegistrationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>richiestaCompletaTesi</servlet-name>
+        <url-pattern>/richiestaCompletaTesi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

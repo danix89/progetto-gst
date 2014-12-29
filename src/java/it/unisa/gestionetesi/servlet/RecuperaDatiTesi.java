@@ -67,7 +67,7 @@ public class RecuperaDatiTesi extends HttpServlet {
                 dati_tesi.put("stato_tesi", T.getStato_tesi());
                 dati_tesi.put("abstract_tesi", T.getAbstract_tesi());
 
-                if (T.getStato_tesi().equals("0") || T.getStato_tesi().equals("1")) {
+                if (T.getStato_tesi().equals("0") || T.getStato_tesi().equals("1") || T.getStato_tesi().equals("2")) {
                     
                     JSONArray jarrayRelatori = new JSONArray();
 

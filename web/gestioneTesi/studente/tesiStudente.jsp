@@ -10,18 +10,18 @@
 
         <link rel="stylesheet" href="assets/js/select2/select2.css">
         <link rel="stylesheet" href="assets/js/select2/select2-bootstrap.css">
-
+        <link rel="stylesheet" href="assets/js/multiselect/css/multi-select.css">
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tesi Studente</title>
 
         <script>
+            var codice_fiscale = '${person.ssn}';
+            var stato_tesi = null;
+            var id = null;
 
             $(document).ready(function () {
-                var codice_fiscale = '${person.ssn}';
-                var stato_tesi = null;
-
 
                 $.ajax({
                     url: 'RecuperaDatiTesi',
@@ -29,13 +29,13 @@
                     data: {id_studente: codice_fiscale},
                     success: function (msg) {
                         var dati_tesi = null;
-                        var id = null;
+
                         var titolo = null;
                         var abstract = null;
                         var data_inizio = null;
                         var data_fine = null;
                         var data_fine_prevista = null;
-                        var messaggio_richiesta= null;
+                        var messaggio_richiesta = null;
                         if (msg !== "") {
                             var dati_tesi = $.parseJSON(msg);
                         }
@@ -58,7 +58,7 @@
                             $("#attesa").hide();
                             $("#inCorso").hide();
                         } else if (stato_tesi == 0) {
-                            var relatore_richiesto=dati_tesi.relatori[0].nome_docente + " " + dati_tesi.relatori[0].cognome_docente
+                            var relatore_richiesto = dati_tesi.relatori[0].nome_docente + " " + dati_tesi.relatori[0].cognome_docente;
                             $("#professore_richiesta").html(relatore_richiesto);
                             $("#messaggio_richiesta").html(messaggio_richiesta);
 
@@ -66,10 +66,27 @@
                             $("#richiesta").hide();
                             $("#inCorso").hide();
 
-                        } else if (stato_tesi == 1) {
+                        } else if (stato_tesi == 1 || stato_tesi == 2) {
                             $("#attesa").hide();
                             $("#richiesta").hide();
                             $("#inCorso").show();
+                            /*
+                             // Use jQuery's each to iterate over the opts value
+                             var professors = [];
+                             for (i = 0; i < dati_tesi.relatori.length; i++) {
+                             professors.push({value: dati_tesi.relatori[i].id_docente,
+                             label: dati_tesi.relatori[i].nome_docente + " " + dati_tesi.relatori[i].cognome_docente});
+                             // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                             // $('#multi-select').append('<option value="' + dati_tesi.relatori[i].id_docente + '">' + dati_tesi.relatori[i].nome_docente + " " + dati_tesi.relatori[i].cognome_docente + '</option>');
+                             }
+                             
+                             $("#multi-select").multiselect('dataprovider', professors);
+                             */
+                        }
+                        if (stato_tesi == 2) {
+                            $("#button_completa").prop("disabled", true);
+                            $("#button_modifica").prop("disabled", true);
+                            $("#titolo_panel_tesi_in_corso").html("Richiesta di completamento tesi in attesa")
                         }
 
 
@@ -314,12 +331,12 @@
         </div>
 
         <%              //  }
-%>
+        %>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>
         <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
-
+        <script src="assets/js/multiselect/js/jquery.multi-select.js"></script>
 
     </body>
 </html>
