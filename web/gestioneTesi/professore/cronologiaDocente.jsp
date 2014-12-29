@@ -20,7 +20,6 @@
                     type: 'POST',
                     data: {id_docente: codice_fiscale},
                     success: function (cronologiaD) {
-                        alert("ajax docente");
                         if (cronologiaD != "null") {
                             var array_cronologia = $.parseJSON(cronologiaD);
                             n = array_cronologia.employees[0].size;
@@ -36,6 +35,8 @@
                             }
 
                             for (var i = n - 1; i >= 0; i--) {
+                                
+                                var tipoNotifica = array_cronologia.employees[i].tipoNotifica;
                                 var nomeStudente = array_cronologia.employees[i].nomeStudente;
                                 var testo = array_cronologia.employees[i].testo;
                                 var ID_Studente = array_cronologia.employees[i].ID_Studente;
@@ -63,7 +64,7 @@
 
                         }
                     }
-                
+
                 });
             });
         </script>

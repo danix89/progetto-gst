@@ -80,8 +80,10 @@ public class RecuperaCronologiaDocente extends HttpServlet {
                     crono_data.put("ID_Docente", cronologia.get(i).getId_docente());
                     crono_data.put("Data_Notifica", cronologia.get(i).getData_notifica());
                     crono_data.put("nomeStudente", nomeStudente);
+                    crono_data.put("tipoNotifica", cronologia.get(i).getTipo());
                     
                     jarray.put(i, crono_data);
+                    
                 }
                 
                 JSONObject mainObj = new JSONObject();

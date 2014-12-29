@@ -11,17 +11,32 @@ package it.unisa.gestionetesi.beans;
  */
 public class Cronologia {
     
+    /*
+    tipo può valere i seguenti valori: richiesta, accetta, rifiuta, modifica  
+    */
+    
     private int id_cronologia;
-    private String testo, data_notifica, id_studente, id_docente;
+    private String testo, data_notifica, id_studente, id_docente, tipo;
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
    
 
-    public Cronologia(int id_cronologia, String testo, String data_notifica, String id_studente,String id_docente) {
+    public Cronologia(int id_cronologia, String testo, String data_notifica, String id_studente,String id_docente,String tipo) {
+       
         this.id_cronologia = id_cronologia;
         this.testo = testo;
         this.data_notifica = data_notifica;
         this.id_studente = id_studente;
         this.id_docente = id_docente;
+        this.tipo = tipo;
+        
     }
 
     public Cronologia() {
