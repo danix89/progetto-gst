@@ -49,7 +49,7 @@
                                         "<td id=\"richiesta_nome" + i + "\"></td>" +
                                         "<td id=\"richiesta_messaggio" + i + "\"></td>" +
                                         "<td><button class=\"btn btn-icon btn-success\" name=\"accetta\" value=\"" + id_tesi + "\"><i class=\"fa-thumbs-o-up\"></i></button></td>" +
-                                        "<td><a class=\"btn btn-icon btn-red\" name=\"rifiuta\" value=\"" + id_tesi + "\"><i class=\"fa-remove\"></i></a></td>";
+                                        "<td><button class=\"btn btn-icon btn-red\" name=\"rifiuta\" value=\"" + id_tesi + "\"><i class=\"fa-remove\"></i></button></td>";
 
 
 
@@ -155,7 +155,7 @@
                 });
             });
         </script>
-
+        
     </head>
     <body>
 
