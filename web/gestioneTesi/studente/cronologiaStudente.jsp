@@ -26,7 +26,7 @@
                             n = array_cronologia.employees[0].size;
                             for (var i = n - 1; i >= 0; i--) {
                                 var temp = document.createElement("li");
-                                var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel empty\"> <span id=\"testo" + i + "\" ></span>  </div> ";
+                                var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
                                 temp.innerHTML = str;
                                 $("#principale").append(temp);
 
@@ -40,8 +40,7 @@
                                 var ID_Studente = array_cronologia.employees[i].ID_Studente;
                                 var ID_Docente = array_cronologia.employees[i].ID_Docente;
                                 var Data_Notifica = array_cronologia.employees[i].Data_Notifica;
-
-                                $("#testo" + i).html("Con il prof. " + nomeDocente + " :" + testo);
+                                $("#testo" + i).html(" Con il prof. " + nomeDocente + ": " + testo+"");
                                 $("#data" + i).html(Data_Notifica);
 
                             }
@@ -52,7 +51,7 @@
                             var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel empty\"> <span id=\"testo" + i + "\" ></span>  </div> ";
                             temp.innerHTML = str;
                             $("#principale").append(temp);
-                            $("#testo" + i).html("Messaggio di sistema: " + testo);
+                            $("#testo" + i).html(" Messaggio di sistema: " + testo);
                             var dat = new Date();
                             var gg = dat.getDate();
                             var mm = (dat.getMonth() + 1);
