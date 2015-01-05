@@ -5,7 +5,11 @@
  */
 package it.unisa.gestionetesi.servlet;
 
+import it.unisa.gestionetesi.beans.Cronologia;
+import it.unisa.gestionetesi.manager.ManagerCronologia;
 import it.unisa.gestionetesi.manager.ManagerTesi;
+import it.unisa.gestionetesi.manager.ManagerUtente;
+import it.unisa.model.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,13 +19,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author CosimoAlessandro
  */
 public class richiestaCompletaTesi extends HttpServlet {
-        ManagerTesi manager_tesi;
+
+    final static Logger logger = Logger.getLogger("richiestaCompletamentoTesi");
+    ManagerTesi manager_tesi;
+    ManagerCronologia manager_cronologia;
+    ManagerUtente manager_utente;
+    String testoNotifica, nomeStudente, nomeDocente;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,23 +46,41 @@ public class richiestaCompletaTesi extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+
         try {
-            int id_tesi= Integer.parseInt(request.getParameter("id_tesi"));
-            manager_tesi=new ManagerTesi();
+
+            Person p = (Person) session.getAttribute("person");
+            String ssn_studente = p.getSsn();
+logger.info("RCT ongoing");
+            int id_tesi = Integer.parseInt(request.getParameter("id_tesi"));
+            manager_tesi = new ManagerTesi();
             manager_tesi.richiestaCompletamentoTesi(id_tesi);
-            
+            manager_utente = new ManagerUtente();
+            manager_cronologia = new ManagerCronologia();
+            nomeStudente = manager_utente.selezionaUtente(ssn_studente, "studente").getSurname() + " " + manager_utente.selezionaUtente(ssn_studente, "studente").getName();
+            String ssn_professore = manager_tesi.selezionaRelatoriTesi(id_tesi).get(0).getId_docente();
+            nomeDocente = manager_utente.selezionaUtente(ssn_professore, "professore").getSurname() + " " + manager_utente.selezionaUtente(ssn_professore, "professore").getName();
+            testoNotifica = "lo studente " + nomeStudente + " ha inviato una richiesta per il completamento della tesi al prof. " + nomeDocente;
+            Cronologia cronoRichiesta = new Cronologia();
+            cronoRichiesta.setTesto(testoNotifica);
+            cronoRichiesta.setId_studente(ssn_studente);
+            cronoRichiesta.setId_docente(ssn_professore);
+            cronoRichiesta.setTipo("richiesta_completamento");
+
+            manager_cronologia.inserisciEvento(cronoRichiesta);
+
             out.print("");
-            
-            
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(richiestaCompletaTesi.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
             out.close();
         }
     }
