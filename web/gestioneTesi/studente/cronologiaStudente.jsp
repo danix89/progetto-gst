@@ -26,7 +26,21 @@
                             n = array_cronologia.employees[0].size;
                             for (var i = n - 1; i >= 0; i--) {
                                 var temp = document.createElement("li");
-                                var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-gray\"> <i class=\"fa-user\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+                                var tipoNotifica = array_cronologia.employees[i].tipoNotifica;
+                                if (tipoNotifica == "richiesta")
+                                    var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-info\"> <i class=\"fa-question-circle\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+                                else if (tipoNotifica == "richiesta_completamento")
+                                    var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-info\"> <i class=\"fa-graduation-cap\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+                                else if (tipoNotifica == "accetta")
+                                    var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-success\"> <i class=\"fa-check-circle\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+                                else if (tipoNotifica == "rifiuta")
+                                    var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-red\"> <i class=\"fa-ban\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+                                else
+                                    var str = " <time class=\"cbp_tmtime\" datetime=\"2014-10-03T18:30\"><span class=\"hidden\"> 03/10/2014</span> <span class=\"large\" id=\"data" + i + "\"></span></time> <div class=\"cbp_tmicon timeline-bg-warning\"> <i class=\"fa-save\"></i>  </div> <div class=\"cbp_tmlabel\"> <span id=\"testo" + i + "\" ></span> </div> ";
+
+
+
+
                                 temp.innerHTML = str;
                                 $("#principale").append(temp);
 
@@ -34,13 +48,13 @@
                             }
 
                             for (var i = n - 1; i >= 0; i--) {
-                                var tipoNotifica = array_cronologia.employees[i].tipoNotifica;
+
                                 var nomeDocente = array_cronologia.employees[i].nomeDocente;
                                 var testo = array_cronologia.employees[i].testo;
                                 var ID_Studente = array_cronologia.employees[i].ID_Studente;
                                 var ID_Docente = array_cronologia.employees[i].ID_Docente;
                                 var Data_Notifica = array_cronologia.employees[i].Data_Notifica;
-                                $("#testo" + i).html(" Con il prof. " + nomeDocente + ": " + testo+"");
+                                $("#testo" + i).html(" Con il prof. " + nomeDocente + ": " + testo + "");
                                 $("#data" + i).html(Data_Notifica);
 
                             }
