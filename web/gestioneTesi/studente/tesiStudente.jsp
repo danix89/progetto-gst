@@ -71,6 +71,12 @@
                             $("#attesa").hide();
                             $("#richiesta").hide();
                             $("#inCorso").show();
+                            
+                            $('#titolo').val(titolo);
+                            $('#abstract').val(abstract);
+                            $('#data_inizio').val(data_inizio);
+                            $('#data_fine_prevista').val(data_fine_prevista);
+                            $('#data_fine').val(data_fine);
                             /*
                              // Use jQuery's each to iterate over the opts value
                              var professors = [];

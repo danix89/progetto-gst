@@ -35,17 +35,17 @@
             $(document).on("click", "#button_modifica", function (e) {
                 e.preventDefault();
 
-               var titolo = $('#titolo').val();
-               var abstract = $('#abstract').val();
-               var data_inizio = $('#data_inizio').val();
-               var data_fine_prevista = $('#data_fine_prevista').val();
-               var data_fine = $('#data_fine').val();
-              //  $('#send_memory').attr("disabled", true);
-              //  $('#load_spinning').show();
+                var titolo = $('#titolo').val();
+                var abstract = $('#abstract').val();
+                var data_inizio = $('#data_inizio').val();
+                var data_fine_prevista = $('#data_fine_prevista').val();
+                var data_fine = $('#data_fine').val();
+                //  $('#send_memory').attr("disabled", true);
+                //  $('#load_spinning').show();
                 $.ajax({
                     url: 'modificaTesi',
                     type: 'POST',
-                    data: {id_tesi:id, titolo:titolo, abstract:abstract, data_inizio:data_inizio, data_fine:data_fine, data_fine_prevista:data_fine_prevista},
+                    data: {id_tesi: id, titolo: titolo, abstract: abstract, data_inizio: data_inizio, data_fine: data_fine, data_fine_prevista: data_fine_prevista},
                     success: function (msg) {
                         alert("modifica riuscita");
                     }
@@ -129,29 +129,27 @@
 
                         </div>
 
-                        <label class="col-sm-2 text-primary text-right" for="tagsinput-1">Seleziona Relatori</label>
+                        <div class="col-sm-7 pull-right">
 
-                        <div class="col-sm-6 pull-right">
 
                             <script type="text/javascript">
                                 jQuery(document).ready(function ($)
                                 {
-                                    $("#multi-select").multiSelect({
-                                        afterInit: function ()
-                                        {
-                                            // Add alternative scrollbar to list
-                                            this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar();
-                                        },
-                                        afterSelect: function ()
-                                        {
-                                            // Update scrollbar size
-                                            this.$selectableContainer.add(this.$selectionContainer).find('.ms-list').perfectScrollbar('update');
-                                        }
+                                    $("#seleziona_relatori").select2({
+                                        placeholder: 'Seleziona correlatori...',
+                                        allowClear: true
+                                    }).on('select2-open', function ()
+                                    {
+                                        // Adding Custom Scrollbar
+                                        $(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
                                     });
+
                                 });
                             </script>
-                            <select class="form-control" multiple="multiple" id="multi-select"  name="professors[]">
-                                <option>Ciao</option>
+
+                            <select class="form-control" id="seleziona_relatori" multiple>
+                                <option></option>
+
                             </select>
 
                         </div>
