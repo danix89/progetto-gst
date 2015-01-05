@@ -31,7 +31,8 @@
 
         <script>
             function reload_bacheca() {
-                $('#bacheca').load("gestioneTesi/bacheca.jsp");
+                location.reload();
+                //$('#bacheca').reload("gestioneTesi/bacheca.jsp");
             }
             ;
 
