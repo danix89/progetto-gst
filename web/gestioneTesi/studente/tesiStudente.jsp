@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="assets/js/select2/select2.css">
         <link rel="stylesheet" href="assets/js/select2/select2-bootstrap.css">
         <link rel="stylesheet" href="assets/js/multiselect/css/multi-select.css">
+        <link rel="stylesheet" href="assets/js/magicsuggest/css/magicsuggest-1.3.1-min.css">
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -82,7 +83,22 @@
                              
                              $("#multi-select").multiselect('dataprovider', professors);
                              */
+
+                            var ms = $('#argument_tag').magicSuggest({
+                                data: "",
+                                displayField: '',
+                                useCommaKey: true,
+                                width: 800
+                            });
+
+
+                            $(ms).on('selectionchange', function (v) {
+
+                                $("#tag_selected").val(JSON.stringify(this.getValue(v.id)));
+
+                            });
                         }
+                        
                         if (stato_tesi == 2) {
                             $("#button_completa").prop("disabled", true);
                             $("#button_modifica").prop("disabled", true);
@@ -331,12 +347,13 @@
         </div>
 
         <%              //  }
-        %>
+%>
 
         <!--Bottom Scripts-->
         <script src="assets/js/select2/select2.min.js"></script>
         <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
         <script src="assets/js/multiselect/js/jquery.multi-select.js"></script>
+        <script src="assets/js/magicsuggest/magicsuggest-1.3.1-min.js"></script>
 
     </body>
 </html>

@@ -23,8 +23,8 @@
                                 type: 'POST',
                                 data: {id_tesi: id},
                                 success: function (msg) {
-                                $("#button_completa").prop("disabled", true);    
-                                $("#button_modifica").prop("disabled", true);    
+                                    $("#button_completa").prop("disabled", true);
+                                    $("#button_modifica").prop("disabled", true);
                                 }
                             });
                         }
@@ -61,7 +61,7 @@
                         <label class="col-sm-2  text-primary text-left" for="abstract">Abstract</label>
 
                         <div class="col-sm-10">
-                            <textarea type="text" class="form-control" name="abstract" cols="5" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci l'abstract" ></textarea>
+                            <textarea type="text" class="form-control" name="abstract" rows="5" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci l'abstract" ></textarea>
                         </div>
                     </div>
 
@@ -147,10 +147,10 @@
                         <div class="col-sm-10">
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="typeahead-1" />						
-                                <span class="input-group-addon">
-                                    <i class="fa-globe"></i>
-                                </span>
+                                <input type="text"  id="argument_tag"  />
+
+                                <input name="tag_selected[]" type="hidden" id="tag_selected" />
+
                             </div>
 
                         </div>
