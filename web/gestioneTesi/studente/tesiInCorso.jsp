@@ -32,6 +32,27 @@
                 });
             });
 
+            $(document).on("click", "#button_modifica", function (e) {
+                e.preventDefault();
+
+               var titolo = $('#titolo').val();
+               var abstract = $('#abstract').val();
+               var data_inizio = $('#data_inizio').val();
+               var data_fine_prevista = $('#data_fine_prevista').val();
+               var data_fine = $('#data_fine').val();
+              //  $('#send_memory').attr("disabled", true);
+              //  $('#load_spinning').show();
+                $.ajax({
+                    url: 'modificaTesi',
+                    type: 'POST',
+                    data: {id_tesi:id, titolo:titolo, abstract:abstract, data_inizio:data_inizio, data_fine:data_fine, data_fine_prevista:data_fine_prevista},
+                    success: function (msg) {
+                        alert("modifica riuscita");
+                    }
+                });
+
+            });
+
         </script>
     </head>
     <body>
@@ -45,7 +66,7 @@
             <div class="panel-body">
 
 
-                <form  role="form" action="${pageContext.request.contextPath}/modificaTesi" method="POST" class="form-horizontal validate">
+                <form  role="form" id="modificaTesi" action="${pageContext.request.contextPath}/modificaTesi" method="POST" class="form-horizontal validate">
 
                     <br>
 
@@ -53,7 +74,7 @@
                         <label class="col-sm-2 text-primary " for="titolo">Titolo</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="titolo" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci il titolo" />
+                            <input type="text" class="form-control" id="titolo" name="titolo" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci il titolo" />
                         </div>
                     </div>
 
@@ -61,7 +82,7 @@
                         <label class="col-sm-2  text-primary text-left" for="abstract">Abstract</label>
 
                         <div class="col-sm-10">
-                            <textarea type="text" class="form-control" name="abstract" rows="5" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci l'abstract" ></textarea>
+                            <textarea type="text" class="form-control" id="abstract" name="abstract" rows="5" data-validate="required" data-message-required="Campo obbligatorio." placeholder="Inserisci l'abstract" ></textarea>
                         </div>
                     </div>
 
@@ -76,7 +97,7 @@
 
                             <label class="text-primary " >Data Inizio</label>
                             <div class="input-group">
-                                <input placeholder="Data Inizio" name="data_inizio" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+                                <input placeholder="Data Inizio" id="data_inizio" name="data_inizio" type="text" class="form-control datepicker" data-format="yyyy-mm-dd">
 
                                 <div class="input-group-addon">
                                     <a href="#"><i class="linecons-calendar"></i></a>
@@ -87,7 +108,7 @@
 
                             <label class="text-primary" >Data Fine Prevista</label>
                             <div class="input-group">
-                                <input placeholder="Data Fine Prevista" name="data_fine_prevista" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+                                <input placeholder="Data Fine Prevista" id="data_fine_prevista" name="data_fine_prevista" type="text" class="form-control datepicker" data-format="yyyy-mm-dd">
 
                                 <div class="input-group-addon">
                                     <a href="#"><i class="linecons-calendar"></i></a>
@@ -98,7 +119,7 @@
 
                             <label class="text-primary" >Data Fine</label>
                             <div class="input-group">
-                                <input placeholder="Data Fine" name="data_fine" type="text" class="form-control datepicker" data-format="D, dd MM yyyy">
+                                <input placeholder="Data Fine" id="data_fine" name="data_fine" type="text" class="form-control datepicker" data-format="yyyy-mm-dd">
 
                                 <div class="input-group-addon">
                                     <a href="#"><i class="linecons-calendar"></i></a>
@@ -253,9 +274,10 @@
 
                     <br>
 
+                    <input name="idtesi" id="idtesi" type="hidden" />
 
                     <div class="col-sm-3">
-                        <button id="button_modifica" type="submit" class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
+                        <button id="button_modifica"  class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
                             <i class="fa-save"></i>
                             <span>Salva Modifiche</span>
                         </button>

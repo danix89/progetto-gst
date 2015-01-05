@@ -393,5 +393,22 @@ public class ManagerTesi {
         }
         return success;
     }
+    
+    public void modificaTesi(int id_tesi,String titolo, String abstr, String data_inizio, String data_fine_prevista, String data_fine){
+        
+        try {
+            Statement aStatement = db.createStatement();
+
+            String update = "UPDATE `db_distra`.`tesi` SET `Titolo` = '"+titolo+"', `Abstract` = '"+abstr+"', `Data_Inizio` = '"+data_inizio+"', `Data_Fine_Prevista` = '"+data_fine_prevista+"',`Data_Fine` = '"+data_fine+"' WHERE `tesi`.`ID` =" + id_tesi;
+            aStatement.executeUpdate(update);
+       
+        } catch (SQLException ex) {
+          
+            Logger.getLogger(ManagerTesi.class.getName()).log(Level.SEVERE, null, ex);
+            logger.info("sei nel catch_" + ex.getMessage());
+        }
+        
+        
+    }
 
 }

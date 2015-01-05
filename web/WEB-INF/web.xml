@@ -76,6 +76,10 @@
         <servlet-name>richiestaCompletaTesi</servlet-name>
         <servlet-class>it.unisa.gestionetesi.servlet.richiestaCompletaTesi</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>modificaTesi</servlet-name>
+        <servlet-class>it.unisa.gestionetesi.servlet.modificaTesi</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AuthenticateUserServlet</servlet-name>
         <url-pattern>/AuthenticateUserServlet</url-pattern>
@@ -151,6 +155,10 @@
     <servlet-mapping>
         <servlet-name>richiestaCompletaTesi</servlet-name>
         <url-pattern>/richiestaCompletaTesi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modificaTesi</servlet-name>
+        <url-pattern>/modificaTesi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
