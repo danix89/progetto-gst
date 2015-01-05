@@ -13,11 +13,8 @@
         <!-- Imported styles on this page -->
         <link rel="stylesheet" href="assets/js/datatables/dataTables.bootstrap.css">
 
-
-
         <script>
             var codice_fiscale = '${person.ssn}';
-
             $(document).ready(function () {
                 $.ajax({
                     url: 'RecuperaTesisti',
@@ -30,7 +27,6 @@
                         var i = 0;
                         var count = 0;
                         var elenco_richieste = 1;
-
                         //costruzione delle richieste e della lista
                         for (i = 0; i < jarray_size; i++) {
 
@@ -43,8 +39,6 @@
                             var f = jarray.mainOb[i].data_fine_prevista;
                             var g = jarray.mainOb[i].titolo;
                             var h = jarray.mainOb[i].abstract;
-
-
                             //mostra le richieste delle tesi nello stato '0' '2'
                             if (a == 0 || a == 2) {
 
@@ -55,11 +49,12 @@
                                         "<td id=\"richiesta_nome" + i + "\"></td>" +
                                         "<td id=\"richiesta_messaggio" + i + "\"></td>" +
                                         "<td><button class=\"btn btn-icon btn-success\" name=\"accetta\" value=\"" + id_tesi + "\"><i class=\"fa-thumbs-o-up\"></i></button></td>" +
-                                        "<td><button class=\"btn btn-icon btn-red\" name=\"rifiuta\" value=\"" + id_tesi + "\"><i class=\"fa-remove\"></i></button></td>";
+                                        "<td><a class=\"btn btn-icon btn-red\" name=\"rifiuta\" value=\"" + id_tesi + "\"><i class=\"fa-remove\"></i></a></td>";
+
+
 
                                 row_richieste.innerHTML = corpo_richieste;
                                 $("#body_table_richieste").append(row_richieste);
-
                                 if (a == 0) {
                                     $("#richiesta_tipo" + i).html("Richiesta Tesi");
                                     count++;
@@ -72,23 +67,20 @@
 
                                 $("#richiesta_nome" + i).html(b);
                                 $("#richiesta_messaggio" + i).html(c);
-
                                 elenco_richieste++;
                             }
+                            
 
-                            //mostra l'elenco dei tesisti con tesi allo stato '1' '2' 
-                            if (a == 1 || a == 2) {
+                            //mostra l'elenco dei tesisti con tesi allo stato '1'  
+                            if (a == 1) {
                                 var row_lista_tesi = document.createElement("tr");
-
                                 var corpo_lista_tesi = "<td id=\"lista_stato_tesi" + i + "\"></td>" +
                                         "<td id=\"lista_nome" + i + "\"></td>" +
                                         "<td id=\"lista_titolo" + i + "\"></td>" +
                                         "<td id=\"lista_argomento" + i + "\"></td>" +
                                         "<td id=\"lista_data_inizio" + i + "\"></td>" +
                                         "<td id=\"lista_data_fine" + i + "\"></td>";
-
                                 row_lista_tesi.innerHTML = corpo_lista_tesi;
-
                                 $("#body_table_lista_tesi").append(row_lista_tesi);
                                 $("#lista_stato_tesi" + i).html("Tesi in corso");
                                 $("#lista_nome" + i).html(b);
@@ -96,23 +88,39 @@
                                 $("#lista_argomento" + i).html("");
                                 $("#lista_data_inizio" + i).html(d);
                                 $("#lista_data_fine" + i).html(e);
-
-
                             }
-
-                            //mostra l'elenco dei tesisti con tesi allo stato '3'
-                            if (a == 3) {
+                            
+                            
+                            //mostra l'elenco dei tesisti con tesi allo stato '2' 
+                            if (a == 2) {
                                 var row_lista_tesi = document.createElement("tr");
-
                                 var corpo_lista_tesi = "<td id=\"lista_stato_tesi" + i + "\"></td>" +
                                         "<td id=\"lista_nome" + i + "\"></td>" +
                                         "<td id=\"lista_titolo" + i + "\"></td>" +
                                         "<td id=\"lista_argomento" + i + "\"></td>" +
                                         "<td id=\"lista_data_inizio" + i + "\"></td>" +
                                         "<td id=\"lista_data_fine" + i + "\"></td>";
-
                                 row_lista_tesi.innerHTML = corpo_lista_tesi;
+                                $("#body_table_lista_tesi").append(row_lista_tesi);
+                                $("#lista_stato_tesi" + i).html("Tesi in attesa");
+                                $("#lista_nome" + i).html(b);
+                                $("#lista_titolo" + i).html(g);
+                                $("#lista_argomento" + i).html("");
+                                $("#lista_data_inizio" + i).html(d);
+                                $("#lista_data_fine" + i).html(e);
+                            }
+                            
 
+                            //mostra l'elenco dei tesisti con tesi allo stato '3'
+                            if (a == 3) {
+                                var row_lista_tesi = document.createElement("tr");
+                                var corpo_lista_tesi = "<td id=\"lista_stato_tesi" + i + "\"></td>" +
+                                        "<td id=\"lista_nome" + i + "\"></td>" +
+                                        "<td id=\"lista_titolo" + i + "\"></td>" +
+                                        "<td id=\"lista_argomento" + i + "\"></td>" +
+                                        "<td id=\"lista_data_inizio" + i + "\"></td>" +
+                                        "<td id=\"lista_data_fine" + i + "\"></td>";
+                                row_lista_tesi.innerHTML = corpo_lista_tesi;
                                 $("#body_table_lista_tesi").append(row_lista_tesi);
                                 $("#lista_stato_tesi" + i).html("Tesi completata");
                                 $("#lista_nome" + i).html(b);
@@ -147,23 +155,6 @@
                 });
             });
         </script>
-
-        <script language="Javascript" type="text/javascript">
-
-            function apri_accetta_tesi()
-            {
-        
-                var w = 750;
-                var h = 550;
-                var l = Math.floor((screen.width - w) / 2);
-                var t = Math.floor((screen.height - h) / 2);
-
-                weblink = window.open("gestioneTesi/professore/accettaTesi.jsp", "Accetta Tesi", "width=" + w + ",height=" + h + ",left=" + l + ",top=" + t + "");
-            }
-
-        </script>
-
-
 
     </head>
     <body>
@@ -235,31 +226,13 @@
 
 
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Stato Tesi</th>
-                            <th>Nome Studente</th>
-                            <th>Titolo Tesi</th>
-                            <th>Argomento</th>
-                            <th>Data Inizio</th>
-                            <th>Data Fine</th>
-                        </tr>
-                    </tfoot>
                 </table>
 
 
             </div>
         </div>
 
-        <button onclick="apri_accetta_tesi()">PROVA</button>
-
         <!-- Bottom Scripts -->
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/TweenMax.min.js"></script>
-        <script src="assets/js/resizeable.js"></script>
-        <script src="assets/js/joinable.js"></script>
-        <script src="assets/js/xenon-api.js"></script>
-        <script src="assets/js/xenon-toggles.js"></script>
         <script src="assets/js/datatables/js/jquery.dataTables.min.js"></script>
 
         <!-- Imported scripts on this page -->
@@ -270,6 +243,7 @@
 
         <!-- JavaScripts initializations and stuff -->
         <script src="assets/js/xenon-custom.js"></script>
+
 
     </body>
 </html>
