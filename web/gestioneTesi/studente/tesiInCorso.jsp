@@ -40,14 +40,17 @@
                 var data_inizio = $('#data_inizio').val();
                 var data_fine_prevista = $('#data_fine_prevista').val();
                 var data_fine = $('#data_fine').val();
-                //  $('#send_memory').attr("disabled", true);
-                //  $('#load_spinning').show();
+                $('#button_modifica').attr("disabled", true);
+              //  $('#load').show();
                 $.ajax({
                     url: 'modificaTesi',
                     type: 'POST',
                     data: {id_tesi: id, titolo: titolo, abstract: abstract, data_inizio: data_inizio, data_fine: data_fine, data_fine_prevista: data_fine_prevista},
                     success: function (msg) {
-                        alert("modifica riuscita");
+                        $('#button_modifica').attr("disabled", false);
+                        //$('#load').hide();
+                        $('#success').fadeIn();
+                        $('#success').fadeOut(4000);
                     }
                 });
 
@@ -275,7 +278,7 @@
                     <input name="idtesi" id="idtesi" type="hidden" />
 
                     <div class="col-sm-3">
-                        <button id="button_modifica"  class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
+                         <button id="button_modifica"  class="btn btn-danger btn-icon btn-icon-standalone btn-lg">
                             <i class="fa-save"></i>
                             <span>Salva Modifiche</span>
                         </button>
@@ -288,6 +291,12 @@
                         <i class="fa-graduation-cap"></i>
                         <span>Tesi Completata</span>
                     </button>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div id="success" style="display:none" class="alert alert-success">
+                        <h4 style="margin-bottom:0">Modifica avvenuta con successo.</h4>
+                    </div>
                 </div>
 
             </div>
